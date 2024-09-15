@@ -386,8 +386,8 @@ func _stop_at_room_limits() -> void:
 		elif global_position.x + (collision_normal.shape.size.x / 2) > room_limits[2]:
 			global_position.x = room_limits[2] - (collision_normal.shape.size.x / 2)
 
-		if global_position.y + 32 <= room_limits[1]:
-			global_position.y = room_limits[1] - (collision_normal.shape.size.x / 2 - 16)
+		if global_position.y - (collision_normal.shape.size.y * 0.2) < room_limits[1]:
+			global_position.y = room_limits[1] + (collision_normal.shape.size.y * 0.2)
 
 ##########################################
 
