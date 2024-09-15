@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://l15kqkyx32mc"]
+
+[ext_resource type="Texture2D" uid="uid://cihomoo4y25x3" path="res://Assets/FX/Player and Boss Explosion/explosion_boss.png" id="1_wn2sf"]
+[ext_resource type="Script" path="res://Objects/FX Objects/Expolsion 1/Boss Explosion Particle/boss_explosion_particle.gd" id="2_vgumj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_82ua2"]
+atlas = ExtResource("1_wn2sf")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugamh"]
+atlas = ExtResource("1_wn2sf")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_onh5o"]
+atlas = ExtResource("1_wn2sf")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ykmcn"]
+atlas = ExtResource("1_wn2sf")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xtn6c"]
+atlas = ExtResource("1_wn2sf")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3mv87"]
+atlas = ExtResource("1_wn2sf")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_psov1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_82ua2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugamh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_onh5o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ykmcn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xtn6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3mv87")
+}],
+"loop": true,
+"name": &"default",
+"speed": 17.5
+}]
+
+[node name="BossExplosionParticle" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_psov1")
+autoplay = "default"
+frame_progress = 0.721353
+script = ExtResource("2_vgumj")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(1.2, 1.2)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]

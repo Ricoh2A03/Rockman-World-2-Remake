@@ -1,0 +1,320 @@
+[gd_scene load_steps=9 format=3 uid="uid://b3syn4jy34f3v"]
+
+[ext_resource type="Texture2D" uid="uid://caqxcgsjunisn" path="res://Assets/UI/Weapon Select/menu_mm7.png" id="1_h1x3o"]
+[ext_resource type="Texture2D" uid="uid://b70cbnorqnejr" path="res://Assets/UI/Energy Bar/health_bar_empty.png" id="3_ivumk"]
+[ext_resource type="Texture2D" uid="uid://c85se1c3qsuud" path="res://Assets/UI/Energy Bar/health_bar_step.png" id="4_stes7"]
+
+[sub_resource type="GDScript" id="GDScript_sr7th"]
+script/source = "extends CanvasLayer
+class_name PlayerUI
+
+@onready var menu_player := $AnimationPlayer
+@onready var energy_bars := $EnergyBars
+
+@export var _is_animating: bool = false
+@export var _is_opened: bool = false
+
+@export var player: Player
+
+func _ready() -> void:
+	#menu_player.play(\"slide_bars\")
+	pass
+
+func _process(_delta: float) -> void:
+	if player:
+		if !_is_animating and (player.state != player.STATES.SCROLL and player.state != player.STATES.DEAD and player.state != player.STATES.HURT) \\
+			and Input.is_action_just_pressed(\"weapon_menu\"):
+			if !_is_opened:
+				open_weapon_menu(true)
+			else:
+				open_weapon_menu(false)
+
+func open_weapon_menu(open: bool) -> void:
+	if open:
+		player.menu_opened(true)
+		#get_tree().call_group(\"Player\", \"menu_opened\", true)
+		menu_player.play(\"fade_in\")
+	elif !open:
+		player.menu_opened(false) #!!!
+		#get_tree().call_group(\"Player\", \"menu_opened\", false)
+		menu_player.play(\"fade_out\")
+
+func add_item(item: InventoryItem):
+	pass
+
+func toggle_energy_bars(on: bool) -> void:
+	if on: energy_bars.visible = true
+	else: energy_bars.visible = false
+"
+
+[sub_resource type="Animation" id="Animation_cus35"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fader:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponMenu/MenuBG:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:_is_animating")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:_is_opened")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("EnergyBars:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_qb4t4"]
+resource_name = "fade_in"
+length = 0.7
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fader:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponMenu/MenuBG:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:_is_animating")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:_is_opened")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("EnergyBars:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_vi4yn"]
+resource_name = "fade_out"
+length = 0.7
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponMenu/MenuBG:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fader:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:_is_opened")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:_is_animating")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("EnergyBars:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o4ob3"]
+_data = {
+"RESET": SubResource("Animation_cus35"),
+"fade_in": SubResource("Animation_qb4t4"),
+"fade_out": SubResource("Animation_vi4yn")
+}
+
+[node name="UI" type="CanvasLayer"]
+script = SubResource("GDScript_sr7th")
+
+[node name="WeaponMenu" type="Node" parent="."]
+
+[node name="MenuBG" type="Sprite2D" parent="WeaponMenu"]
+visible = false
+position = Vector2(256, 112)
+texture = ExtResource("1_h1x3o")
+
+[node name="ItemContainer" type="Node2D" parent="WeaponMenu"]
+position = Vector2(0, 64)
+metadata/_edit_group_ = true
+
+[node name="WeaponNames" type="Node2D" parent="WeaponMenu/ItemContainer"]
+
+[node name="ItemIcons" type="Node2D" parent="WeaponMenu/ItemContainer"]
+
+[node name="EnergyBars" type="Node2D" parent="WeaponMenu/ItemContainer"]
+
+[node name="EnergyBars" type="Control" parent="."]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 0.857143
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="HealthBar" type="TextureProgressBar" parent="EnergyBars"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.03125
+anchor_right = 0.03125
+offset_left = 16.0
+offset_top = 24.0
+offset_right = 24.0
+offset_bottom = 80.0
+max_value = 28.0
+value = 28.0
+rounded = true
+fill_mode = 3
+texture_under = ExtResource("3_ivumk")
+texture_progress = ExtResource("4_stes7")
+metadata/_edit_use_anchors_ = true
+
+[node name="WeaponBar" type="TextureProgressBar" parent="EnergyBars"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 16.0
+offset_top = 24.0
+offset_right = 24.0
+offset_bottom = 80.0
+max_value = 28.0
+rounded = true
+fill_mode = 3
+texture_under = ExtResource("3_ivumk")
+texture_progress = ExtResource("4_stes7")
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_o4ob3")
+}
+
+[node name="Fader" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_right = 256.0
+offset_bottom = 224.0
+color = Color(0, 0, 0, 1)

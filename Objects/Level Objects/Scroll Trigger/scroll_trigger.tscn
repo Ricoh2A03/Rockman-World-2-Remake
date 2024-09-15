@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://7h56ygeppmky"]
+
+[ext_resource type="Script" path="res://Scenes/Objects/Level Objects/Scroll Trigger/scroll_trigger.gd" id="1_5ee5j"]
+[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="2_a6h50"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5nlwc"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[node name="ScrollTrigger1" type="Area2D"]
+collision_layer = 128
+collision_mask = 0
+script = ExtResource("1_5ee5j")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = -28.0
+offset_top = -13.0
+offset_right = -2.0
+offset_bottom = 13.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_5nlwc")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = -26.0
+offset_top = -12.0
+offset_right = -4.0
+offset_bottom = 12.0
+theme_override_fonts/font = ExtResource("2_a6h50")
+theme_override_font_sizes/font_size = 16
+text = "←"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true

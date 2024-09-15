@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdsd5s4cuy55y"]
+
+[ext_resource type="Script" path="res://Scenes/Objects/Level Objects/RoomLoader/room_loader.gd" id="1_cc4a5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_axlwg"]
+size = Vector2(224, 224)
+
+[node name="RoomLoader1" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_cc4a5")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_axlwg")
+debug_color = Color(0.843137, 0, 0.901961, 0.12549)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

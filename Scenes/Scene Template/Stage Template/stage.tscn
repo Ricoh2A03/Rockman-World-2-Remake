@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3dcuxijsdqq"]
+
+[ext_resource type="Script" path="res://Scenes/Scene Template/Stage Template/stage.gd" id="1_dl1j8"]
+[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="4_mc51b"]
+
+[sub_resource type="Animation" id="Animation_3lubj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_w2ylp"]
+resource_name = "flash"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true, false, true, false, true, false, true, false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bwj34"]
+_data = {
+"RESET": SubResource("Animation_3lubj"),
+"flash": SubResource("Animation_w2ylp")
+}
+
+[node name="Stage" type="Node2D" groups=["Stage"]]
+script = ExtResource("1_dl1j8")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -5.0
+bus = &"Music"
+
+[node name="ParallaxBackground1" type="ParallaxBackground" parent="."]
+
+[node name="ViewContainer" type="Node" parent="."]
+
+[node name="LadderContainer" type="Node" parent="."]
+
+[node name="RoomLoaderContainer" type="Node" parent="."]
+
+[node name="CheckpointContainer" type="Node" parent="."]
+
+[node name="StageUI" type="CanvasLayer" parent="."]
+
+[node name="ReadyLabel" type="Label" parent="StageUI"]
+visible = false
+offset_left = 112.0
+offset_top = 104.0
+offset_right = 152.0
+offset_bottom = 113.0
+theme_override_fonts/font = ExtResource("4_mc51b")
+theme_override_font_sizes/font_size = 8
+text = "READY"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StageUI/ReadyLabel"]
+libraries = {
+"": SubResource("AnimationLibrary_bwj34")
+}
+
+[connection signal="player_died" from="." to="." method="_player_died"]
+[connection signal="animation_finished" from="StageUI/ReadyLabel/AnimationPlayer" to="." method="_on_animation_player_finished"]

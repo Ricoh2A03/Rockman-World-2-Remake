@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgmmtaqdwnh6l"]
+
+[ext_resource type="Script" path="res://Objects/Player/Ceiling Detector/ceiling_detector.gd" id="1_qlyk0"]
+
+[node name="CeilingDetector" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_qlyk0")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

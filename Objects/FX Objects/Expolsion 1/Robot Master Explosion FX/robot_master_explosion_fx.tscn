@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctu1aeva8uqde"]
+
+[ext_resource type="Script" path="res://Objects/FX Objects/Expolsion 1/Robot Master Explosion FX/robot_master_explosion_fx.gd" id="1_m81r3"]
+[ext_resource type="PackedScene" uid="uid://l15kqkyx32mc" path="res://Objects/FX Objects/Expolsion 1/Boss Explosion Particle/boss_explosion_particle.tscn" id="2_d33q2"]
+
+[node name="RobotMasterExplosionFX" type="Node2D"]
+script = ExtResource("1_m81r3")
+particle = ExtResource("2_d33q2")
+metadata/_edit_group_ = true
+
+[connection signal="trigger_explosion" from="." to="." method="explode"]
