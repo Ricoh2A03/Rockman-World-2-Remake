@@ -332,7 +332,6 @@ snd_teleport_out = NodePath("Sounds/snd_teleport_out")
 snd_damage = NodePath("Sounds/snd_damage")
 snd_death = NodePath("Sounds/snd_death")
 snd_weapon_menu_open = NodePath("Sounds/snd_menu_open")
-can_double_jump = true
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_8xjch")
