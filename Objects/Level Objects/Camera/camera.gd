@@ -13,6 +13,7 @@ func _ready() -> void:
 
 func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 	follow(false)
+	position_smoothing_enabled = false
 
 	var room = new_room
 
@@ -39,9 +40,11 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 			tarY = self.global_position.y
 
 		1: # up
-			self.limit_top = limit_top - 256
 			global_position.x = room.global_position.x + 128
-			global_position.y = (room.global_position.y + room.size.y) + (room.size.y / 2)
+			global_position.y = limit_top + room.size.y / 2
+			tarX = self.global_position.x
+			tarY = self.global_position.y - room.size.y
+			limit_top = self.limit_top - 224
 
 		3: # down
 			self.limit_bottom = limit_bottom + 256
@@ -50,15 +53,19 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 			tarX = self.global_position.x
 			tarY = (room.global_position.y + 114)
 
-	tween.tween_property(self, "global_position:x", tarX, 1.25)
-	tween.tween_property(self, "global_position:y", tarY, 1.25)
+	tween.tween_property(self, "global_position:x", tarX, 0.68)
+	tween.tween_property(self, "global_position:y", tarY, 0.68)
 
 	await tween.finished
 	finished_scrolling.emit(new_room)
 
 	update_camera_limits(new_room)
+	position_smoothing_enabled = true
 	follow(true)
 	global_position = get_parent().global_position
+
+	await get_tree().create_timer(0.35)
+	position_smoothing_enabled = false
 
 ##########################################
 

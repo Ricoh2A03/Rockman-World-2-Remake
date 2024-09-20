@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1_axb4u")
 gravity = 14
-horizontal_speed = 88
-step_speed = 4
-jump_force = 312
+horizontal_speed = 90
+step_speed = 1
+jump_force = 360
 slide_speed = 160
 climb_speed = 75

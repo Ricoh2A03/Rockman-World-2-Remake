@@ -7,8 +7,8 @@ signal trigger_explosion()
 var particle_count: int = 8
 var secondary_particles: bool = false
 
-var part_speed: float = 3.5
-var part_speed_diag: float = 5
+var part_speed: float = 3.2
+var part_speed_diag: float = 4.8
 
 func explode() -> void:
 	for i in particle_count:

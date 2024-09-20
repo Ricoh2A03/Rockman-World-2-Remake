@@ -28,7 +28,7 @@ var weapon_inventory
 @export var death_explosion_fx: PackedScene
 
 @export_group("Sound Nodes")
-@export var snd_land: AudioStreamPlayer
+@export var snd_land: AudioStreamPlayer2D
 @export var snd_teleport_in: AudioStreamPlayer
 @export var snd_teleport_out: AudioStreamPlayer
 @export var snd_damage: AudioStreamPlayer
@@ -72,7 +72,7 @@ var state = STATES.TELEPORT_IN
 var room_limits = [0, 0, 0, 0] # left, top, right, bottom
 
 func _ready():
-	pass
+	snd_teleport_in.play()
 
 func _process(delta):
 
@@ -163,7 +163,7 @@ func _process(delta):
 					#velocity.y += stats.gravity * 3.25 # Stronger Gravity
 					velocity.y = 0
 
-				if velocity.y > 0: sprite.play("air")
+				if velocity.y > 0 and sprite.animation != "fall": sprite.play("fall")
 
 				### Handle Double Jump ###
 				if can_double_jump:
@@ -202,7 +202,7 @@ func _process(delta):
 				velocity.x = direction * stats.slide_speed
 
 				if !is_on_floor():
-					sprite.play("air")
+					sprite.play("fall")
 					state = STATES.AIR
 
 				if slide_timer.time_left == 0 and !ceiling: # !!!
@@ -211,7 +211,7 @@ func _process(delta):
 				### Jumping --> Air ###
 				if !ceiling and Input.is_action_just_pressed("jump"):
 					velocity.y = -stats.jump_force
-					sprite.play("air")
+					sprite.play("jump")
 					state = STATES.AIR
 
 ##########################################
@@ -282,7 +282,6 @@ func _process(delta):
 				if sprite.animation == "teleport" and sprite.frame == 6:
 					apply_gravity = true
 					state = STATES.GROUND
-					snd_teleport_in.play()
 
 			STATES.DEAD:
 				sprite.visible = false
@@ -341,6 +340,7 @@ func scroll_player(scroll_direction) -> void:
 	velocity.y = 0
 	apply_gravity = false
 	last_state = state
+	var last_anim = sprite.animation
 	state = STATES.SCROLL
 
 	var tween = get_tree().create_tween()
@@ -359,17 +359,21 @@ func scroll_player(scroll_direction) -> void:
 		3: # down
 			tarY = global_position.y + 20
 
+	if last_state == STATES.AIR and (scroll_direction == 0 or 2 or 3):
+		sprite.pause()
+
 	if tarX:
-		tween.tween_property(self, "global_position:x", tarX, 1.25)
+		tween.tween_property(self, "global_position:x", tarX, 0.68)
 	if tarY:
-		tween.tween_property(self, "global_position:y", tarY, 1.25)
+		tween.tween_property(self, "global_position:y", tarY, 0.68)
 
 	await tween.finished
 	player_scroll_finished.emit()
 	slide_timer.paused = false
 	apply_gravity = true
 	state = last_state
-	if last_state == STATES.AIR:
+	sprite.play()
+	if last_state == STATES.AIR and scroll_direction == 3:
 		velocity.y = last_y_velocity
 		velocity.x = 0
 	else:
@@ -388,20 +392,21 @@ func _stop_at_room_limits() -> void:
 
 		if global_position.y + (collision_normal.shape.size.y / 2 ) < room_limits[1]:
 			global_position.y = room_limits[1] - (collision_normal.shape.size.y / 2 )
+			sprite.visible = false
+		else: sprite.visible = true
 
 ##########################################
 
 func menu_opened(opened: bool) -> void:
 	if opened:
+		sprite.pause()
 		velocity.x = 0
 		velocity.y = 0
-		#self.visible = false
-		sprite.pause()
-		if slide_timer.time_left > 0:
-			slide_timer.paused = true
-		snd_weapon_menu_open.play()
 		apply_gravity = false
 		allow_movement = false
+		#self.visible = false
+		if slide_timer.time_left > 0: slide_timer.paused = true
+		snd_weapon_menu_open.play()
 	elif !opened:
 		#self.visible = true
 		sprite.play()

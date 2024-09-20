@@ -1,5 +1,4 @@
 extends Player
-class_name MegaMan
 
 func _on_step_timeout():
 	is_step = false

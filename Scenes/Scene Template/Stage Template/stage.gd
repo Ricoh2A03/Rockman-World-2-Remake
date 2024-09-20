@@ -125,8 +125,11 @@ func spawn_player() -> void:
 	player_ref = p_instance
 	player_ref.connect("player_dead", _player_died)
 
-	if current_checkpoint: p_instance.global_position = Vector2(current_checkpoint.global_position.x, -16)
-	else: p_instance.global_position = Vector2(128, -16)
+	if current_checkpoint:
+		p_instance.global_position = Vector2(current_checkpoint.global_position.x, -16)
+	else:
+		if start_room:
+			p_instance.global_position = Vector2(128, start_room.global_position.y - 16)
 
 ############### C A M E R A ###############
 

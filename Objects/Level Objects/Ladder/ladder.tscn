@@ -4,13 +4,13 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eb0d2"]
 resource_local_to_scene = true
-size = Vector2(10, 16)
+size = Vector2(12, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4vhbq"]
 size = Vector2(2, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3ncm"]
-size = Vector2(12, 16)
+size = Vector2(32, 16)
 
 [node name="Ladder1" type="Area2D" node_paths=PackedStringArray("ladder_texture", "shape")]
 z_index = 1

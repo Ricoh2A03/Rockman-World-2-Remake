@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://b3syn4jy34f3v"]
+[gd_scene load_steps=11 format=3 uid="uid://b3syn4jy34f3v"]
 
 [ext_resource type="Texture2D" uid="uid://caqxcgsjunisn" path="res://Assets/UI/Weapon Select/menu_mm7.png" id="1_h1x3o"]
-[ext_resource type="Texture2D" uid="uid://b70cbnorqnejr" path="res://Assets/UI/Energy Bar/health_bar_empty.png" id="3_ivumk"]
-[ext_resource type="Texture2D" uid="uid://c85se1c3qsuud" path="res://Assets/UI/Energy Bar/health_bar_step.png" id="4_stes7"]
+[ext_resource type="Texture2D" uid="uid://b70cbnorqnejr" path="res://Assets/UI/Energy Bar/health_bar_empty.png" id="2_ehed0"]
+[ext_resource type="Texture2D" uid="uid://c85se1c3qsuud" path="res://Assets/UI/Energy Bar/health_bar_step.png" id="3_8lp2g"]
+[ext_resource type="Texture2D" uid="uid://b2cklx24rnaf3" path="res://Assets/UI/Energy Bar/health_bar_border.png" id="5_p2nt2"]
 
 [sub_resource type="GDScript" id="GDScript_sr7th"]
 script/source = "extends CanvasLayer
@@ -17,8 +18,7 @@ class_name PlayerUI
 @export var player: Player
 
 func _ready() -> void:
-	#menu_player.play(\"slide_bars\")
-	pass
+	menu_player.play(\"health_fill\")
 
 func _process(_delta: float) -> void:
 	if player:
@@ -35,16 +35,21 @@ func open_weapon_menu(open: bool) -> void:
 		#get_tree().call_group(\"Player\", \"menu_opened\", true)
 		menu_player.play(\"fade_in\")
 	elif !open:
-		player.menu_opened(false) #!!!
+		#player.menu_opened(false) #!!!
 		#get_tree().call_group(\"Player\", \"menu_opened\", false)
 		menu_player.play(\"fade_out\")
 
-func add_item(item: InventoryItem):
-	pass
 
 func toggle_energy_bars(on: bool) -> void:
 	if on: energy_bars.visible = true
 	else: energy_bars.visible = false
+
+func _on_animation_finished(anim_name: StringName) -> void:
+	if anim_name == \"fade_out\":
+		player.menu_opened(false)
+
+func add_item(item: InventoryItem):
+	pass
 "
 
 [sub_resource type="Animation" id="Animation_cus35"]
@@ -106,8 +111,20 @@ tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
+"update": 0,
 "values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("EnergyBars/HealthBar:value")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_qb4t4"]
@@ -169,10 +186,10 @@ tracks/4/path = NodePath("EnergyBars:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
+"times": PackedFloat32Array(0, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [true, true, false]
 }
 
 [sub_resource type="Animation" id="Animation_vi4yn"]
@@ -234,17 +251,35 @@ tracks/4/path = NodePath("EnergyBars:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.25),
+"times": PackedFloat32Array(0, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [false, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_tm31w"]
+resource_name = "health_fill"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnergyBars/HealthBar:value")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
+"update": 0,
+"values": [0.0, 28.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o4ob3"]
 _data = {
 "RESET": SubResource("Animation_cus35"),
 "fade_in": SubResource("Animation_qb4t4"),
-"fade_out": SubResource("Animation_vi4yn")
+"fade_out": SubResource("Animation_vi4yn"),
+"health_fill": SubResource("Animation_tm31w")
 }
 
 [node name="UI" type="CanvasLayer"]
@@ -275,38 +310,32 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
-metadata/_edit_lock_ = true
 
 [node name="HealthBar" type="TextureProgressBar" parent="EnergyBars"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.03125
-anchor_right = 0.03125
+anchor_left = -0.0234375
+anchor_top = -0.0401786
+anchor_right = -0.00390625
+anchor_bottom = -0.0357143
 offset_left = 16.0
 offset_top = 24.0
 offset_right = 24.0
 offset_bottom = 80.0
 max_value = 28.0
-value = 28.0
 rounded = true
 fill_mode = 3
-texture_under = ExtResource("3_ivumk")
-texture_progress = ExtResource("4_stes7")
+texture_under = ExtResource("2_ehed0")
+texture_progress = ExtResource("3_8lp2g")
 metadata/_edit_use_anchors_ = true
 
-[node name="WeaponBar" type="TextureProgressBar" parent="EnergyBars"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 16.0
-offset_top = 24.0
-offset_right = 24.0
-offset_bottom = 80.0
-max_value = 28.0
-rounded = true
-fill_mode = 3
-texture_under = ExtResource("3_ivumk")
-texture_progress = ExtResource("4_stes7")
-metadata/_edit_use_anchors_ = true
+[node name="HealthBarBorder" type="TextureRect" parent="EnergyBars"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 9.0
+offset_right = 23.0
+offset_bottom = 88.0
+texture = ExtResource("5_p2nt2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -318,3 +347,6 @@ modulate = Color(1, 1, 1, 0)
 offset_right = 256.0
 offset_bottom = 224.0
 color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
