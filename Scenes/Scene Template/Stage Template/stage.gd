@@ -50,7 +50,7 @@ func _ready() -> void:
 	set_stage_camera_limits(_current_room)
 	set_stage_room_limits()
 
-	if current_checkpoint: current_checkpoint = checkpoints[0] # set current checkpoint to the first in the array
+	if checkpoints != null: current_checkpoint = checkpoints[0] # set current checkpoint to the first in the array
 	if camera_ref and current_checkpoint: camera_ref.global_position = current_checkpoint.global_position # set camera position to checkpoint
 
 	flash_ready_text() # flash ready and turn health bar on
@@ -119,22 +119,25 @@ func load_checkpoint(checkpoint: Checkpoint) -> void:
 	pass
 
 func spawn_player() -> void:
-	if !player_path: return
+	if !player_path or player_ref: return
 	var p_instance = player_path.instantiate()
 	call_deferred("add_child", p_instance)
 	player_ref = p_instance
 	player_ref.connect("player_dead", _player_died)
 
 	if current_checkpoint:
-		p_instance.global_position = Vector2(current_checkpoint.global_position.x, -16)
+		p_instance.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
 	else:
 		if start_room:
-			p_instance.global_position = Vector2(128, start_room.global_position.y - 16)
+			if !current_checkpoint:
+				p_instance.global_position = Vector2(128, start_room.global_position.y - 16)
+			else:
+				p_instance.global_position = Vector2(current_checkpoint.global_position.x, _current_room.global_position.y - 16)
 
 ############### C A M E R A ###############
 
 func create_camera() -> void:
-	if camera_path == null or camera_ref != null: return
+	if !camera_path or camera_ref: return
 	var cam_instance = camera_path.instantiate()
 	call_deferred("add_child", cam_instance)
 	cam_instance.connect("finished_scrolling", stage_finished_scrolling)

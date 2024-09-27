@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b3syn4jy34f3v"]
+[gd_scene load_steps=13 format=3 uid="uid://b3syn4jy34f3v"]
 
 [ext_resource type="Texture2D" uid="uid://caqxcgsjunisn" path="res://Assets/UI/Weapon Select/menu_mm7.png" id="1_h1x3o"]
 [ext_resource type="Texture2D" uid="uid://b70cbnorqnejr" path="res://Assets/UI/Energy Bar/health_bar_empty.png" id="2_ehed0"]
@@ -14,6 +14,10 @@ class_name PlayerUI
 
 @export var _is_animating: bool = false
 @export var _is_opened: bool = false
+@export var _is_paging: bool = false
+@export var _active: bool = false
+
+@export var _current_page: int = 0
 
 @export var player: Player
 
@@ -22,31 +26,43 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if player:
-		if !_is_animating and (player.state != player.STATES.SCROLL and player.state != player.STATES.DEAD and player.state != player.STATES.HURT) \\
+		if !_is_animating \\
+			and (player.state != player.STATES.SCROLL and player.state != player.STATES.DEAD and player.state != player.STATES.HURT and player.state != player.STATES.TELEPORT_IN) \\
 			and Input.is_action_just_pressed(\"weapon_menu\"):
 			if !_is_opened:
 				open_weapon_menu(true)
 			else:
 				open_weapon_menu(false)
+		if _active:
+			if _current_page == 0 and !_is_paging and Input.is_action_just_pressed(\"shoulder_r\"):
+				menu_player.play(\"page_right\")
+			elif _current_page == 1 and !_is_paging and Input.is_action_just_pressed(\"shoulder_l\"):
+				menu_player.play(\"page_left\")
+
+##########################################
 
 func open_weapon_menu(open: bool) -> void:
 	if open:
 		player.menu_opened(true)
-		#get_tree().call_group(\"Player\", \"menu_opened\", true)
+		get_tree().call_group(\"PausedByMenu\", \"menu_pause\", true)
 		menu_player.play(\"fade_in\")
 	elif !open:
-		#player.menu_opened(false) #!!!
-		#get_tree().call_group(\"Player\", \"menu_opened\", false)
 		menu_player.play(\"fade_out\")
 
+##########################################
 
 func toggle_energy_bars(on: bool) -> void:
 	if on: energy_bars.visible = true
 	else: energy_bars.visible = false
 
+##########################################
+
 func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == \"fade_out\":
 		player.menu_opened(false)
+		get_tree().call_group(\"PausedByMenu\", \"menu_pause\", false)
+
+##########################################
 
 func add_item(item: InventoryItem):
 	pass
@@ -126,6 +142,54 @@ tracks/5/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("WeaponMenu/MenuBG:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(256, 112)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:_active")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".:_is_paging")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath(".:_current_page")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_qb4t4"]
 resource_name = "fade_in"
@@ -190,6 +254,41 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [true, true, false]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:_active")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("WeaponMenu/MenuBG:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(256, 112)]
 }
 
 [sub_resource type="Animation" id="Animation_vi4yn"]
@@ -256,6 +355,30 @@ tracks/4/keys = {
 "update": 0,
 "values": [false, false, true]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:_active")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:_current_page")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_tm31w"]
 resource_name = "health_fill"
@@ -274,12 +397,168 @@ tracks/0/keys = {
 "values": [0.0, 28.0]
 }
 
+[sub_resource type="Animation" id="Animation_uuxd6"]
+resource_name = "page_left"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponMenu/MenuBG:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 112), Vector2(256, 112)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnergyBars:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponMenu/MenuBG:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:_is_paging")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:_current_page")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:_is_animating")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_1nse5"]
+resource_name = "page_right"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponMenu/MenuBG:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(256, 112), Vector2(0, 112)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnergyBars:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponMenu/MenuBG:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:_is_paging")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:_current_page")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:_is_animating")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o4ob3"]
 _data = {
 "RESET": SubResource("Animation_cus35"),
 "fade_in": SubResource("Animation_qb4t4"),
 "fade_out": SubResource("Animation_vi4yn"),
-"health_fill": SubResource("Animation_tm31w")
+"health_fill": SubResource("Animation_tm31w"),
+"page_left": SubResource("Animation_uuxd6"),
+"page_right": SubResource("Animation_1nse5")
 }
 
 [node name="UI" type="CanvasLayer"]

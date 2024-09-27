@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxtcy0orx7i4q"]
+
+[sub_resource type="GDScript" id="GDScript_jfmpc"]
+script/source = "class_name VariableWeaponSystem extends Node
+
+@export var player: Player
+
+@export var current_item: InventoryItem
+
+@onready var sfx_player: AudioStreamPlayer = $SFXPlayer
+
+var on_screen_count: Array = []
+
+var is_paused: bool = false
+
+func _process(_delta: float) -> void:
+	if !is_paused and Input.is_action_just_pressed(\"shoot\"):
+		spawn_projectile()
+
+func spawn_projectile() -> void:
+	if on_screen_count.size() == current_item.max_on_screen: return
+
+	var instance = current_item.scene_to_spawn.instantiate() # instantiate projectile
+	instance.connect(\"screen_exited\", projectile_despawned) # connect signals
+
+	on_screen_count.append(instance) # add to the on screen list
+
+	player.get_parent().call_deferred(\"add_child\", instance) # add as a sibling of the Player
+	instance.global_position.x = player.global_position.x + current_item.XSpawnOffset * player.direction # set position to the Player position
+	instance.global_position.y = player.global_position.y + current_item.YSpawnOffset
+	instance.set_direction(player.direction) # set direction to the Player direction
+
+	sfx_player.stream = current_item.sound # load sound
+	sfx_player.play() # play sound
+
+func projectile_despawned():
+	on_screen_count.erase(on_screen_count.front())
+
+func menu_pause(paused: bool):
+	self.is_paused = paused
+
+##########################################
+
+func _on_animation_cooldown() -> void:
+	pass # Replace with function body.
+"
+
+[node name="VariableWeaponSystem" type="Node" groups=["PausedByMenu"]]
+script = SubResource("GDScript_jfmpc")
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="AnimationCooldown" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="AnimationCooldown" to="." method="_on_animation_cooldown"]

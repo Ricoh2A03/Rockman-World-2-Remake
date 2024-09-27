@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0do50xqapt1n"]
+
+[ext_resource type="Script" path="res://Objects/Player/Weapons and Items/Rock Buster/Rock Buster Pellet/rock_buster_pellet.gd" id="1_oajlh"]
+[ext_resource type="Texture2D" uid="uid://cnmhkb4b1bfph" path="res://Assets/Weapons and Items/Rock Buster/buster_pellet.png" id="2_x3esh"]
+
+[node name="RockBusterPellet" type="Node2D" groups=["PausedByMenu"]]
+script = ExtResource("1_oajlh")
+xSpeed = 260
+metadata/_edit_group_ = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_x3esh")
+
+[node name="Visibility" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1, 1)
+scale = Vector2(0.45, 0.3875)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[connection signal="screen_exited" from="Visibility" to="." method="_on_screen_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timeout"]

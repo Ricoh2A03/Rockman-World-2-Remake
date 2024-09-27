@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="InventoryItem" load_steps=5 format=3 uid="uid://chi84ms21oayr"]
+
+[ext_resource type="Texture2D" uid="uid://drgu8vvi41d5f" path="res://Assets/Weapons and Items/Rock Buster/rock_buster_icon.png" id="1_owupn"]
+[ext_resource type="PackedScene" uid="uid://b0do50xqapt1n" path="res://Objects/Player/Weapons and Items/Rock Buster/Rock Buster Pellet/rock_buster_pellet.tscn" id="2_guy0v"]
+[ext_resource type="Script" path="res://Objects/Player/Inventory Item Class/inventory_item.gd" id="2_qgwx7"]
+[ext_resource type="AudioStream" uid="uid://cyehva7sjh3dr" path="res://Objects/Player/Weapons and Items/Rock Buster/sfx_rock_buster.wav" id="3_f6heq"]
+
+[resource]
+script = ExtResource("2_qgwx7")
+icon = ExtResource("1_owupn")
+target_slot = 0
+max_on_screen = 3
+XSpawnOffset = 30
+YSpawnOffset = 0
+scene_to_spawn = ExtResource("2_guy0v")
+sound = ExtResource("3_f6heq")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnmhkb4b1bfph"
-path="res://.godot/imported/buster_pellet.png-77f3e468148a3450048278b42d1e123d.ctex"
+uid="uid://df3e5fced483j"
+path="res://.godot/imported/rolling_cutter.png-ed277343cf494c33c622df6f39c8b131.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Projectiles/Buster Pellet/buster_pellet.png"
-dest_files=["res://.godot/imported/buster_pellet.png-77f3e468148a3450048278b42d1e123d.ctex"]
+source_file="res://Assets/Weapons and Items/Special Weapons/rolling_cutter.png"
+dest_files=["res://.godot/imported/rolling_cutter.png-ed277343cf494c33c622df6f39c8b131.ctex"]
 
 [params]
 
