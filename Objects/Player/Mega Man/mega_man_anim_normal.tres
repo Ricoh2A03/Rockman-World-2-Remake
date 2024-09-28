@@ -295,7 +295,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"land",
-"speed": 18.0
+"speed": 21.0
 }, {
 "frames": [{
 "duration": 1.0,

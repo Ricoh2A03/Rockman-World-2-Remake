@@ -60,10 +60,11 @@ metadata/_edit_group_ = true
 player = NodePath("..")
 sprite_normal = NodePath("SpriteNormal")
 sprite_shoot = NodePath("SpriteShoot")
+_start_animation = "teleport"
 
 [node name="SpriteNormal" type="AnimatedSprite2D" parent="SpriteController"]
 sprite_frames = ExtResource("4_mhlwb")
-animation = &"teleport"
+animation = &"land"
 
 [node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
 visible = false

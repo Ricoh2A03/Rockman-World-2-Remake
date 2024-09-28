@@ -110,8 +110,8 @@ func _process(delta) -> void:
 			if state == STATES.GROUND: can_step = true
 
 		### Sprite Flipping ###
-		#if direction > 0: sprite.flip_h = true
-		#elif direction < 0: sprite.flip_h = false
+		if direction > 0: sprite_controller.flip_sprite_h(true)
+		elif direction < 0: sprite_controller.flip_sprite_h(false)
 
 		match state:
 
@@ -128,30 +128,30 @@ func _process(delta) -> void:
 				### Animations ###
 				if velocity.x != 0:
 					if is_step:
-						#sprite.play("step") ##
+						sprite_controller.play_animation("step")
 						pass
 					else: 
-						#sprite.play("walk") ##
-						pass
+						sprite_controller.play_animation("walk")
 				else:
-					#sprite.play("idle") ##
-					pass
+					if sprite_controller.sprite_normal.animation != "land":
+						sprite_controller.play_animation("idle")
 
 				### Jumping --> Air ###
 				if Input.is_action_just_pressed("jump"):
 					velocity.y = -stats.jump_force
-					#sprite.play("jump") ##
 					snd_jump.play()
 					state = STATES.AIR
+					sprite_controller.play_animation("jump")
 
 				### Not floor --> Air ###
 				if !is_on_floor():
 					state = STATES.AIR
+					sprite_controller.play_animation("fall")
 
 				### Ground --> Slide ###
 				if Input.is_action_just_pressed("slide"):
 					slide_timer.start()
-					#sprite.play("slide") ##
+					sprite_controller.play_animation("slide")
 					snd_slide.play()
 					state = STATES.SLIDE
 
@@ -159,7 +159,7 @@ func _process(delta) -> void:
 				if !on_ladder_top and (on_ladder and Input.is_action_pressed("up")):
 					state = STATES.CLIMB
 				if on_ladder_top and (on_ladder and Input.is_action_pressed("down")):
-					#sprite.play("climb") ##
+					sprite_controller.play_animation("climb")
 					state = STATES.CLIMB
 					global_position.y = (current_ladder.global_position.y - 8)
 
@@ -173,9 +173,9 @@ func _process(delta) -> void:
 					#velocity.y += stats.gravity * 3.25 # Stronger Gravity
 					velocity.y = 0
 
-				#if velocity.y > 0 and sprite.animation != "fall":
-					##sprite.play("fall") ##
-					#pass
+				if velocity.y > 0:
+					sprite_controller.play_animation("fall", true)
+					pass
 
 				### Handle Double Jump ###
 				if can_double_jump:
@@ -186,6 +186,7 @@ func _process(delta) -> void:
 				### Air --> Ground ###
 				if is_on_floor():
 					state = STATES.GROUND
+					sprite_controller.play_animation("land", false, "idle")
 					snd_land.play()
 					can_step = false
 					if can_double_jump:
@@ -296,6 +297,7 @@ func _process(delta) -> void:
 					velocity.y = 0
 					#sprite.speed_scale = 1
 					sprite_controller.play_animation("teleport", true, "idle", STATES.GROUND)
+					apply_gravity = true
 
 ##########################################
 
