@@ -9,8 +9,15 @@ class_name InventoryItem extends Resource
 ## Item limit on screen.
 @export_range(1, 16) var max_on_screen: int
 
+@export_group("Position Offsets")
 @export var XSpawnOffset: int
 @export var YSpawnOffset: int
+
+@export_group("Animation Settings")
+
+## 0 - ground; 1 - air; 2 - climb; 3 - slide; 4 - dash.
+@export var animate_state: Array[String]
+@export var cooldown: float
 
 @export_group("Scene")
 ## What will be created when using this item.

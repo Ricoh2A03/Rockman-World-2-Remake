@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dse2a3b8xg2pb"]
+[gd_scene load_steps=26 format=3 uid="uid://dse2a3b8xg2pb"]
 
 [ext_resource type="Script" path="res://Objects/Player/Mega Man/mega_man.gd" id="1_7awde"]
 [ext_resource type="Resource" uid="uid://c18kq1fivowwj" path="res://Objects/Player/Stat Resource/mega_man_stats.tres" id="2_c1ucl"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b3syn4jy34f3v" path="res://Objects/Player/UI/ui.tscn" id="17_08btc"]
 [ext_resource type="Resource" uid="uid://chi84ms21oayr" path="res://Objects/Player/Weapons and Items/Rock Buster/item_rock_buster.tres" id="17_lvytl"]
 [ext_resource type="AudioStream" uid="uid://drmdx6slnlar8" path="res://Assets/SFX/MegaMan/sfx_mm_land.wav" id="18_2laaq"]
+[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="18_37qvn"]
 [ext_resource type="AudioStream" uid="uid://cnxu3xq3d3mms" path="res://Assets/SFX/MegaMan/sfx_menu_open.wav" id="18_ph542"]
 [ext_resource type="AudioStream" uid="uid://dbil5j36jniqx" path="res://Assets/SFX/MegaMan/sfx_teleport_in.wav" id="19_ggfsd"]
 [ext_resource type="AudioStream" uid="uid://bkr860a3quvb4" path="res://Assets/SFX/MegaMan/sfx_teleport_out.wav" id="20_pksg3"]
@@ -29,8 +30,23 @@ size = Vector2(14, 18)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qtxg6"]
 size = Vector2(4, 39)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w43mu"]
-size = Vector2(16, 16)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ffay6"]
+size = Vector2(14, 20)
+
+[sub_resource type="GDScript" id="GDScript_a3voq"]
+script/source = "extends Node2D
+
+@onready var mega_man: Player = $\"..\"
+@onready var label: Label = $Label
+@onready var label2: Label = $Label2
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed(\"debug_show\"):
+		label.visible = !label.visible
+		label2.visible = !label2.visible
+	label.text = var_to_str(mega_man.state)
+	label2.text = var_to_str(mega_man.ceiling)
+"
 
 [node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "snd_jump", "snd_land", "snd_slide", "snd_teleport_in", "snd_teleport_out", "snd_damage", "snd_death", "snd_weapon_menu_open") groups=["MenuPaused", "Player"]]
 z_index = 1
@@ -54,28 +70,28 @@ snd_teleport_out = NodePath("Sounds/snd_teleport_out")
 snd_damage = NodePath("Sounds/snd_damage")
 snd_death = NodePath("Sounds/snd_death")
 snd_weapon_menu_open = NodePath("Sounds/snd_menu_open")
-metadata/_edit_group_ = true
 
 [node name="SpriteController" parent="." node_paths=PackedStringArray("player", "sprite_normal", "sprite_shoot") instance=ExtResource("6_7i60c")]
 player = NodePath("..")
 sprite_normal = NodePath("SpriteNormal")
 sprite_shoot = NodePath("SpriteShoot")
-_start_animation = "teleport"
 
 [node name="SpriteNormal" type="AnimatedSprite2D" parent="SpriteController"]
 sprite_frames = ExtResource("4_mhlwb")
-animation = &"land"
+animation = &"teleport"
 
 [node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
 visible = false
 sprite_frames = ExtResource("5_dy1p1")
-animation = &"teleport"
+animation = &"climb"
 
 [node name="Normal" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_3pimt")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="Slide" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 10)
 shape = SubResource("RectangleShape2D_6gvmi")
 disabled = true
@@ -99,10 +115,10 @@ debug_color = Color(3.22476e-06, 0.645431, 0.260216, 0.42)
 
 [node name="CeilingDetector" parent="." instance=ExtResource("9_ex5gi")]
 visible = false
-script = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CeilingDetector"]
-shape = SubResource("RectangleShape2D_w43mu")
+position = Vector2(0, 9)
+shape = SubResource("RectangleShape2D_ffay6")
 
 [node name="Sounds" type="Node2D" parent="."]
 
@@ -148,5 +164,33 @@ player = NodePath("..")
 player = NodePath("..")
 current_item = ExtResource("17_lvytl")
 
+[node name="Debug" type="Node2D" parent="."]
+script = SubResource("GDScript_a3voq")
+
+[node name="Label" type="Label" parent="Debug"]
+offset_left = -32.0
+offset_top = -64.0
+offset_right = 32.0
+offset_bottom = -48.0
+theme_override_fonts/font = ExtResource("18_37qvn")
+theme_override_font_sizes/font_size = 8
+text = "test"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="Debug"]
+offset_left = -32.0
+offset_top = -48.0
+offset_right = 32.0
+offset_bottom = -32.0
+theme_override_fonts/font = ExtResource("18_37qvn")
+theme_override_font_sizes/font_size = 8
+text = "test"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="animation_finished" from="SpriteController/SpriteNormal" to="." method="_on_animation_finished"]
 [connection signal="timeout" from="StepTimer" to="." method="_on_step_timeout"]
 [connection signal="timeout" from="SlideTimer" to="." method="_on_slide_timeout"]

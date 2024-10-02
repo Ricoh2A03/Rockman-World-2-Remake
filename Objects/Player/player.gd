@@ -47,6 +47,8 @@ var can_step: bool = true
 var is_step: bool = false
 var ceiling: bool = false
 
+var is_shooting: bool = false
+
 var on_ladder: bool = false
 var on_ladder_top: bool = false
 var current_ladder: Ladder
@@ -68,7 +70,6 @@ enum STATES{
 }
 
 var last_state = null
-
 var state = STATES.TELEPORT_IN
 
 var room_limits = [0, 0, 0, 0] # left, top, right, bottom
@@ -129,11 +130,12 @@ func _process(delta) -> void:
 				if velocity.x != 0:
 					if is_step:
 						sprite_controller.play_animation("step")
-						pass
 					else: 
 						sprite_controller.play_animation("walk")
 				else:
-					if sprite_controller.sprite_normal.animation != "land":
+					if sprite_controller.get_current_animation() != "land" and \
+					   sprite_controller.get_current_animation() != "slide_end" and \
+					   sprite_controller.get_current_animation() != "slide":
 						sprite_controller.play_animation("idle")
 
 				### Jumping --> Air ###
@@ -174,8 +176,7 @@ func _process(delta) -> void:
 					velocity.y = 0
 
 				if velocity.y > 0:
-					sprite_controller.play_animation("fall", true)
-					pass
+					sprite_controller.play_animation("fall")
 
 				### Handle Double Jump ###
 				if can_double_jump:
@@ -186,7 +187,7 @@ func _process(delta) -> void:
 				### Air --> Ground ###
 				if is_on_floor():
 					state = STATES.GROUND
-					sprite_controller.play_animation("land", false, "idle")
+					sprite_controller.play_animation("land")
 					snd_land.play()
 					can_step = false
 					if can_double_jump:
@@ -195,7 +196,7 @@ func _process(delta) -> void:
 				### -- > Climb ###
 				if current_ladder != null and on_ladder:
 					if global_position.y >= ((current_ladder.global_position.y - 8) - (collision_normal.shape.size.y * 0.5)) and (on_ladder and (Input.is_action_pressed("up") or (Input.is_action_pressed("down")))):
-						#sprite.play("climb") ##
+						sprite_controller.play_animation("climb") ##
 						state = STATES.CLIMB
 
 				velocity.y += 1
@@ -206,28 +207,28 @@ func _process(delta) -> void:
 
 			STATES.SLIDE:
 				change_collision_shapes("slide")
-				#if sprite.animation != "slide":
-					#sprite.play("slide") ##
-					#pass
 
 				if !ceiling and ((velocity.x > 0 and Input.is_action_pressed("left")) or \
 								(velocity.x < 0 and Input.is_action_pressed("right"))):
+					slide_timer.stop()
 					state = STATES.GROUND
 
 				velocity.x = direction * stats.slide_speed
 
 				if !is_on_floor():
-					#sprite.play("fall") ##
+					sprite_controller.play_animation("fall") ##
 					state = STATES.AIR
 
 				if slide_timer.time_left == 0 and !ceiling: # !!!
+					sprite_controller.play_animation("slide_end") ##
+					velocity.x = 0
 					state = STATES.GROUND
 
 				### Jumping --> Air ###
 				if !ceiling and Input.is_action_just_pressed("jump"):
 					slide_timer.stop()
 					velocity.y = -stats.jump_force
-					#sprite.play("jump") ##
+					sprite_controller.play_animation("jump") ##
 					snd_jump.play()
 					state = STATES.AIR
 
@@ -236,25 +237,25 @@ func _process(delta) -> void:
 			STATES.CLIMB:
 				apply_gravity = false
 				if !on_ladder_top:
-					#sprite.play("climb") ##
+					sprite_controller.play_animation("climb") ##
 					pass
 				else:
-					#sprite.play("climb_end") ##
+					sprite_controller.play_animation("climb_end") ##
 					pass
 
 				var climb_vector = Input.get_axis("up", "down")
 
 				global_position.x = current_ladder.global_position.x
 
-				if climb_vector != 0:
+				if climb_vector != 0 and !is_shooting:
 					if climb_vector < 0:
-						#sprite.speed_scale = 1
+						sprite_controller.set_speed_scale(1.0) ##
 						velocity.y = -(stats.climb_speed)
 					elif climb_vector > 0:
-						#sprite.speed_scale = -1
+						sprite_controller.set_speed_scale(-1.0) ##
 						velocity.y = stats.climb_speed
 				else:
-					#sprite.speed_scale = 0
+					sprite_controller.set_speed_scale(0.0) ##
 					velocity.y = 0
 
 				### Ground if at the top of a ladder ###
@@ -262,26 +263,26 @@ func _process(delta) -> void:
 					state = STATES.GROUND
 					velocity.y = 0
 					global_position.y = (current_ladder.global_position.y - 8) - (collision_normal.shape.size.y * 0.5)
-					#sprite.speed_scale = 1
+					sprite_controller.set_speed_scale(1.0) ##
 					apply_gravity = true
 
 				### Ground if on floor ###
 				if is_on_floor() and velocity.y > 0:
 					velocity.y = 0
 					state = STATES.GROUND
-					#sprite.speed_scale = 1
+					sprite_controller.set_speed_scale(1.0) ##
 					apply_gravity = true
 
 				### Air if jump off ladder ###
 				if Input.is_action_just_pressed("jump") and velocity.y == 0:
 					velocity.y = 0
 					state = STATES.AIR
-					#sprite.speed_scale = 1
+					sprite_controller.set_speed_scale(1.0) ##
 					apply_gravity = true
 
 				if !on_ladder:
 					state = STATES.AIR
-					#sprite.speed_scale = 1
+					sprite_controller.set_speed_scale(1.0) ##
 					apply_gravity = true
 
 ##########################################
@@ -290,19 +291,19 @@ func _process(delta) -> void:
 				apply_gravity = false
 
 				if get_slide_collision_count() == 0:
-					#sprite.speed_scale = 0
+					sprite_controller.set_speed_scale(0.0) ##
 					velocity.y += 562
 					if velocity.y > 562: velocity.y = 562
 				else:
 					velocity.y = 0
-					#sprite.speed_scale = 1
-					sprite_controller.play_animation("teleport", true, "idle", STATES.GROUND)
+					sprite_controller.set_speed_scale(1.0) ##
+					sprite_controller.play_animation("teleport")
 					apply_gravity = true
 
 ##########################################
 
 			STATES.DEAD:
-				sprite_controller.enable_sprite(false)
+				sprite_controller.enable_sprite(false) ##
 				apply_gravity = false
 				allow_movement = false
 				can_double_jump = false
@@ -323,9 +324,18 @@ func change_collision_shapes(shape: String) -> void:
 
 ##########################################
 
-func get_player_state() -> int: return state
+## SETTERS AND GETTERS
 
+# STATE
+func get_player_state() -> int: return state
 func set_player_state(to_state: int) -> void: state = to_state
+
+# SHOOT
+func get_shoot_state() -> bool: return is_shooting
+func set_shoot_state(is_shoot: bool) -> void: is_shooting = is_shoot
+
+# DIRECTION
+func set_direction(dir: int) -> void: direction = dir
 
 ##########################################
 
@@ -360,7 +370,7 @@ func scroll_player(scroll_direction) -> void:
 	velocity.y = 0
 	apply_gravity = false
 	last_state = state
-	#var last_anim = sprite.animation
+	#var last_anim = sprite.animation ##
 	state = STATES.SCROLL
 
 	var tween = get_tree().create_tween()
@@ -379,8 +389,8 @@ func scroll_player(scroll_direction) -> void:
 		3: # down
 			tarY = global_position.y + 20
 
-	#if last_state == STATES.AIR and (scroll_direction == 0 or 2 or 3):
-		#sprite.pause()
+	if last_state == STATES.AIR and (scroll_direction == 0 or 2 or 3): ##
+		sprite_controller.pause_playback(true)
 
 	if tarX:
 		tween.tween_property(self, "global_position:x", tarX, 0.68)
@@ -392,7 +402,7 @@ func scroll_player(scroll_direction) -> void:
 	slide_timer.paused = false
 	apply_gravity = true
 	state = last_state
-	#sprite.play() ##
+	sprite_controller.pause_playback(false) ##
 	if last_state == STATES.AIR and scroll_direction == 3:
 		velocity.y = last_y_velocity
 		velocity.x = 0
@@ -412,14 +422,15 @@ func _stop_at_room_limits() -> void:
 
 		if global_position.y + (collision_normal.shape.size.y / 2 ) < room_limits[1]:
 			global_position.y = room_limits[1] - (collision_normal.shape.size.y / 2 )
-			#sprite.visible = false
-		#else: sprite.visible = true
+			#sprite_controller.enable_sprite(false)
+		#else:
+			#sprite_controller.enable_sprite(true)
 
 ##########################################
 
 func menu_opened(opened: bool) -> void:
 	if opened:
-		#sprite.pause()
+		sprite_controller.set_speed_scale(0.0)
 		velocity.x = 0
 		velocity.y = 0
 		apply_gravity = false
@@ -428,7 +439,7 @@ func menu_opened(opened: bool) -> void:
 		if slide_timer.time_left > 0: slide_timer.paused = true
 		snd_weapon_menu_open.play()
 	elif !opened:
-		#sprite.play() ##
+		sprite_controller.set_speed_scale(1.0)
 		slide_timer.paused = false
 		apply_gravity = true
 		allow_movement = true

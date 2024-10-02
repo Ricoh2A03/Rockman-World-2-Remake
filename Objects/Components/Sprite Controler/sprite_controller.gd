@@ -6,16 +6,7 @@ class_name SpriteController extends Node2D
 @export var sprite_normal: AnimatedSprite2D
 @export var sprite_shoot: AnimatedSprite2D
 
-@export_category("Start Animation")
-@export var _start_animation: String
 var _current_animation: String
-var _state_to_transit: int = -1
-var _transit_to_anim: String = ""
-
-func _ready() -> void:
-	if sprite_normal and sprite_shoot:
-		sprite_normal.animation_finished.connect(_animation_finished)
-		sprite_shoot.animation_finished.connect(_animation_finished)
 
 func enable_sprite(enable_normal: bool, enable_shoot: bool = false) -> void:
 	sprite_normal.visible = enable_normal
@@ -29,23 +20,22 @@ func flip_sprite_v(flip: bool) -> void:
 	sprite_normal.flip_v = flip
 	sprite_shoot.flip_v = flip
 
-func play_animation(animation: String, one_time: bool = false, transit_to_anim: String = "", transit_to_state: int = -1) -> void:
-	if transit_to_anim != "":
-		_transit_to_anim = transit_to_anim
-	if one_time:
-		if animation != _current_animation:
-			_current_animation = animation
-			sprite_normal.play(animation)
-			if transit_to_state != -1:
-				_state_to_transit = transit_to_state
-	else:
+func play_animation(animation: String) -> void:
+	if animation != _current_animation:
+		_current_animation = animation
 		sprite_normal.play(animation)
-	_current_animation = animation
+		sprite_shoot.play(animation)
 
-func _animation_finished() -> void:
-	if _state_to_transit != -1:
-		player.set_player_state(_state_to_transit)
-		_state_to_transit = -1
-	if _transit_to_anim != "":
-		sprite_normal.play(_transit_to_anim)
-		_transit_to_anim = ""
+func get_current_animation(normal: bool = true) -> String: return _current_animation
+
+func set_speed_scale(scale: float) -> void:
+	sprite_normal.speed_scale = scale
+	sprite_shoot.speed_scale = scale
+
+func pause_playback(pause: bool) -> void:
+	if pause:
+		sprite_normal.pause()
+		sprite_shoot.pause()
+	else:
+		sprite_normal.play()
+		sprite_shoot.play()

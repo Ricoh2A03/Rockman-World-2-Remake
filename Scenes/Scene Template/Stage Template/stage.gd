@@ -50,7 +50,7 @@ func _ready() -> void:
 	set_stage_camera_limits(_current_room)
 	set_stage_room_limits()
 
-	if checkpoints != null: current_checkpoint = checkpoints[0] # set current checkpoint to the first in the array
+	if checkpoints.size() != 0: current_checkpoint = checkpoints[0] # set current checkpoint to the first in the array
 	if camera_ref and current_checkpoint: camera_ref.global_position = current_checkpoint.global_position # set camera position to checkpoint
 
 	flash_ready_text() # flash ready and turn health bar on
