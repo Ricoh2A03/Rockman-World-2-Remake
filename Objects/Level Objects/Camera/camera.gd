@@ -5,12 +5,6 @@ signal finished_scrolling(room: Room)
 var player_instance: Player
 var follow_player: bool = true
 
-func _ready() -> void:
-	pass
-
-# камере нужна новая комната и направление, чтобы знать, какие границы сделать в конце скроллинга и куда скроллить(про н.к. и направ. знает триггер)
-# уровню нужна новая комната и направление, чтобы знать, где её спавнить (про н.к. и направ. знает триггер)
-
 func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 	follow(false)
 	position_smoothing_enabled = false
@@ -60,6 +54,7 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 	finished_scrolling.emit(new_room)
 
 	update_camera_limits(new_room)
+	new_room.activate_spawners()
 	position_smoothing_enabled = true
 	follow(true)
 	global_position = get_parent().global_position

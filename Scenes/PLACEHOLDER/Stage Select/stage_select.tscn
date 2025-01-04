@@ -1,0 +1,194 @@
+[gd_scene load_steps=19 format=3 uid="uid://boqo2x3bpp3fp"]
+
+[ext_resource type="Script" path="res://Scenes/PLACEHOLDER/Stage Select/stage_select.gd" id="1_6j4no"]
+[ext_resource type="Texture2D" uid="uid://lb6b7p4i3tst" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_10_bg.png" id="2_0c1qb"]
+[ext_resource type="AudioStream" uid="uid://myu7inmql2do" path="res://Assets/Music/PLACEHOLDER/mus_stage_select_10.wav" id="2_fw36r"]
+[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="4_tvoib"]
+[ext_resource type="Texture2D" uid="uid://u1y4e4khlwgt" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_10.png" id="5_sp5e2"]
+[ext_resource type="Texture2D" uid="uid://berh4m7eed5th" path="res://Assets/PLACEHOLDER/Stage Select/mm10_stage_select_mugshots.png" id="6_o6fyd"]
+
+[sub_resource type="GDScript" id="GDScript_pmpf2"]
+script/source = "extends TextureRect
+
+func _ready():
+	flash_cursor()
+
+func flash_cursor():
+
+	var timer = get_tree().create_timer(0.15)
+	self.visible = false
+	await timer.timeout
+
+	var timer2 = get_tree().create_timer(0.15)
+	self.visible = true
+	await timer2.timeout
+
+	flash_cursor()
+"
+
+[sub_resource type="GDScript" id="GDScript_lnxf5"]
+script/source = "extends Label
+
+func _ready():
+	flash_label()
+
+func flash_label():
+
+	var timer = get_tree().create_timer(0.15)
+	self.visible = true
+	await timer.timeout
+
+	var timer2 = get_tree().create_timer(0.15)
+	self.visible = false
+	await timer2.timeout
+
+	flash_label()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvs76"]
+atlas = ExtResource("6_o6fyd")
+region = Rect2(37, 37, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dge8t"]
+atlas = ExtResource("6_o6fyd")
+region = Rect2(37, 2, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xit8"]
+atlas = ExtResource("6_o6fyd")
+region = Rect2(37, 72, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_votq7"]
+atlas = ExtResource("6_o6fyd")
+region = Rect2(2, 37, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_60moo"]
+atlas = ExtResource("6_o6fyd")
+region = Rect2(72, 37, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pym4"]
+atlas = ExtResource("6_o6fyd")
+region = Rect2(2, 2, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84xkj"]
+atlas = ExtResource("6_o6fyd")
+region = Rect2(2, 72, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0efp1"]
+atlas = ExtResource("6_o6fyd")
+region = Rect2(72, 2, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mm8fh"]
+atlas = ExtResource("6_o6fyd")
+region = Rect2(72, 72, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jf1e1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvs76")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dge8t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0xit8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_votq7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_60moo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pym4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84xkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0efp1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mm8fh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="StageSelect" type="Node2D" node_paths=PackedStringArray("cursor", "portrait_container", "stream_player")]
+script = ExtResource("1_6j4no")
+cursor = NodePath("Cursor")
+portrait_container = NodePath("PortraitContainer")
+music_to_play = ExtResource("2_fw36r")
+stream_player = NodePath("Music")
+play_music_at_start = true
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+
+[node name="BG" type="TextureRect" parent="."]
+offset_right = 256.0
+offset_bottom = 256.0
+texture = ExtResource("2_0c1qb")
+metadata/_edit_lock_ = true
+
+[node name="Cursor" type="TextureRect" parent="."]
+offset_left = 104.0
+offset_top = 104.0
+offset_right = 152.0
+offset_bottom = 152.0
+texture = ExtResource("5_sp5e2")
+script = SubResource("GDScript_pmpf2")
+
+[node name="StageSelectLabel" type="Label" parent="."]
+offset_left = 48.0
+offset_top = 16.0
+offset_right = 208.0
+offset_bottom = 25.0
+theme_override_fonts/font = ExtResource("4_tvoib")
+theme_override_font_sizes/font_size = 8
+text = "<- STAGE SELECT ->"
+horizontal_alignment = 1
+script = SubResource("GDScript_lnxf5")
+
+[node name="MugshotContainer" type="Node2D" parent="."]
+
+[node name="Solar" type="Sprite2D" parent="MugshotContainer"]
+position = Vector2(112, 48)
+texture = ExtResource("6_o6fyd")
+centered = false
+region_enabled = true
+region_rect = Rect2(247, 142, 32, 32)
+
+[node name="PortraitContainer" type="Node2D" parent="."]
+
+[node name="Blade" type="Marker2D" parent="PortraitContainer"]
+position = Vector2(48, 64)
+
+[node name="Solar" type="Marker2D" parent="PortraitContainer"]
+position = Vector2(128, 64)
+
+[node name="Sheep" type="Marker2D" parent="PortraitContainer"]
+position = Vector2(208, 64)
+
+[node name="Chill" type="Marker2D" parent="PortraitContainer"]
+position = Vector2(48, 128)
+
+[node name="Center" type="Marker2D" parent="PortraitContainer"]
+position = Vector2(128, 128)
+
+[node name="Commando" type="Marker2D" parent="PortraitContainer"]
+position = Vector2(208, 128)
+
+[node name="Nitro" type="Marker2D" parent="PortraitContainer"]
+position = Vector2(48, 192)
+
+[node name="Strike" type="Marker2D" parent="PortraitContainer"]
+position = Vector2(128, 192)
+
+[node name="Pump" type="Marker2D" parent="PortraitContainer"]
+position = Vector2(208, 192)
+
+[node name="MegaManPortrait" type="AnimatedSprite2D" parent="."]
+position = Vector2(128, 128)
+sprite_frames = SubResource("SpriteFrames_jf1e1")

@@ -44,7 +44,9 @@ func _process(_delta: float) -> void:
 func open_weapon_menu(open: bool) -> void:
 	if open:
 		player.menu_opened(true)
-		get_tree().call_group(\"PausedByMenu\", \"menu_pause\", true)
+		#get_tree().call_group(\"PausedByMenu\", \"menu_pause\", true)
+		#print(get_tree().get_first_node_in_group(\"Stage\"))
+		Globals.main.pauseGame([get_tree().get_first_node_in_group(\"Stage\"), self])
 		menu_player.play(\"fade_in\")
 	elif !open:
 		menu_player.play(\"fade_out\")
@@ -60,7 +62,8 @@ func toggle_energy_bars(on: bool) -> void:
 func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == \"fade_out\":
 		player.menu_opened(false)
-		get_tree().call_group(\"PausedByMenu\", \"menu_pause\", false)
+		#get_tree().call_group(\"PausedByMenu\", \"menu_pause\", false)
+		Globals.main.unpauseGame()
 
 ##########################################
 
@@ -615,6 +618,39 @@ offset_top = 9.0
 offset_right = 23.0
 offset_bottom = 88.0
 texture = ExtResource("5_p2nt2")
+metadata/_edit_use_anchors_ = true
+
+[node name="WeaponBar" type="TextureProgressBar" parent="EnergyBars"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0390625
+anchor_top = -0.0401786
+anchor_right = 0.0585938
+anchor_bottom = -0.0357143
+offset_left = 16.0
+offset_top = 24.0
+offset_right = 24.0
+offset_bottom = 80.0
+max_value = 28.0
+rounded = true
+fill_mode = 3
+texture_under = ExtResource("2_ehed0")
+texture_progress = ExtResource("3_8lp2g")
+metadata/_edit_use_anchors_ = true
+
+[node name="WeaponBarBorder" type="TextureRect" parent="EnergyBars"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0625
+anchor_right = 0.0625
+offset_left = 10.0
+offset_top = 9.0
+offset_right = 23.0
+offset_bottom = 88.0
+texture = ExtResource("5_p2nt2")
+metadata/_edit_use_anchors_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

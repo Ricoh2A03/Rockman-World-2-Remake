@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=41 format=3 uid="uid://br3u5goxp8nie"]
+[gd_resource type="SpriteFrames" load_steps=40 format=3 uid="uid://br3u5goxp8nie"]
 
 [ext_resource type="Texture2D" uid="uid://cpkt4pnj2rbhv" path="res://Assets/Playable Characters/Megaman/Sprites/mm_sprites_sheet.png" id="1_dhlf1"]
 
@@ -77,10 +77,6 @@ region = Rect2(64, 216, 64, 72)
 [sub_resource type="AtlasTexture" id="AtlasTexture_p6o32"]
 atlas = ExtResource("1_dhlf1")
 region = Rect2(0, 216, 64, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p0ubr"]
-atlas = ExtResource("1_dhlf1")
-region = Rect2(64, 288, 64, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3jxtl"]
 atlas = ExtResource("1_dhlf1")
@@ -224,7 +220,7 @@ animations = [{
 "duration": 0.5,
 "texture": SubResource("AtlasTexture_fi72h")
 }, {
-"duration": 25.0,
+"duration": 15.0,
 "texture": SubResource("AtlasTexture_w2kwq")
 }, {
 "duration": 1.3,
@@ -288,7 +284,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"jump",
-"speed": 20.0
+"speed": 22.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -303,9 +299,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_p0ubr")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_3jxtl")
 }],
 "loop": false,
@@ -318,7 +311,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"slide_end",
-"speed": 16.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,

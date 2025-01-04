@@ -1,13 +1,13 @@
 extends Node2D
 class_name Scene
 
-@export_category("Next Scene to Load")
-@export var to_scene: PackedScene
-
 @export_category("Scene Music")
 @export var music_to_play: AudioStreamWAV
 @export var stream_player: AudioStreamPlayer
 @export var play_music_at_start: bool = false
+
+@export_category("Scenes")
+@export var scene_transitor: SceneTransitor
 
 var creator: Node # not necessary..?
 
@@ -28,9 +28,3 @@ func music_pause(paused: bool):
 	if stream_player: stream_player.stream_paused = paused
 
 ### Transition to new scene (note: add support for custom scene transitions in the form of resources)
-func scene_transition(scene: PackedScene):
-	if to_scene == null:
-		return
-	var scene_instance = scene.instantiate()
-	get_tree().root.get_child(0).call_deferred("add_child", scene_instance)
-	self.queue_free()

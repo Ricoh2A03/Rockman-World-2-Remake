@@ -23,6 +23,8 @@ func flip_sprite_v(flip: bool) -> void:
 func play_animation(animation: String) -> void:
 	if animation != _current_animation:
 		_current_animation = animation
+		sprite_normal.frame = 0
+		sprite_shoot.frame = 0
 		sprite_normal.play(animation)
 		sprite_shoot.play(animation)
 

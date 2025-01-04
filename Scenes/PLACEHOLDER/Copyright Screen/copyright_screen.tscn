@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://byjnd4cme0g1m"]
+
+[ext_resource type="Script" path="res://Scenes/PLACEHOLDER/Copyright Screen/copyright_screen.gd" id="1_2cvvl"]
+[ext_resource type="PackedScene" uid="uid://boqo2x3bpp3fp" path="res://Scenes/PLACEHOLDER/Stage Select/stage_select.tscn" id="2_0hnwe"]
+[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="2_cu7pw"]
+[ext_resource type="AudioStream" uid="uid://dwm8xrtt6en8w" path="res://Assets/Music/PLACEHOLDER/capcom logo.wav" id="2_g6a8y"]
+
+[node name="CopyrightScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2cvvl")
+to_scene = ExtResource("2_0hnwe")
+
+[node name="LogoSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_g6a8y")
+volume_db = 7.0
+autoplay = true
+bus = &"SFX"
+
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 96.0
+offset_right = 216.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_cu7pw")
+theme_override_font_sizes/font_size = 8
+text = "INSPIRED BY
+ CAPCOM"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 128.0
+offset_right = 224.0
+offset_bottom = 137.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_cu7pw")
+theme_override_font_sizes/font_size = 8
+text = "POWERED BY GODOT ENGINE 
+"
+clip_text = true
+
+[connection signal="finished" from="LogoSound" to="." method="_on_logo_sound_finished"]

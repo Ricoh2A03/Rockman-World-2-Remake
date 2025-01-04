@@ -4,8 +4,7 @@ extends BasicProjectile
 @onready var vis_notif: VisibleOnScreenNotifier2D = $Visibility
 
 func _process(delta: float) -> void:
-	if !is_paused:
-		global_position.x += (xSpeed * direction) * delta
+	global_position.x += (xSpeed * _direction) * delta
 
 func _on_screen_exited() -> void:
 	screen_exited.emit()

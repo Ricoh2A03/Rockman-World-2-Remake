@@ -35,7 +35,6 @@ var weapon_inventory
 @export var snd_teleport_out: AudioStreamPlayer
 @export var snd_damage: AudioStreamPlayer
 @export var snd_death: AudioStreamPlayer
-@export var snd_weapon_menu_open: AudioStreamPlayer
 
 @export_group("Physics Toggles")
 @export var apply_gravity: bool = true
@@ -75,6 +74,7 @@ var state = STATES.TELEPORT_IN
 var room_limits = [0, 0, 0, 0] # left, top, right, bottom
 
 func _ready() -> void:
+	flip_sprite()
 	snd_teleport_in.play()
 
 func _process(delta) -> void:
@@ -109,10 +109,6 @@ func _process(delta) -> void:
 			if state != STATES.SLIDE: velocity.x = move_toward(velocity.x, 0, stats.horizontal_speed)
 			### Allow stepping if stopped ###
 			if state == STATES.GROUND: can_step = true
-
-		### Sprite Flipping ###
-		if direction > 0: sprite_controller.flip_sprite_h(true)
-		elif direction < 0: sprite_controller.flip_sprite_h(false)
 
 		match state:
 
@@ -165,6 +161,8 @@ func _process(delta) -> void:
 					state = STATES.CLIMB
 					global_position.y = (current_ladder.global_position.y - 8)
 
+				flip_sprite()
+
 ##########################################
 
 			STATES.AIR:
@@ -195,11 +193,13 @@ func _process(delta) -> void:
 
 				### -- > Climb ###
 				if current_ladder != null and on_ladder:
-					if global_position.y >= ((current_ladder.global_position.y - 8) - (collision_normal.shape.size.y * 0.5)) and (on_ladder and (Input.is_action_pressed("up") or (Input.is_action_pressed("down")))):
+					if global_position.y >= ((current_ladder.global_position.y - 8) - (collision_normal.shape.size.y * 0.5)) and (on_ladder and (Input.is_action_pressed("up"))):
 						sprite_controller.play_animation("climb") ##
 						state = STATES.CLIMB
 
 				velocity.y += 1
+
+				flip_sprite()
 
 				_terminal_Y_velocity()
 
@@ -213,9 +213,9 @@ func _process(delta) -> void:
 					slide_timer.stop()
 					state = STATES.GROUND
 
-				velocity.x = direction * stats.slide_speed
 
 				if !is_on_floor():
+					slide_timer.stop()
 					sprite_controller.play_animation("fall") ##
 					state = STATES.AIR
 
@@ -231,6 +231,10 @@ func _process(delta) -> void:
 					sprite_controller.play_animation("jump") ##
 					snd_jump.play()
 					state = STATES.AIR
+
+				velocity.x = direction * stats.slide_speed
+
+				flip_sprite()
 
 ##########################################
 
@@ -339,6 +343,12 @@ func set_direction(dir: int) -> void: direction = dir
 
 ##########################################
 
+func flip_sprite() -> void:
+	if direction > 0: sprite_controller.flip_sprite_h(true)
+	elif direction < 0: sprite_controller.flip_sprite_h(false)
+
+##########################################
+
 func _terminal_Y_velocity() -> void: if velocity.y > 448: velocity.y = 448
 
 ##########################################
@@ -437,7 +447,6 @@ func menu_opened(opened: bool) -> void:
 		allow_movement = false
 		#self.visible = false
 		if slide_timer.time_left > 0: slide_timer.paused = true
-		snd_weapon_menu_open.play()
 	elif !opened:
 		sprite_controller.set_speed_scale(1.0)
 		slide_timer.paused = false

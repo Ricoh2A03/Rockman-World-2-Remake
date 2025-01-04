@@ -12,7 +12,6 @@ target_slot = 0
 max_on_screen = 3
 XSpawnOffset = 21
 YSpawnOffset = -2
-animation_type = 1
 animate_state = Array[String](["idle"])
 cooldown = 0.25
 scene_to_spawn = ExtResource("2_guy0v")

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cnmhkb4b1bfph" path="res://Assets/Weapons and Items/Rock Buster/buster_pellet.png" id="2_x3esh"]
 
 [node name="RockBusterPellet" type="Node2D" groups=["PausedByMenu"]]
+process_mode = 1
 script = ExtResource("1_oajlh")
 xSpeed = 260
 metadata/_edit_group_ = true

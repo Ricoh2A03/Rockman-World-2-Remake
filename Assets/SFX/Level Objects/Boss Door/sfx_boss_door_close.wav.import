@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://by1bush4fwuwv"
+path="res://.godot/imported/sfx_boss_door_close.wav-84a6c5e00cc9474f343c2e6a7294d2dc.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/Level Objects/Boss Door/sfx_boss_door_close.wav"
+dest_files=["res://.godot/imported/sfx_boss_door_close.wav-84a6c5e00cc9474f343c2e6a7294d2dc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

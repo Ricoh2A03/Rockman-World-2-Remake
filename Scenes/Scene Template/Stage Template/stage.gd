@@ -41,7 +41,6 @@ var current_checkpoint: Checkpoint
 ###########################################
 
 func _ready() -> void:
-	AudioServer.set_bus_volume_db(0, -2)
 
 	super._ready() # play music
 	create_camera()
@@ -68,44 +67,62 @@ func set_stage_room_limits() -> void:
 	(_current_room.global_position.y + _current_room.size.y)]
 
 func check_scrolling_criterias():
+	# Skip if there's no _current_room
 	if !_current_room: return
+	# Check only if there's Player and Camera
 	if player_ref and camera_ref:
 
+		# Check only if not currently scrolling
 		if !is_scrolling:
+			# Check bottom edge
 			if (player_ref.global_position.y >= (_current_room_limits[3]) and player_ref.get_player_state() == 1 and player_ref.velocity.y > 0) or \
-				(player_ref.global_position.y >= (_current_room_limits[3]) and player_ref.get_player_state() == 2 and player_ref.velocity.y > 0):  # check bottom edge
+				(player_ref.global_position.y >= (_current_room_limits[3]) and player_ref.get_player_state() == 2 and player_ref.velocity.y > 0):
 				if _current_room.exit_bottom:
 					is_scrolling = true
+					despawn_enemies()
+					_current_room.deactivate_spawners()
 					player_ref.scroll_player(3)
+					# Start scrolling. Everything is exactly the same from this point, so I won't repeat
 					camera_ref.camera_start_scroll(_current_room.exit_bottom, 3)
 				else:
+					# Pit death if there's no bottom exit from _current_room
 					player_ref.death_proccessing(true)
 					player_died.emit()
 
-			if (player_ref.global_position.y <= _current_room_limits[1] and player_ref.get_player_state() == 2 and player_ref.velocity.y < 0): # check top edge
+			# Check top edge
+			if (player_ref.global_position.y <= _current_room_limits[1] and player_ref.get_player_state() == 2 and player_ref.velocity.y < 0):
 				if _current_room.exit_top:
 					is_scrolling = true
+					despawn_enemies()
+					_current_room.deactivate_spawners()
 					player_ref.scroll_player(1)
 					camera_ref.camera_start_scroll(_current_room.exit_top, 1)
 
+			# Check left edge
 			if (player_ref.global_position.x <= (_current_room_limits[0] + 16)):
 				if _current_room.exit_left:
 					is_scrolling = true
+					despawn_enemies()
+					_current_room.deactivate_spawners()
 					player_ref.scroll_player(0)
 					camera_ref.camera_start_scroll(_current_room.exit_left, 0)
 
+			# Check right edge
 			if (player_ref.global_position.x >= (_current_room_limits[2] - 16)):
 				if _current_room.exit_right:
 					is_scrolling = true
+					despawn_enemies()
+					_current_room.deactivate_spawners()
 					player_ref.scroll_player(2)
 					camera_ref.camera_start_scroll(_current_room.exit_right, 2)
 
+			#for spawner in _current_room.spawners: spawner.call_deferred("despawn")
+
 ############ S C R O L L I N G ############
 
-func start_scrolling(target_room: Room, direction: int) -> void:
-	if target_room == _current_room: return
-	camera_ref.camera_start_scroll(target_room, direction)
-	player_ref.room_limits = _current_room_limits
+# Loop through spawners in currently active room and destroy each object
+func despawn_enemies() -> void: for spawner in _current_room.spawners: spawner.despawn()
+
 
 func stage_finished_scrolling(room: Room) -> void:
 	_current_room = room
@@ -140,6 +157,7 @@ func create_camera() -> void:
 	if !camera_path or camera_ref: return
 	var cam_instance = camera_path.instantiate()
 	call_deferred("add_child", cam_instance)
+	# Connect Camera's "finished_scrolling" signal to Stage's "stage_finished_scrolling" function
 	cam_instance.connect("finished_scrolling", stage_finished_scrolling)
 	camera_ref = cam_instance
 

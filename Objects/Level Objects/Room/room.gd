@@ -2,6 +2,8 @@
 extends ReferenceRect
 class_name Room
 
+#signal room_loaded()
+
 @export_category("Room Size")
 @export_range(1, 25) var room_width_x: int = 1:
 	set(value):
@@ -18,6 +20,12 @@ class_name Room
 @export var exit_top: Room
 @export var exit_right: Room
 @export var exit_bottom: Room
+
+@export_category("Spawners")
+@export var spawners: Array[Spawner]
+
+func activate_spawners(): for spawner in spawners: spawner.set_active(true)
+func deactivate_spawners(): for spawner in spawners: spawner.set_active(false)
 
 func _enter_tree():
 	if Engine.is_editor_hint():

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://mjdfaonk3tq2"]
+
+[ext_resource type="Script" path="res://Scenes/Main/main.gd" id="1_wt6wc"]
+[ext_resource type="PackedScene" uid="uid://cnvt4vlwtpda3" path="res://Scenes/PLACEHOLDER/Title/title.tscn" id="2_1mm4e"]
+
+[node name="Main" type="Node"]
+process_mode = 3
+script = ExtResource("1_wt6wc")
+first_scene = ExtResource("2_1mm4e")
+
+[node name="SceneTransition" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="FadeColor" type="ColorRect" parent="SceneTransition"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

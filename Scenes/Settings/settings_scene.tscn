@@ -1,0 +1,161 @@
+[gd_scene load_steps=5 format=3 uid="uid://xmo08katsae5"]
+
+[ext_resource type="Texture2D" uid="uid://do6lc4k2sxk00" path="res://Assets/PLACEHOLDER/Title Screen/title.png" id="2_dmbru"]
+[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="3_ucn5k"]
+[ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/MegaMan/sfx_menu_select.wav" id="4_7g67i"]
+
+[sub_resource type="GDScript" id="GDScript_m3fxx"]
+script/source = "extends Scene
+
+var menu_id: int = 0
+
+var _can_select: bool = true
+var _selection: int = 0
+
+func _ready() -> void:
+	var i = 0
+	for child in $Values.get_children():
+		child.text = var_to_str(Globals.settings_sound[i])
+		i += 1
+
+func _input(event):
+	if event.is_action_pressed(\"weapon_menu\"):
+		pass
+
+	if _can_select and event.is_action_pressed(\"up\"):
+
+		%CursorSFX.play()
+		_selection -= 1
+		if _selection < 0: _selection = 1
+
+	if _can_select and event.is_action_pressed(\"down\"):
+		pass
+
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="SettingsScene" type="Node2D"]
+script = SubResource("GDScript_m3fxx")
+
+[node name="BG" type="Sprite2D" parent="."]
+position = Vector2(-256, -224)
+scale = Vector2(2, 2)
+texture = ExtResource("2_dmbru")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Cursor" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 32.0
+offset_top = 64.0
+offset_right = 40.0
+offset_bottom = 73.0
+theme_override_fonts/font = ExtResource("3_ucn5k")
+theme_override_font_sizes/font_size = 8
+text = ">"
+
+[node name="CursorSFX" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_7g67i")
+
+[node name="Text" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuText" type="Label" parent="Text"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 24.0
+offset_right = 160.0
+offset_bottom = 33.0
+theme_override_fonts/font = ExtResource("3_ucn5k")
+theme_override_font_sizes/font_size = 8
+text = "SETTINGS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterVolume" type="Label" parent="Text"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 64.0
+offset_right = 152.0
+offset_bottom = 73.0
+theme_override_fonts/font = ExtResource("3_ucn5k")
+theme_override_font_sizes/font_size = 8
+text = "MASTER VOLUME:"
+
+[node name="MusicVolume" type="Label" parent="Text"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 88.0
+offset_right = 152.0
+offset_bottom = 97.0
+theme_override_fonts/font = ExtResource("3_ucn5k")
+theme_override_font_sizes/font_size = 8
+text = "MUSIC  VOLUME:"
+
+[node name="SFXVolume" type="Label" parent="Text"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 112.0
+offset_right = 152.0
+offset_bottom = 121.0
+theme_override_fonts/font = ExtResource("3_ucn5k")
+theme_override_font_sizes/font_size = 8
+text = "SFX    VOLUME:"
+
+[node name="GoToTitle" type="Label" parent="Text"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 184.0
+offset_right = 168.0
+offset_bottom = 193.0
+theme_override_fonts/font = ExtResource("3_ucn5k")
+theme_override_font_sizes/font_size = 8
+text = "BACK TO TITLE"
+
+[node name="Values" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MasterValue" type="Label" parent="Values"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 168.0
+offset_top = 64.0
+offset_right = 176.0
+offset_bottom = 73.0
+theme_override_fonts/font = ExtResource("3_ucn5k")
+theme_override_font_sizes/font_size = 8
+text = "0"
+
+[node name="MusicValue" type="Label" parent="Values"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 168.0
+offset_top = 88.0
+offset_right = 176.0
+offset_bottom = 97.0
+theme_override_fonts/font = ExtResource("3_ucn5k")
+theme_override_font_sizes/font_size = 8
+text = "0"
+
+[node name="SFXValue" type="Label" parent="Values"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 168.0
+offset_top = 112.0
+offset_right = 176.0
+offset_bottom = 121.0
+theme_override_fonts/font = ExtResource("3_ucn5k")
+theme_override_font_sizes/font_size = 8
+text = "0"

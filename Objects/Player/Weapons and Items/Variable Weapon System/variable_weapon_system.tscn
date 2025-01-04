@@ -10,16 +10,18 @@ script/source = "class_name VariableWeaponSystem extends Node2D
 @onready var sfx_player: AudioStreamPlayer2D = $SFXPlayer
 @onready var animation_cooldown_timer: Timer = $AnimationCooldown
 
-var on_screen_count: Array = []
+var _on_screen_count: Array = []
 
-var is_paused: bool = false
+var _is_paused: bool = false
 
 func _process(_delta: float) -> void:
-	if !is_paused and Input.is_action_just_pressed(\"shoot\"):
+	if !_is_paused and Input.is_action_just_pressed(\"shoot\"):
+		if player.state == player.STATES.CLIMB:
+			player.flip_sprite()
 		spawn_projectile()
 
 func spawn_projectile() -> void:
-	if on_screen_count.size() == current_item.max_on_screen: return
+	if _on_screen_count.size() == current_item.max_on_screen: return
 
 	player.set_shoot_state(true)
 
@@ -28,7 +30,7 @@ func spawn_projectile() -> void:
 	var instance = current_item.scene_to_spawn.instantiate() # instantiate projectile
 	instance.connect(\"screen_exited\", projectile_despawned) # connect signals
 
-	on_screen_count.append(instance) # add to the on screen list
+	_on_screen_count.append(instance) # add to the on screen list
 
 	player.get_parent().call_deferred(\"add_child\", instance) # add as a sibling of the Player
 	instance.global_position.x = player.global_position.x + current_item.XSpawnOffset * player.direction # set position to the Player position
@@ -47,7 +49,7 @@ func spawn_projectile() -> void:
 	sfx_player.play() # play sound
 
 func projectile_despawned():
-	on_screen_count.erase(on_screen_count.front())
+	_on_screen_count.erase(_on_screen_count.front())
 
 func menu_pause(paused: bool):
 	self.is_paused = paused
@@ -56,6 +58,8 @@ func menu_pause(paused: bool):
 
 func _on_animation_cooldown() -> void:
 	player.set_shoot_state(false)
+	if player.get_player_state() == player.STATES.CLIMB:
+		player.sprite_controller.sprite_normal.frame = 0
 	player.sprite_controller.enable_sprite(true)
 "
 
@@ -63,6 +67,7 @@ func _on_animation_cooldown() -> void:
 script = SubResource("GDScript_jfmpc")
 
 [node name="SFXPlayer" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 panning_strength = 1.75
 bus = &"SFX"
 

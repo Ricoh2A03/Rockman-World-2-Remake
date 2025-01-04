@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dse2a3b8xg2pb"]
+[gd_scene load_steps=25 format=3 uid="uid://dse2a3b8xg2pb"]
 
 [ext_resource type="Script" path="res://Objects/Player/Mega Man/mega_man.gd" id="1_7awde"]
 [ext_resource type="Resource" uid="uid://c18kq1fivowwj" path="res://Objects/Player/Stat Resource/mega_man_stats.tres" id="2_c1ucl"]
@@ -16,7 +16,6 @@
 [ext_resource type="Resource" uid="uid://chi84ms21oayr" path="res://Objects/Player/Weapons and Items/Rock Buster/item_rock_buster.tres" id="17_lvytl"]
 [ext_resource type="AudioStream" uid="uid://drmdx6slnlar8" path="res://Assets/SFX/MegaMan/sfx_mm_land.wav" id="18_2laaq"]
 [ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="18_37qvn"]
-[ext_resource type="AudioStream" uid="uid://cnxu3xq3d3mms" path="res://Assets/SFX/MegaMan/sfx_menu_open.wav" id="18_ph542"]
 [ext_resource type="AudioStream" uid="uid://dbil5j36jniqx" path="res://Assets/SFX/MegaMan/sfx_teleport_in.wav" id="19_ggfsd"]
 [ext_resource type="AudioStream" uid="uid://bkr860a3quvb4" path="res://Assets/SFX/MegaMan/sfx_teleport_out.wav" id="20_pksg3"]
 [ext_resource type="AudioStream" uid="uid://cyehva7sjh3dr" path="res://Objects/Player/Weapons and Items/Rock Buster/sfx_rock_buster.wav" id="21_mqxlo"]
@@ -25,13 +24,13 @@
 size = Vector2(14, 38)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6gvmi"]
-size = Vector2(14, 18)
+size = Vector2(14, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qtxg6"]
 size = Vector2(4, 39)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ffay6"]
-size = Vector2(14, 20)
+size = Vector2(18, 34)
 
 [sub_resource type="GDScript" id="GDScript_a3voq"]
 script/source = "extends Node2D
@@ -48,7 +47,8 @@ func _process(delta: float) -> void:
 	label2.text = var_to_str(mega_man.ceiling)
 "
 
-[node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "snd_jump", "snd_land", "snd_slide", "snd_teleport_in", "snd_teleport_out", "snd_damage", "snd_death", "snd_weapon_menu_open") groups=["MenuPaused", "Player"]]
+[node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "snd_jump", "snd_land", "snd_slide", "snd_teleport_in", "snd_teleport_out", "snd_damage", "snd_death") groups=["Player"]]
+process_mode = 1
 z_index = 1
 collision_layer = 4
 slide_on_ceiling = false
@@ -69,30 +69,31 @@ snd_teleport_in = NodePath("Sounds/snd_teleport_in")
 snd_teleport_out = NodePath("Sounds/snd_teleport_out")
 snd_damage = NodePath("Sounds/snd_damage")
 snd_death = NodePath("Sounds/snd_death")
-snd_weapon_menu_open = NodePath("Sounds/snd_menu_open")
 
 [node name="SpriteController" parent="." node_paths=PackedStringArray("player", "sprite_normal", "sprite_shoot") instance=ExtResource("6_7i60c")]
+process_mode = 1
 player = NodePath("..")
 sprite_normal = NodePath("SpriteNormal")
 sprite_shoot = NodePath("SpriteShoot")
 
 [node name="SpriteNormal" type="AnimatedSprite2D" parent="SpriteController"]
+process_mode = 1
 sprite_frames = ExtResource("4_mhlwb")
 animation = &"teleport"
 
 [node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
+process_mode = 1
 visible = false
 sprite_frames = ExtResource("5_dy1p1")
-animation = &"climb"
+animation = &"teleport"
 
 [node name="Normal" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("RectangleShape2D_3pimt")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="Slide" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(0, 10)
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_6gvmi")
 disabled = true
 debug_color = Color(0, 0.647059, 0.203922, 0.396078)
@@ -102,7 +103,7 @@ wait_time = 0.1
 one_shot = true
 
 [node name="SlideTimer" type="Timer" parent="."]
-wait_time = 0.32
+wait_time = 0.52
 one_shot = true
 
 [node name="LadderDetector" parent="." instance=ExtResource("11_ricv3")]
@@ -117,10 +118,11 @@ debug_color = Color(3.22476e-06, 0.645431, 0.260216, 0.42)
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CeilingDetector"]
-position = Vector2(0, 9)
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_ffay6")
 
 [node name="Sounds" type="Node2D" parent="."]
+process_mode = 3
 
 [node name="snd_jump" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("7_i8ann")
@@ -151,11 +153,8 @@ bus = &"SFX"
 
 [node name="snd_death" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("14_5xry6")
-volume_db = 6.0
+volume_db = 2.0
 bus = &"SFX"
-
-[node name="snd_menu_open" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("18_ph542")
 
 [node name="UI" parent="." node_paths=PackedStringArray("player") instance=ExtResource("17_08btc")]
 player = NodePath("..")
@@ -168,6 +167,7 @@ current_item = ExtResource("17_lvytl")
 script = SubResource("GDScript_a3voq")
 
 [node name="Label" type="Label" parent="Debug"]
+visible = false
 offset_left = -32.0
 offset_top = -64.0
 offset_right = 32.0
@@ -180,6 +180,7 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Label2" type="Label" parent="Debug"]
+visible = false
 offset_left = -32.0
 offset_top = -48.0
 offset_right = 32.0
