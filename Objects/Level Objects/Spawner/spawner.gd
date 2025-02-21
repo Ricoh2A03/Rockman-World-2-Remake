@@ -4,7 +4,7 @@ class_name Spawner extends Node2D
 @export var object_to_spawn: PackedScene
 ##How many objects can be spawned. 0 means it will spit objects indefinitely.
 @export var object_limit: int = 0
-##Delay between each spawn() call in seconds. 0 means it will spawn emmidiately.
+##Delay between each spawn() call in seconds. 0 means it will spawn immediately.
 @export var spawn_delay: float = 0.0
 
 # Array to keep track of spawned objects
@@ -12,7 +12,10 @@ var _object_list: Array = []
 # This flag determines if this spawner is active or not
 var _is_active: bool = false
 
-func set_active(active: bool): _is_active = active
+func set_active(active: bool):
+	_is_active = active
+	if $VisibilityNotifier.is_on_screen():
+		spawn()
 
 func spawn():
 	if object_to_spawn and _is_active: # Check if spawner is active and there's an object to spawn

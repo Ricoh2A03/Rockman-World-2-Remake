@@ -1,13 +1,17 @@
 class_name SpriteController extends Node2D
 
+## Reference for Player.
 @export var player: Player
 
 @export_category("Sprite Nodes")
+## Reference to normal sprite.
 @export var sprite_normal: AnimatedSprite2D
+## Reference to shooting sprite.
 @export var sprite_shoot: AnimatedSprite2D
 
 var _current_animation: String
 
+## Toggle normal
 func enable_sprite(enable_normal: bool, enable_shoot: bool = false) -> void:
 	sprite_normal.visible = enable_normal
 	sprite_shoot.visible = enable_shoot

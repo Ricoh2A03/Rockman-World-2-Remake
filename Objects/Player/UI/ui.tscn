@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://caqxcgsjunisn" path="res://Assets/UI/Weapon Select/menu_mm7.png" id="1_h1x3o"]
 [ext_resource type="Texture2D" uid="uid://b70cbnorqnejr" path="res://Assets/UI/Energy Bar/health_bar_empty.png" id="2_ehed0"]
-[ext_resource type="Texture2D" uid="uid://c85se1c3qsuud" path="res://Assets/UI/Energy Bar/health_bar_step.png" id="3_8lp2g"]
+[ext_resource type="Texture2D" uid="uid://c85se1c3qsuud" path="res://Assets/UI/Energy Bar/health_bar_full.png" id="3_8lp2g"]
 [ext_resource type="Texture2D" uid="uid://b2cklx24rnaf3" path="res://Assets/UI/Energy Bar/health_bar_border.png" id="5_p2nt2"]
 
 [sub_resource type="GDScript" id="GDScript_sr7th"]

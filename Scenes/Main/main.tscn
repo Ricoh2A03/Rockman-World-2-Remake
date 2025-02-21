@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://mjdfaonk3tq2"]
 
 [ext_resource type="Script" path="res://Scenes/Main/main.gd" id="1_wt6wc"]
-[ext_resource type="PackedScene" uid="uid://cnvt4vlwtpda3" path="res://Scenes/PLACEHOLDER/Title/title.tscn" id="2_1mm4e"]
+[ext_resource type="PackedScene" uid="uid://cnvt4vlwtpda3" path="res://Scenes/PLACEHOLDER/Title/title.tscn" id="2_0vdj2"]
 
 [node name="Main" type="Node"]
 process_mode = 3
 script = ExtResource("1_wt6wc")
-first_scene = ExtResource("2_1mm4e")
+first_scene = ExtResource("2_0vdj2")
 
 [node name="SceneTransition" type="CanvasLayer" parent="."]
 layer = 10

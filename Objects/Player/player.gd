@@ -1,18 +1,26 @@
-extends CharacterBody2D
-class_name Player
+class_name Player extends CharacterBody2D
 
 signal player_scroll_finished()
 signal player_dead()
 
 @export_category("Player Stats")
+## Resource that contains all of the values that are relevant to physics.
 @export var stats: PlayerStats # player stat resource
 
 @export_category("Dependent Nodes")
+## Node which controls normal and shooting sprites.
 @export var sprite_controller: SpriteController
+## Timer which determines duration of the stepping.
 @export var step_timer: Timer
+## Same as with step_timer.
 @export var slide_timer: Timer
+## Collision box for all states except SLIDE.
 @export var collision_normal: CollisionShape2D # for anything else
+## Self-explanatory.
 @export var collision_slide: CollisionShape2D # for slide
+
+## Contains and manages weapons and utilities.
+@export var weapon_system: VariableWeaponSystem
 
 # Create Inventory Resource, which would hold weapon and utilities class resources
 # Weapons and utilities would inherit from the base Item Resource
@@ -37,15 +45,21 @@ var weapon_inventory
 @export var snd_death: AudioStreamPlayer
 
 @export_group("Physics Toggles")
+## Wether or not the gravity should be applied. 
 @export var apply_gravity: bool = true
+## Set to true to ignore control from the player.
 @export var allow_movement: bool = true
+## Self-explanatory.
 @export var can_double_jump: bool = false
+## Wether or not physics should be processed.
 @export var move_and_slide_on: bool = true
 
 var can_step: bool = true
 var is_step: bool = false
 var ceiling: bool = false
+var was_under_ceiling: bool = false
 
+var can_shoot: bool = false
 var is_shooting: bool = false
 
 var on_ladder: bool = false
@@ -128,7 +142,7 @@ func _process(delta) -> void:
 						sprite_controller.play_animation("step")
 					else: 
 						sprite_controller.play_animation("walk")
-				else:
+				else: # Idle animation ONLY if not sliding / landing / ending slide
 					if sprite_controller.get_current_animation() != "land" and \
 					   sprite_controller.get_current_animation() != "slide_end" and \
 					   sprite_controller.get_current_animation() != "slide":
@@ -144,10 +158,10 @@ func _process(delta) -> void:
 				### Not floor --> Air ###
 				if !is_on_floor():
 					state = STATES.AIR
-					sprite_controller.play_animation("fall")
 
 				### Ground --> Slide ###
 				if Input.is_action_just_pressed("slide"):
+					can_shoot = false
 					slide_timer.start()
 					sprite_controller.play_animation("slide")
 					snd_slide.play()
@@ -170,7 +184,7 @@ func _process(delta) -> void:
 
 				### Variable Jump Height ###
 				if velocity.y < 0 and !Input.is_action_pressed("jump"):
-					#velocity.y += stats.gravity * 3.25 # Stronger Gravity
+					velocity.y += stats.gravity * 3.25 # Stronger Gravity
 					velocity.y = 0
 
 				if velocity.y > 0:
@@ -210,22 +224,27 @@ func _process(delta) -> void:
 
 				if !ceiling and ((velocity.x > 0 and Input.is_action_pressed("left")) or \
 								(velocity.x < 0 and Input.is_action_pressed("right"))):
+					can_shoot = true
 					slide_timer.stop()
 					state = STATES.GROUND
 
-
+				### Slide --> Air ###
 				if !is_on_floor():
+					can_shoot = true
 					slide_timer.stop()
 					sprite_controller.play_animation("fall") ##
 					state = STATES.AIR
 
+				### Slide --> Ground ###
 				if slide_timer.time_left == 0 and !ceiling: # !!!
+					can_shoot = true
 					sprite_controller.play_animation("slide_end") ##
 					velocity.x = 0
 					state = STATES.GROUND
 
 				### Jumping --> Air ###
 				if !ceiling and Input.is_action_just_pressed("jump"):
+					can_shoot = true
 					slide_timer.stop()
 					velocity.y = -stats.jump_force
 					sprite_controller.play_animation("jump") ##
@@ -292,6 +311,7 @@ func _process(delta) -> void:
 ##########################################
 
 			STATES.TELEPORT_IN:
+				sprite_controller.play_animation("teleport")
 				apply_gravity = false
 
 				if get_slide_collision_count() == 0:
@@ -303,11 +323,13 @@ func _process(delta) -> void:
 					sprite_controller.set_speed_scale(1.0) ##
 					sprite_controller.play_animation("teleport")
 					apply_gravity = true
+					can_shoot = true
 
 ##########################################
 
 			STATES.DEAD:
 				sprite_controller.enable_sprite(false) ##
+				can_shoot = false
 				apply_gravity = false
 				allow_movement = false
 				can_double_jump = false
@@ -356,6 +378,7 @@ func _terminal_Y_velocity() -> void: if velocity.y > 448: velocity.y = 448
 func death_proccessing(pit_death: bool = false) -> void:
 	if state != STATES.DEAD:
 		apply_gravity = false
+		can_shoot = false
 		allow_movement = false
 		can_double_jump = false
 		velocity.x = 0
@@ -374,6 +397,7 @@ func death_proccessing(pit_death: bool = false) -> void:
 
 func scroll_player(scroll_direction) -> void:
 	slide_timer.paused = true
+	weapon_system.pause_cooldown_timer(true)
 	var last_x_velocity = velocity.x
 	var last_y_velocity = velocity.y
 	velocity.x = 0
@@ -381,6 +405,8 @@ func scroll_player(scroll_direction) -> void:
 	apply_gravity = false
 	last_state = state
 	#var last_anim = sprite.animation ##
+	var could_shoot = can_shoot
+	can_shoot = false
 	state = STATES.SCROLL
 
 	var tween = get_tree().create_tween()
@@ -399,19 +425,18 @@ func scroll_player(scroll_direction) -> void:
 		3: # down
 			tarY = global_position.y + 20
 
-	if last_state == STATES.AIR and (scroll_direction == 0 or 2 or 3): ##
-		sprite_controller.pause_playback(true)
+	if last_state == STATES.AIR and (scroll_direction != 1): sprite_controller.pause_playback(true)
 
-	if tarX:
-		tween.tween_property(self, "global_position:x", tarX, 0.68)
-	if tarY:
-		tween.tween_property(self, "global_position:y", tarY, 0.68)
+	if tarX: tween.tween_property(self, "global_position:x", tarX, 0.68)
+	if tarY: tween.tween_property(self, "global_position:y", tarY, 0.68)
 
 	await tween.finished
-	player_scroll_finished.emit()
-	slide_timer.paused = false
+
+	if state != STATES.SLIDE and !ceiling: # Ignore unpausing slide_timer if sliding and under the ceiling
+		slide_timer.paused = false
 	apply_gravity = true
 	state = last_state
+	can_shoot = could_shoot
 	sprite_controller.pause_playback(false) ##
 	if last_state == STATES.AIR and scroll_direction == 3:
 		velocity.y = last_y_velocity
@@ -419,6 +444,9 @@ func scroll_player(scroll_direction) -> void:
 	else:
 		velocity.x = last_x_velocity
 		velocity.y = 0
+
+	player_scroll_finished.emit()
+	weapon_system.pause_cooldown_timer(false)
 
 ##########################################
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dse2a3b8xg2pb"]
+[gd_scene load_steps=24 format=3 uid="uid://dse2a3b8xg2pb"]
 
 [ext_resource type="Script" path="res://Objects/Player/Mega Man/mega_man.gd" id="1_7awde"]
 [ext_resource type="Resource" uid="uid://c18kq1fivowwj" path="res://Objects/Player/Stat Resource/mega_man_stats.tres" id="2_c1ucl"]
@@ -18,7 +18,6 @@
 [ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="18_37qvn"]
 [ext_resource type="AudioStream" uid="uid://dbil5j36jniqx" path="res://Assets/SFX/MegaMan/sfx_teleport_in.wav" id="19_ggfsd"]
 [ext_resource type="AudioStream" uid="uid://bkr860a3quvb4" path="res://Assets/SFX/MegaMan/sfx_teleport_out.wav" id="20_pksg3"]
-[ext_resource type="AudioStream" uid="uid://cyehva7sjh3dr" path="res://Objects/Player/Weapons and Items/Rock Buster/sfx_rock_buster.wav" id="21_mqxlo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3pimt"]
 size = Vector2(14, 38)
@@ -43,11 +42,11 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed(\"debug_show\"):
 		label.visible = !label.visible
 		label2.visible = !label2.visible
-	label.text = var_to_str(mega_man.state)
-	label2.text = var_to_str(mega_man.ceiling)
+	label.text = \"State: \" + var_to_str(mega_man.state)
+	label2.text = \"Slide Tmr: \" + var_to_str(mega_man.slide_timer.time_left)
 "
 
-[node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "snd_jump", "snd_land", "snd_slide", "snd_teleport_in", "snd_teleport_out", "snd_damage", "snd_death") groups=["Player"]]
+[node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "snd_jump", "snd_land", "snd_slide", "snd_teleport_in", "snd_teleport_out", "snd_damage", "snd_death") groups=["Player"]]
 process_mode = 1
 z_index = 1
 collision_layer = 4
@@ -61,6 +60,7 @@ step_timer = NodePath("StepTimer")
 slide_timer = NodePath("SlideTimer")
 collision_normal = NodePath("Normal")
 collision_slide = NodePath("Slide")
+weapon_system = NodePath("VariableWeaponSystem")
 death_explosion_fx = ExtResource("10_mmksa")
 snd_jump = NodePath("Sounds/snd_jump")
 snd_land = NodePath("Sounds/snd_land")
@@ -115,7 +115,6 @@ shape = SubResource("RectangleShape2D_qtxg6")
 debug_color = Color(3.22476e-06, 0.645431, 0.260216, 0.42)
 
 [node name="CeilingDetector" parent="." instance=ExtResource("9_ex5gi")]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CeilingDetector"]
 position = Vector2(0, 2)
@@ -141,19 +140,20 @@ bus = &"SFX"
 
 [node name="snd_teleport_in" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("19_ggfsd")
+volume_db = -2.0
 bus = &"SFX"
 
 [node name="snd_teleport_out" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("20_pksg3")
+volume_db = -4.0
 bus = &"SFX"
 
 [node name="snd_damage" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("21_mqxlo")
 bus = &"SFX"
 
 [node name="snd_death" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("14_5xry6")
-volume_db = 2.0
+volume_db = -2.0
 bus = &"SFX"
 
 [node name="UI" parent="." node_paths=PackedStringArray("player") instance=ExtResource("17_08btc")]
@@ -164,10 +164,10 @@ player = NodePath("..")
 current_item = ExtResource("17_lvytl")
 
 [node name="Debug" type="Node2D" parent="."]
+visible = false
 script = SubResource("GDScript_a3voq")
 
 [node name="Label" type="Label" parent="Debug"]
-visible = false
 offset_left = -32.0
 offset_top = -64.0
 offset_right = 32.0
@@ -180,7 +180,6 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Label2" type="Label" parent="Debug"]
-visible = false
 offset_left = -32.0
 offset_top = -48.0
 offset_right = 32.0

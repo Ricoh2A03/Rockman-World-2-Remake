@@ -1,4 +1,4 @@
-extends Camera2D
+class_name StageCamera extends Camera2D
 
 signal finished_scrolling(room: Room)
 
@@ -6,6 +6,7 @@ var player_instance: Player
 var follow_player: bool = true
 
 func camera_start_scroll(new_room: Room, scroll_direction) -> void:
+	# Stop following the player.
 	follow(false)
 	position_smoothing_enabled = false
 
@@ -34,15 +35,15 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 			tarY = self.global_position.y
 
 		1: # up
-			global_position.x = room.global_position.x + 128
+			global_position.x = player_instance.global_position.x #room.global_position.x + 128
 			global_position.y = limit_top + room.size.y / 2
-			tarX = self.global_position.x
+			tarX = player_instance.global_position.x #self.global_position.x
 			tarY = self.global_position.y - room.size.y
 			limit_top = self.limit_top - 224
 
 		3: # down
 			self.limit_bottom = limit_bottom + 256
-			global_position.x = room.global_position.x + 128
+			global_position.x = player_instance.global_position.x #room.global_position.x + 128
 			global_position.y = (room.global_position.y - 114)
 			tarX = self.global_position.x
 			tarY = (room.global_position.y + 114)
@@ -53,14 +54,16 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 	await tween.finished
 	finished_scrolling.emit(new_room)
 
+	# Set camera limits to match dimensions of the new room.
 	update_camera_limits(new_room)
-	new_room.activate_spawners()
-	position_smoothing_enabled = true
+	#position_smoothing_enabled = true
+	# Follow player again.
 	follow(true)
+	# Allign with the player.
 	global_position = get_parent().global_position
 
 	await get_tree().create_timer(0.35)
-	position_smoothing_enabled = false
+	#position_smoothing_enabled = false
 
 ##########################################
 

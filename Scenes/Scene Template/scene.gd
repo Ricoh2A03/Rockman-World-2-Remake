@@ -2,11 +2,15 @@ extends Node2D
 class_name Scene
 
 @export_category("Scene Music")
+## Which music starts when scene loads.
 @export var music_to_play: AudioStreamWAV
+## AudioStreamPlayer reference.
 @export var stream_player: AudioStreamPlayer
+## Self-explanatory.
 @export var play_music_at_start: bool = false
 
 @export_category("Scenes")
+## Reference for transitor node.
 @export var scene_transitor: SceneTransitor
 
 var creator: Node # not necessary..?

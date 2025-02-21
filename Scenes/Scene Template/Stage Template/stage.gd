@@ -1,5 +1,4 @@
-extends Scene
-class_name Stage
+class_name Stage extends Scene
 
 # Signals
 signal player_died()
@@ -11,21 +10,21 @@ var camera_ref = null
 var is_scrolling: bool = false
 
 @export_category("Room List")
-##First room of the stage.
+## First room of the stage.
 @export var start_room: Room
 ## Current active room
 var _current_room: Room
 var _current_room_limits: Array[int] = [0, 0, 0, 0] # left - [0], top - [1], right - [2], bottom - [3]
 
 @export_category("Checkpoint List")
-##List of all stage checkpoints. First one in this array is the start of the stage.
+## List of all stage checkpoints. First one in this array is the start of the stage.
 @export var checkpoints: Array[Checkpoint] = []
 var current_checkpoint: Checkpoint
 
 @export_category("Player and Camera")
-##Path to Player node to instatiate.
+## Path to Player node to instatiate.
 @export var player_path: PackedScene
-##Path to Camera node to instatiate.
+## Path to Camera node to instatiate.
 @export var camera_path: PackedScene
 
 @onready var stage_ui = $StageUI
@@ -33,10 +32,6 @@ var current_checkpoint: Checkpoint
 ###########################################
 
 # add support for views and checkpoints (+ -)
-
-# add level camera and connect it to player
-# add screen limits to player
-# add scrolling
 
 ###########################################
 
@@ -79,7 +74,7 @@ func check_scrolling_criterias():
 				(player_ref.global_position.y >= (_current_room_limits[3]) and player_ref.get_player_state() == 2 and player_ref.velocity.y > 0):
 				if _current_room.exit_bottom:
 					is_scrolling = true
-					despawn_enemies()
+					_current_room.despawn_objects()
 					_current_room.deactivate_spawners()
 					player_ref.scroll_player(3)
 					# Start scrolling. Everything is exactly the same from this point, so I won't repeat
@@ -93,7 +88,7 @@ func check_scrolling_criterias():
 			if (player_ref.global_position.y <= _current_room_limits[1] and player_ref.get_player_state() == 2 and player_ref.velocity.y < 0):
 				if _current_room.exit_top:
 					is_scrolling = true
-					despawn_enemies()
+					_current_room.despawn_objects()
 					_current_room.deactivate_spawners()
 					player_ref.scroll_player(1)
 					camera_ref.camera_start_scroll(_current_room.exit_top, 1)
@@ -102,7 +97,7 @@ func check_scrolling_criterias():
 			if (player_ref.global_position.x <= (_current_room_limits[0] + 16)):
 				if _current_room.exit_left:
 					is_scrolling = true
-					despawn_enemies()
+					_current_room.despawn_objects()
 					_current_room.deactivate_spawners()
 					player_ref.scroll_player(0)
 					camera_ref.camera_start_scroll(_current_room.exit_left, 0)
@@ -111,20 +106,19 @@ func check_scrolling_criterias():
 			if (player_ref.global_position.x >= (_current_room_limits[2] - 16)):
 				if _current_room.exit_right:
 					is_scrolling = true
-					despawn_enemies()
+					_current_room.despawn_objects()
 					_current_room.deactivate_spawners()
 					player_ref.scroll_player(2)
 					camera_ref.camera_start_scroll(_current_room.exit_right, 2)
 
 			#for spawner in _current_room.spawners: spawner.call_deferred("despawn")
 
-############ S C R O L L I N G ############
+###########################################
 
 # Loop through spawners in currently active room and destroy each object
-func despawn_enemies() -> void: for spawner in _current_room.spawners: spawner.despawn()
-
 
 func stage_finished_scrolling(room: Room) -> void:
+	room.activate_spawners()
 	_current_room = room
 	set_stage_room_limits()
 	is_scrolling = false
@@ -166,6 +160,7 @@ func set_stage_camera_limits(room: Room) -> void: if camera_ref: camera_ref.upda
 func connect_camera_to_player() -> void:
 	if camera_ref and player_ref:
 		camera_ref.reparent(player_ref, false)
+		camera_ref.player_instance = player_ref
 		camera_ref.global_position = player_ref.global_position
 
 ###########################################

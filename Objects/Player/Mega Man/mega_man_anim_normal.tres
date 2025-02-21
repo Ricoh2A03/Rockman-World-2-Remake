@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=40 format=3 uid="uid://br3u5goxp8nie"]
+[gd_resource type="SpriteFrames" load_steps=41 format=3 uid="uid://br3u5goxp8nie"]
 
 [ext_resource type="Texture2D" uid="uid://cpkt4pnj2rbhv" path="res://Assets/Playable Characters/Megaman/Sprites/mm_sprites_sheet.png" id="1_dhlf1"]
 
@@ -77,6 +77,10 @@ region = Rect2(64, 216, 64, 72)
 [sub_resource type="AtlasTexture" id="AtlasTexture_p6o32"]
 atlas = ExtResource("1_dhlf1")
 region = Rect2(0, 216, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7x4xo"]
+atlas = ExtResource("1_dhlf1")
+region = Rect2(64, 288, 64, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3jxtl"]
 atlas = ExtResource("1_dhlf1")
@@ -191,10 +195,10 @@ animations = [{
 "speed": 8.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_kwuf0")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_s8igm")
 }, {
 "duration": 1.0,
@@ -205,7 +209,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"fall",
-"speed": 16.0
+"speed": 18.0
 }, {
 "frames": [{
 "duration": 25.0,
@@ -267,13 +271,13 @@ animations = [{
 "speed": 9.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_xa407")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_ntpyx")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_a8gyg")
 }, {
 "duration": 1.0,
@@ -284,10 +288,10 @@ animations = [{
 }],
 "loop": false,
 "name": &"jump",
-"speed": 22.0
+"speed": 16.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_j51bc")
 }, {
 "duration": 1.0,
@@ -295,15 +299,18 @@ animations = [{
 }],
 "loop": false,
 "name": &"land",
-"speed": 20.0
+"speed": 14.0
 }, {
 "frames": [{
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_7x4xo")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3jxtl")
 }],
 "loop": false,
 "name": &"slide",
-"speed": 10.0
+"speed": 18.0
 }, {
 "frames": [{
 "duration": 1.0,

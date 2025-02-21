@@ -10,12 +10,14 @@ class_name InventoryItem extends Resource
 @export_range(1, 16) var max_on_screen: int
 
 @export_group("Position Offsets")
+## Self-explanatory.
 @export var XSpawnOffset: int
+## Self-explanatory.
 @export var YSpawnOffset: int
 
 @export_group("Animation Settings")
 
-## 0 - ground; 1 - air; 2 - climb; 3 - slide; 4 - dash.
+## Which states will be animated. 0 - ground; 1 - air; 2 - climb; 3 - slide; 4 - dash.
 @export var animate_state: Array[String]
 @export var cooldown: float
 

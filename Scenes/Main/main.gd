@@ -4,6 +4,7 @@ class_name Main extends Node
 
 ##########################################
 
+## First Scene that loads at the start of the game.
 @export var first_scene: PackedScene
 
 var current_scene
@@ -39,7 +40,6 @@ func unpauseGame() -> void:
 	# If game is NOT paused, skip
 	if !_is_paused: return
 
-	#
 	for i in range(len(_exception_objects)):
 		_exception_objects[i].process_mode = _backup_process_modes[i]
 
@@ -50,7 +50,7 @@ func unpauseGame() -> void:
 
 func _ready() -> void:
 	Globals.main = self
-	# Mute everything for the time being
+	# Mute everything so I can listen to music while debugging :D
 	AudioServer.set_bus_mute(0, true)
 	# Set windowed mode
 	toggle_fullscreen()
@@ -69,8 +69,10 @@ func _input(event):
 ##########################################
 
 func transit_to_scene(duration: float, to_scene: PackedScene = null) -> void:
+	# Get out if transitioning already.
 	if is_transiting: return
 	is_transiting = true
+	# Create tween.
 	var tween = get_tree().create_tween()
 	tween.tween_property(fade_color, "self_modulate", Color(1, 1, 1, 1), duration) # transparent to color
 	await tween.finished
