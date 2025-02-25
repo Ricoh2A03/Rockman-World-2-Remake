@@ -51,6 +51,7 @@ func unpauseGame() -> void:
 func _ready() -> void:
 	Globals.main = self
 	# Mute everything so I can listen to music while debugging :D
+	AudioServer.set_bus_volume_db(0, -15)
 	#AudioServer.set_bus_mute(0, true)
 	# Set windowed mode
 	toggle_fullscreen()

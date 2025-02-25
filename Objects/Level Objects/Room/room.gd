@@ -20,7 +20,7 @@ class_name Room extends ReferenceRect
 # player won't be able to go past screen edges.
 #
 # If room doesn't have exit from the top,
-# it won't trigger scroll even by climbing up ladders.
+# it won't trigger scroll even when climbing up ladders.
 #
 # If room doesn't have exit from the bottom, it will trigger a pit death.
 @export var exit_left: Room

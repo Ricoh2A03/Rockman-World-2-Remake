@@ -33,6 +33,7 @@ metadata/_edit_lock_ = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 volume_db = -3.5
+bus = &"Music"
 
 [node name="MenuText" type="Label" parent="."]
 unique_name_in_owner = true
@@ -59,3 +60,4 @@ text = ">"
 [node name="CursorSFX" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("6_fop4u")
+bus = &"SFX"
