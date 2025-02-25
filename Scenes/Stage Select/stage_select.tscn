@@ -1,64 +1,71 @@
-[gd_scene load_steps=9 format=3 uid="uid://bijotxkjq0xn8"]
+[gd_scene load_steps=11 format=3 uid="uid://d0w3aeoj18s8f"]
 
-[ext_resource type="Script" path="res://Scenes/Stage Select/stage_select.gd" id="1_pl4ct"]
-[ext_resource type="AudioStream" uid="uid://co4d01wsrlnn7" path="res://Assets/Music/PLACEHOLDER/mus_mm7_stage_select.wav" id="2_4yyhh"]
-[ext_resource type="Texture2D" uid="uid://dt42ds4h3wco5" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_wip.png" id="2_6655n"]
-[ext_resource type="Texture2D" uid="uid://o216hifamkon" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_cursor.png" id="3_u1sc6"]
+[ext_resource type="Script" path="res://Scenes/Stage Select/stage_select.gd" id="1_dhu47"]
+[ext_resource type="AudioStream" uid="uid://c4w8c8gq81f20" path="res://Assets/Music/mus_stage-select-v.1.0.wav" id="2_o7bvx"]
+[ext_resource type="Texture2D" uid="uid://dt42ds4h3wco5" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_wip.png" id="3_5eyif"]
+[ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="3_qiqsc"]
+[ext_resource type="Texture2D" uid="uid://o216hifamkon" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_cursor.png" id="4_cyiw1"]
+[ext_resource type="Texture2D" uid="uid://b0iupg4yqdoru" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_overlay.png" id="5_qektj"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3mnjd"]
-atlas = ExtResource("3_u1sc6")
+[sub_resource type="AtlasTexture" id="AtlasTexture_u2ndr"]
+atlas = ExtResource("4_cyiw1")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_34qco"]
-atlas = ExtResource("3_u1sc6")
+[sub_resource type="AtlasTexture" id="AtlasTexture_xu2cs"]
+atlas = ExtResource("4_cyiw1")
 region = Rect2(64, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_k6hbl"]
-atlas = ExtResource("3_u1sc6")
+[sub_resource type="AtlasTexture" id="AtlasTexture_mou8s"]
+atlas = ExtResource("4_cyiw1")
 region = Rect2(128, 0, 64, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_05saw"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_04d56"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3mnjd")
+"texture": SubResource("AtlasTexture_u2ndr")
+}, {
+"duration": 0.75,
+"texture": SubResource("AtlasTexture_xu2cs")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_34qco")
+"texture": SubResource("AtlasTexture_mou8s")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k6hbl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_34qco")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3mnjd")
+"duration": 0.75,
+"texture": SubResource("AtlasTexture_xu2cs")
 }],
 "loop": true,
 "name": &"default",
-"speed": 18.0
+"speed": 12.0
 }]
 
 [node name="StageSelect" type="Node2D" node_paths=PackedStringArray("stream_player")]
-script = ExtResource("1_pl4ct")
-music_to_play = ExtResource("2_4yyhh")
-stream_player = NodePath("BGM")
+script = ExtResource("1_dhu47")
+music_to_play = ExtResource("2_o7bvx")
+stream_player = NodePath("MusicPlayer")
 play_music_at_start = true
 
-[node name="BGM" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -12.0
+
+[node name="CursorSFX" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_qiqsc")
 
 [node name="BG" type="TextureRect" parent="."]
 offset_right = 256.0
 offset_bottom = 224.0
-texture = ExtResource("2_6655n")
+texture = ExtResource("3_5eyif")
+metadata/_edit_lock_ = true
+
+[node name="BG2" type="TextureRect" parent="."]
+offset_right = 256.0
+offset_bottom = 224.0
+texture = ExtResource("5_qektj")
 metadata/_edit_lock_ = true
 
 [node name="Cursor" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(128, 112)
-sprite_frames = SubResource("SpriteFrames_05saw")
+sprite_frames = SubResource("SpriteFrames_04d56")
 autoplay = "default"
-frame_progress = 0.555307
-
-[node name="MenuController" type="Node2D" parent="."]

@@ -12,8 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://cos64k8hjfusj" path="res://Objects/Player/Ladder Detector/ladder_detector.tscn" id="11_ricv3"]
 [ext_resource type="AudioStream" uid="uid://bhbsk6fw4coqx" path="res://Assets/SFX/MegaMan/sfx_mm_explosion.wav" id="14_5xry6"]
 [ext_resource type="PackedScene" uid="uid://cxtcy0orx7i4q" path="res://Objects/Player/Weapons and Items/Variable Weapon System/variable_weapon_system.tscn" id="16_0h5ps"]
+[ext_resource type="Resource" uid="uid://dpc0ffw4815vi" path="res://Objects/Player/Weapons and Items/Weapons/Rock Buster/item_rock_buster.tres" id="17_5ls8o"]
 [ext_resource type="PackedScene" uid="uid://b3syn4jy34f3v" path="res://Objects/Player/UI/ui.tscn" id="17_08btc"]
-[ext_resource type="Resource" uid="uid://chi84ms21oayr" path="res://Objects/Player/Weapons and Items/Rock Buster/item_rock_buster.tres" id="17_lvytl"]
 [ext_resource type="AudioStream" uid="uid://drmdx6slnlar8" path="res://Assets/SFX/MegaMan/sfx_mm_land.wav" id="18_2laaq"]
 [ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="18_37qvn"]
 [ext_resource type="AudioStream" uid="uid://dbil5j36jniqx" path="res://Assets/SFX/MegaMan/sfx_teleport_in.wav" id="19_ggfsd"]
@@ -85,7 +85,7 @@ animation = &"teleport"
 process_mode = 1
 visible = false
 sprite_frames = ExtResource("5_dy1p1")
-animation = &"teleport"
+animation = &"walk"
 
 [node name="Normal" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3pimt")
@@ -161,7 +161,7 @@ player = NodePath("..")
 
 [node name="VariableWeaponSystem" parent="." node_paths=PackedStringArray("player") instance=ExtResource("16_0h5ps")]
 player = NodePath("..")
-current_item = ExtResource("17_lvytl")
+current_item = ExtResource("17_5ls8o")
 
 [node name="Debug" type="Node2D" parent="."]
 visible = false

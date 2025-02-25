@@ -437,7 +437,6 @@ func scroll_player(scroll_direction) -> void:
 	apply_gravity = true
 	state = last_state
 	can_shoot = could_shoot
-	sprite_controller.pause_playback(false) ##
 	if last_state == STATES.AIR and scroll_direction == 3:
 		velocity.y = last_y_velocity
 		velocity.x = 0

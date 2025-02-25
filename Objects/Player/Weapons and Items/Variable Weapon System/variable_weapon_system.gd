@@ -19,6 +19,7 @@ func _process(_delta: float) -> void:
 		spawn_projectile()
 
 func spawn_projectile() -> void:
+
 	if _on_screen_count.size() == current_item.max_on_screen: return
 
 	player.set_shoot_state(true)

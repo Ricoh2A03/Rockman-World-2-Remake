@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b0do50xqapt1n"]
 
-[ext_resource type="Script" path="res://Objects/Player/Weapons and Items/Rock Buster/Rock Buster Pellet/rock_buster_pellet.gd" id="1_oajlh"]
+[ext_resource type="Script" path="res://Objects/Player/Weapons and Items/Weapons/Rock Buster/Rock Buster Pellet/rock_buster_pellet.gd" id="1_oajlh"]
 [ext_resource type="Texture2D" uid="uid://cnmhkb4b1bfph" path="res://Assets/Weapons and Items/Rock Buster/buster_pellet.png" id="2_x3esh"]
 
 [node name="RockBusterPellet" type="Node2D" groups=["PausedByMenu"]]

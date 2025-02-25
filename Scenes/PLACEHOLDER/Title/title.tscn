@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://do6lc4k2sxk00" path="res://Assets/PLACEHOLDER/Title Screen/title.png" id="1_jyyao"]
 [ext_resource type="AudioStream" uid="uid://c3dq8d78jr8pv" path="res://Assets/Music/PLACEHOLDER/mus_title_7.wav" id="3_jpn66"]
 [ext_resource type="Script" path="res://Objects/Scene Transitor/scene_transitor.gd" id="3_we2a1"]
-[ext_resource type="PackedScene" uid="uid://ciqs0sqagcg73" path="res://Scenes/Stages/Cyber Test Stage/cyber_test_stage.tscn" id="4_24qc3"]
 [ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="4_v33p2"]
+[ext_resource type="PackedScene" uid="uid://d0w3aeoj18s8f" path="res://Scenes/Stage Select/stage_select.tscn" id="4_xnlo6"]
 [ext_resource type="PackedScene" uid="uid://xmo08katsae5" path="res://Scenes/Settings/settings_scene.tscn" id="5_6x8gp"]
 [ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="6_fop4u"]
 
@@ -18,7 +18,7 @@ scene_transitor = NodePath("SceneTransitor")
 
 [node name="SceneTransitor" type="Node" parent="."]
 script = ExtResource("3_we2a1")
-scenes = Array[PackedScene]([ExtResource("4_24qc3"), ExtResource("5_6x8gp")])
+scenes = Array[PackedScene]([ExtResource("4_xnlo6"), ExtResource("5_6x8gp")])
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -29,6 +29,7 @@ offset_bottom = 224.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_jyyao")
+metadata/_edit_lock_ = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 volume_db = -3.5
