@@ -7,12 +7,13 @@ class_name Main extends Node
 ## First Scene that loads at the start of the game.
 @export var first_scene: PackedScene
 
-var current_scene
+var current_scene: Scene
 var is_transiting: bool = false
 
 ##########################################
 
 var _fullscreen: bool = true
+var _debug_mute: bool = false
 
 ##########################################
 
@@ -52,7 +53,6 @@ func _ready() -> void:
 	Globals.main = self
 	# Mute everything so I can listen to music while debugging :D
 	AudioServer.set_bus_volume_db(0, -15)
-	#AudioServer.set_bus_mute(0, true)
 	# Set windowed mode
 	toggle_fullscreen()
 	# Check if there's starting scene and instantiate it
@@ -75,9 +75,12 @@ func transit_to_scene(duration: float, to_scene: PackedScene = null) -> void:
 	is_transiting = true
 	# Create tween.
 	var tween = get_tree().create_tween()
-	tween.tween_property(fade_color, "self_modulate", Color(1, 1, 1, 1), duration) # transparent to color
-	await tween.finished
+	tween.set_parallel()
 
+	tween.tween_property(fade_color, "self_modulate", Color(1, 1, 1, 1), duration) # transparent to color
+	tween.tween_property(current_scene.stream_player, "volume_db", -80, duration)
+
+	await tween.finished
 	tween.stop()
 	if to_scene:
 		current_scene.queue_free()
