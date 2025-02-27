@@ -148,6 +148,14 @@ func _process(delta) -> void:
 					   sprite_controller.get_current_animation() != "slide":
 						sprite_controller.play_animation("idle")
 
+				### Ground --> Climb ###
+				if !on_ladder_top and (on_ladder and Input.is_action_pressed("up")):
+					state = STATES.CLIMB
+				if on_ladder_top and (on_ladder and Input.is_action_pressed("down")):
+					sprite_controller.play_animation("climb")
+					state = STATES.CLIMB
+					global_position.y = (current_ladder.global_position.y - 8)
+
 				### Jumping --> Air ###
 				if Input.is_action_just_pressed("jump"):
 					velocity.y = -stats.jump_force
@@ -156,8 +164,7 @@ func _process(delta) -> void:
 					sprite_controller.play_animation("jump")
 
 				### Not floor --> Air ###
-				if !is_on_floor():
-					state = STATES.AIR
+				if !is_on_floor(): state = STATES.AIR
 
 				### Ground --> Slide ###
 				if Input.is_action_just_pressed("slide"):
@@ -166,14 +173,6 @@ func _process(delta) -> void:
 					sprite_controller.play_animation("slide")
 					snd_slide.play()
 					state = STATES.SLIDE
-
-				### Ground --> Climb ###
-				if !on_ladder_top and (on_ladder and Input.is_action_pressed("up")):
-					state = STATES.CLIMB
-				if on_ladder_top and (on_ladder and Input.is_action_pressed("down")):
-					sprite_controller.play_animation("climb")
-					state = STATES.CLIMB
-					global_position.y = (current_ladder.global_position.y - 8)
 
 				flip_sprite()
 
@@ -244,10 +243,10 @@ func _process(delta) -> void:
 
 				### Jumping --> Air ###
 				if !ceiling and Input.is_action_just_pressed("jump"):
+					sprite_controller.play_animation("jump") ##
 					can_shoot = true
 					slide_timer.stop()
 					velocity.y = -stats.jump_force
-					sprite_controller.play_animation("jump") ##
 					snd_jump.play()
 					state = STATES.AIR
 
@@ -334,9 +333,9 @@ func _process(delta) -> void:
 				allow_movement = false
 				can_double_jump = false
 
-	if Input.is_action_just_pressed("debug_kill_player"): death_proccessing(false)
-
 	_stop_at_room_limits()
+
+	if Input.is_action_just_pressed("debug_kill_player"): death_proccessing(false)
 
 ##########################################
 
@@ -472,7 +471,6 @@ func menu_opened(opened: bool) -> void:
 		velocity.y = 0
 		apply_gravity = false
 		allow_movement = false
-		#self.visible = false
 		if slide_timer.time_left > 0: slide_timer.paused = true
 	elif !opened:
 		sprite_controller.set_speed_scale(1.0)
