@@ -28,6 +28,7 @@ var current_checkpoint: Checkpoint
 @export var camera_path: PackedScene
 
 @onready var stage_ui = $StageUI
+@onready var ui_anim_player = $StageUI/AnimationPlayer
 
 ###########################################
 
@@ -166,15 +167,17 @@ func connect_camera_to_player() -> void:
 ###########################################
 
 func _player_died() -> void:
-	super.music_pause(true)
+	Globals.main.pause_music(true)
 
-func flash_ready_text() -> void: stage_ui.get_node("ReadyLabel/AnimationPlayer").play("flash")
+func flash_ready_text() -> void: ui_anim_player.play("ready_appear")
 
 ###########################################
 
 func _on_animation_player_finished(anim_name) -> void:
 	match anim_name:
-		"flash":
+		"ready_appear":
+			ui_anim_player.play("ready_flash")
+		"ready_flash":
 			spawn_player() # spawn player
 			if player_ref: player_ref.room_limits = _current_room_limits
 			connect_camera_to_player()

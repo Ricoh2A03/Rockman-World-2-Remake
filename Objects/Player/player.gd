@@ -236,6 +236,8 @@ func _process(delta) -> void:
 
 				### Slide --> Ground ###
 				if slide_timer.time_left == 0 and !ceiling: # !!!
+					# BUG !!!!!!!!
+					# Walk animation in the air
 					can_shoot = true
 					sprite_controller.play_animation("slide_end") ##
 					velocity.x = 0
@@ -464,16 +466,16 @@ func _stop_at_room_limits() -> void:
 
 ##########################################
 
-func menu_opened(opened: bool) -> void:
-	if opened:
-		sprite_controller.set_speed_scale(0.0)
-		velocity.x = 0
-		velocity.y = 0
-		apply_gravity = false
-		allow_movement = false
-		if slide_timer.time_left > 0: slide_timer.paused = true
-	elif !opened:
-		sprite_controller.set_speed_scale(1.0)
-		slide_timer.paused = false
-		apply_gravity = true
-		allow_movement = true
+#func menu_opened(opened: bool) -> void:
+	#if opened:
+		#sprite_controller.set_speed_scale(0.0)
+		#velocity.x = 0
+		#velocity.y = 0
+		#apply_gravity = false
+		#allow_movement = false
+		#if slide_timer.time_left > 0: slide_timer.paused = true
+	#elif !opened:
+		#sprite_controller.set_speed_scale(1.0)
+		#slide_timer.paused = false
+		#apply_gravity = true
+		#allow_movement = true

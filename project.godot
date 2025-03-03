@@ -53,6 +53,7 @@ EnemyProjectile=""
 PlayerProjectile=""
 Camera=""
 Stage=""
+WeaponMenu=""
 
 [input]
 
@@ -146,6 +147,9 @@ debug_soundoff={
 2d_physics/layer_2="Ladder"
 2d_physics/layer_3="Player"
 2d_physics/layer_4="Conveyor"
+2d_physics/layer_5="PlayerProjectile"
+2d_physics/layer_6="EnemyProjectile"
+2d_physics/layer_7="Enemy"
 
 [rendering]
 

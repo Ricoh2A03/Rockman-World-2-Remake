@@ -9,11 +9,9 @@ class_name VariableWeaponSystem extends Node2D
 
 var _on_screen_count: Array = []
 
-var _is_paused: bool = false
-
 func _process(_delta: float) -> void:
 	# Shoot only if player is not paused and can_shoot
-	if (!_is_paused and player.can_shoot and Input.is_action_just_pressed("shoot")):
+	if (player.can_shoot and Input.is_action_just_pressed("shoot")):
 		if player.state == player.STATES.CLIMB:
 			player.flip_sprite()
 		spawn_projectile()
@@ -50,9 +48,6 @@ func spawn_projectile() -> void:
 
 func projectile_despawned():
 	_on_screen_count.erase(_on_screen_count.front())
-
-func menu_pause(paused: bool):
-	self.is_paused = paused
 
 func pause_cooldown_timer(pause: bool):
 	animation_cooldown_timer.paused = pause

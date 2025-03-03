@@ -1,13 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://b3syn4jy34f3v"]
+[gd_scene load_steps=14 format=3 uid="uid://b3syn4jy34f3v"]
 
 [ext_resource type="Texture2D" uid="uid://caqxcgsjunisn" path="res://Assets/UI/Weapon Select/menu_mm7.png" id="1_h1x3o"]
 [ext_resource type="Texture2D" uid="uid://b70cbnorqnejr" path="res://Assets/UI/Energy Bar/health_bar_empty.png" id="2_ehed0"]
 [ext_resource type="Texture2D" uid="uid://c85se1c3qsuud" path="res://Assets/UI/Energy Bar/health_bar_full.png" id="3_8lp2g"]
+[ext_resource type="Script" path="res://Objects/Components/Pause Component/pause_component.gd" id="5_50n4c"]
 [ext_resource type="Texture2D" uid="uid://b2cklx24rnaf3" path="res://Assets/UI/Energy Bar/health_bar_border.png" id="5_p2nt2"]
 
 [sub_resource type="GDScript" id="GDScript_sr7th"]
 script/source = "extends CanvasLayer
-class_name PlayerUI
 
 @onready var menu_player := $AnimationPlayer
 @onready var energy_bars := $EnergyBars
@@ -43,10 +43,8 @@ func _process(_delta: float) -> void:
 
 func open_weapon_menu(open: bool) -> void:
 	if open:
-		player.menu_opened(true)
-		#get_tree().call_group(\"PausedByMenu\", \"menu_pause\", true)
-		#print(get_tree().get_first_node_in_group(\"Stage\"))
-		Globals.main.pauseGame([get_tree().get_first_node_in_group(\"Stage\"), self])
+		Globals.main.pauseGame([\"Player\"], [\"WeaponMenu\"])
+
 		menu_player.play(\"fade_in\")
 	elif !open:
 		menu_player.play(\"fade_out\")
@@ -61,9 +59,8 @@ func toggle_energy_bars(on: bool) -> void:
 
 func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == \"fade_out\":
-		player.menu_opened(false)
-		#get_tree().call_group(\"PausedByMenu\", \"menu_pause\", false)
-		Globals.main.unpauseGame()
+		#player.menu_opened(false)
+		Globals.main.unpauseGame([\"Player\"])
 
 ##########################################
 
@@ -564,7 +561,7 @@ _data = {
 "page_right": SubResource("Animation_1nse5")
 }
 
-[node name="UI" type="CanvasLayer"]
+[node name="UI" type="CanvasLayer" groups=["WeaponMenu"]]
 script = SubResource("GDScript_sr7th")
 
 [node name="WeaponMenu" type="Node" parent="."]
@@ -591,7 +588,6 @@ anchor_bottom = 0.857143
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_use_anchors_ = true
 
 [node name="HealthBar" type="TextureProgressBar" parent="EnergyBars"]
 layout_mode = 1
@@ -663,5 +659,9 @@ offset_right = 256.0
 offset_bottom = 224.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
+
+[node name="PauseComponent" type="Node" parent="." node_paths=PackedStringArray("_node_to_pause") groups=["WeaponMenu"]]
+script = ExtResource("5_50n4c")
+_node_to_pause = NodePath("..")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

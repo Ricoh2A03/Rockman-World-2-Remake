@@ -7,7 +7,7 @@ resource_local_to_scene = true
 size = Vector2(12, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4vhbq"]
-size = Vector2(2, 2)
+size = Vector2(12, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3ncm"]
 size = Vector2(32, 16)
@@ -20,6 +20,7 @@ script = ExtResource("1_p6m6a")
 ladder_texture = NodePath("rect")
 shape = NodePath("shape")
 ladder_size = 1
+metadata/_edit_group_ = true
 
 [node name="rect" type="TextureRect" parent="."]
 offset_left = -8.0

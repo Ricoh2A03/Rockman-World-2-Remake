@@ -1,10 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://b0do50xqapt1n"]
+[gd_scene load_steps=4 format=3 uid="uid://b0do50xqapt1n"]
 
 [ext_resource type="Script" path="res://Objects/Player/Weapons and Items/Weapons/Rock Buster/Rock Buster Pellet/rock_buster_pellet.gd" id="1_oajlh"]
 [ext_resource type="Texture2D" uid="uid://cnmhkb4b1bfph" path="res://Assets/Weapons and Items/Rock Buster/buster_pellet.png" id="2_x3esh"]
 
-[node name="RockBusterPellet" type="Node2D" groups=["PausedByMenu"]]
-process_mode = 1
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a3lwa"]
+size = Vector2(12, 10)
+
+[node name="RockBusterPellet" type="Node2D" groups=["PlayerProjectile"]]
 script = ExtResource("1_oajlh")
 xSpeed = 260
 metadata/_edit_group_ = true
@@ -14,11 +16,21 @@ texture = ExtResource("2_x3esh")
 
 [node name="Visibility" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(1, 1)
-scale = Vector2(0.45, 0.3875)
+scale = Vector2(0.5, 0.4)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
 autostart = true
 
+[node name="CollisionBox" type="Area2D" parent="."]
+position = Vector2(1, 1)
+collision_layer = 16
+collision_mask = 64
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionBox"]
+shape = SubResource("RectangleShape2D_a3lwa")
+
 [connection signal="screen_exited" from="Visibility" to="." method="_on_screen_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timeout"]
+[connection signal="area_entered" from="CollisionBox" to="." method="_on_collision_box_entered"]

@@ -41,19 +41,14 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="StageSelect" type="Node2D" node_paths=PackedStringArray("stream_player", "scene_transitor")]
+[node name="StageSelect" type="Node2D" node_paths=PackedStringArray("scene_transitor")]
 script = ExtResource("1_dhu47")
 music_to_play = ExtResource("2_o7bvx")
-stream_player = NodePath("MusicPlayer")
 play_music_at_start = true
 scene_transitor = NodePath("SceneTransitor")
 
 [node name="SceneTransitor" parent="." instance=ExtResource("3_3kunf")]
 scenes = Array[PackedScene]([null, null, null, null, ExtResource("4_on21k"), null, null, null, null])
-
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -12.0
-bus = &"Music"
 
 [node name="CursorSFX" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true

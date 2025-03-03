@@ -1,11 +1,33 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0difdwv403r0"]
+[gd_scene load_steps=15 format=3 uid="uid://b0difdwv403r0"]
 
 [ext_resource type="Script" path="res://Objects/Enemies/MetallFX/metall_fx.gd" id="1_ivoyb"]
 [ext_resource type="Texture2D" uid="uid://bp2ujb4djl4cq" path="res://Assets/Enemies/Metall EX/metall_fx.png" id="2_0r1pl"]
+[ext_resource type="PackedScene" uid="uid://c6srde08aptip" path="res://Objects/Components/Health and Damage Component/health_damage_component.tscn" id="3_gpaqe"]
+[ext_resource type="Script" path="res://Objects/Enemies/damage_table.gd" id="4_w8q4h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c2idu"]
 atlas = ExtResource("2_0r1pl")
 region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skhu7"]
+atlas = ExtResource("2_0r1pl")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmnju"]
+atlas = ExtResource("2_0r1pl")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltwr5"]
+atlas = ExtResource("2_0r1pl")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwi3c"]
+atlas = ExtResource("2_0r1pl")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tug22"]
+atlas = ExtResource("2_0r1pl")
+region = Rect2(72, 0, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ykrwn"]
 animations = [{
@@ -16,12 +38,48 @@ animations = [{
 "loop": true,
 "name": &"defending",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skhu7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmnju")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ltwr5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwi3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tug22")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_mwi3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ltwr5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmnju")
+}],
+"loop": true,
+"name": &"movin\'",
+"speed": 16.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_43tyi"]
-size = Vector2(12, 12)
+size = Vector2(14, 12)
 
-[node name="MetallFX" type="CharacterBody2D"]
+[sub_resource type="Resource" id="Resource_4c5ue"]
+script = ExtResource("4_w8q4h")
+table = Array[int]([1])
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_81ijr"]
+size = Vector2(16, 16)
+
+[node name="MetallFX" type="CharacterBody2D" groups=["Enemy"]]
 script = ExtResource("1_ivoyb")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
@@ -33,3 +91,18 @@ autoplay = "defending"
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_43tyi")
+
+[node name="HealthDamageComponent" parent="." node_paths=PackedStringArray("parent_node") instance=ExtResource("3_gpaqe")]
+parent_node = NodePath("..")
+max_health = 1
+damage_table = SubResource("Resource_4c5ue")
+
+[node name="Hitbox" parent="HealthDamageComponent" index="0"]
+position = Vector2(0, -8)
+collision_layer = 64
+collision_mask = 16
+
+[node name="Shape" parent="HealthDamageComponent/Hitbox" index="0"]
+shape = SubResource("RectangleShape2D_81ijr")
+
+[editable path="HealthDamageComponent"]

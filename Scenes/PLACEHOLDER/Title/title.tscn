@@ -9,10 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://xmo08katsae5" path="res://Scenes/Settings/settings_scene.tscn" id="5_6x8gp"]
 [ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="6_fop4u"]
 
-[node name="TitleScreen" type="Node2D" node_paths=PackedStringArray("stream_player", "scene_transitor")]
+[node name="TitleScreen" type="Node2D" node_paths=PackedStringArray("scene_transitor")]
 script = ExtResource("1_fqf64")
 music_to_play = ExtResource("3_jpn66")
-stream_player = NodePath("Music")
 play_music_at_start = true
 scene_transitor = NodePath("SceneTransitor")
 

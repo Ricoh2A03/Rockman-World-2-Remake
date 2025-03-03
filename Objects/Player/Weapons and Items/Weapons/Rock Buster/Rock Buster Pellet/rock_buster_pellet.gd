@@ -13,3 +13,7 @@ func _on_screen_exited() -> void:
 func _on_timeout() -> void:
 	if !vis_notif.is_on_screen():
 		_on_screen_exited()
+
+func _on_collision_box_entered(_area: Area2D) -> void:
+	screen_exited.emit()
+	if destroy_on_impact: queue_free()

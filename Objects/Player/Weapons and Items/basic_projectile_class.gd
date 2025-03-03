@@ -2,15 +2,26 @@ class_name BasicProjectile extends Node2D
 
 signal screen_exited()
 
+@export_category("Projectile ID")
+## ID which tells enemies which damage to apply using damage table.
+@export var id: int = 0
+
+@export_category("Velocities")
 @export var xSpeed: int = 0
 @export var ySpeed: int = 0
 
-@export var gravity: int = 0
+@export_group("Gravity")
+## Turn on for arc-shaped travel paths.
 @export var apply_gravity: bool = false
+@export var gravity: int = 0
 
 var _direction: int = 1
 
+@export_group("Misc.")
+@export var destroy_on_impact: bool = true
+
+## Sets projectile direction.
 func set_direction(dir: int) -> void: _direction = dir
 
-func _process(delta: float) -> void:
-	pass
+## Returns projectiles ID.
+func get_id() -> int: return id
