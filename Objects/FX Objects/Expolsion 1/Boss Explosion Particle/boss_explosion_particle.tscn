@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://l15kqkyx32mc"]
 
 [ext_resource type="Texture2D" uid="uid://cihomoo4y25x3" path="res://Assets/FX/Player and Boss Explosion/explosion_boss.png" id="1_wn2sf"]
-[ext_resource type="Script" path="res://Objects/FX Objects/Expolsion 1/Boss Explosion Particle/boss_explosion_particle.gd" id="2_vgumj"]
+[ext_resource type="Script" uid="uid://cr27gfg50kshu" path="res://Objects/FX Objects/Expolsion 1/Boss Explosion Particle/boss_explosion_particle.gd" id="2_vgumj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2xifi"]
 atlas = ExtResource("1_wn2sf")

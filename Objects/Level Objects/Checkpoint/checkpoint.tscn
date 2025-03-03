@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cckmj8632s1ks"]
 
-[ext_resource type="Script" path="res://Objects/Level Objects/Checkpoint/checkpoint.gd" id="1_xch7v"]
+[ext_resource type="Script" uid="uid://naf2c5786p2u" path="res://Objects/Level Objects/Checkpoint/checkpoint.gd" id="1_xch7v"]
 [ext_resource type="Texture2D" uid="uid://cpsgawvwur13g" path="res://Objects/Level Objects/Checkpoint/checkpoint_sprite.png" id="2_r0gbf"]
 [ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="3_41pyk"]
 

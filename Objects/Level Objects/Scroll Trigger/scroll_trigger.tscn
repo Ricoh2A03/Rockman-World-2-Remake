@@ -1,7 +1,9 @@
 [gd_scene load_steps=4 format=3 uid="uid://7h56ygeppmky"]
 
-[ext_resource type="Script" path="res://Scenes/Objects/Level Objects/Scroll Trigger/scroll_trigger.gd" id="1_5ee5j"]
 [ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="2_a6h50"]
+
+[sub_resource type="Resource" id="Resource_6jhn7"]
+metadata/__load_path__ = "res://Scenes/Objects/Level Objects/Scroll Trigger/scroll_trigger.gd"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5nlwc"]
 bg_color = Color(0, 0, 0, 1)
@@ -14,7 +16,7 @@ border_color = Color(1, 1, 1, 1)
 [node name="ScrollTrigger1" type="Area2D"]
 collision_layer = 128
 collision_mask = 0
-script = ExtResource("1_5ee5j")
+script = SubResource("Resource_6jhn7")
 
 [node name="Panel" type="Panel" parent="."]
 offset_left = -28.0

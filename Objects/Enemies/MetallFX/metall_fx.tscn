@@ -1,9 +1,9 @@
 [gd_scene load_steps=15 format=3 uid="uid://b0difdwv403r0"]
 
-[ext_resource type="Script" path="res://Objects/Enemies/MetallFX/metall_fx.gd" id="1_ivoyb"]
+[ext_resource type="Script" uid="uid://c67f2l1jswgcq" path="res://Objects/Enemies/MetallFX/metall_fx.gd" id="1_ivoyb"]
 [ext_resource type="Texture2D" uid="uid://bp2ujb4djl4cq" path="res://Assets/Enemies/Metall EX/metall_fx.png" id="2_0r1pl"]
 [ext_resource type="PackedScene" uid="uid://c6srde08aptip" path="res://Objects/Components/Health and Damage Component/health_damage_component.tscn" id="3_gpaqe"]
-[ext_resource type="Script" path="res://Objects/Enemies/damage_table.gd" id="4_w8q4h"]
+[ext_resource type="Script" uid="uid://ngjpin4ivjo" path="res://Objects/Enemies/damage_table.gd" id="4_w8q4h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c2idu"]
 atlas = ExtResource("2_0r1pl")

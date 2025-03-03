@@ -5,10 +5,12 @@
 [ext_resource type="Texture2D" uid="uid://n3m8a7l1ttdl" path="res://Scenes/Stages/Metal Stage/metal_stage.png" id="2_klebc"]
 [ext_resource type="PackedScene" uid="uid://b0ssm2j4fnsaf" path="res://Objects/Level Objects/Camera/camera.tscn" id="3_qi1ax"]
 [ext_resource type="PackedScene" uid="uid://dd3j3gx5a7wkg" path="res://Objects/Level Objects/Room/room.tscn" id="4_dhm8v"]
-[ext_resource type="AudioStream" uid="uid://efqjtn02dd0r" path="res://Assets/Music/Stages/snake.wav" id="4_hkokl"]
 [ext_resource type="Texture2D" uid="uid://b07sbgqkfy3bk" path="res://Assets/Tilesets/Metal Man/metal_tiles.png" id="5_4em40"]
 [ext_resource type="PackedScene" uid="uid://bwt1mrdejuoid" path="res://Objects/Level Objects/Ladder/ladder.tscn" id="7_vcl6d"]
 [ext_resource type="PackedScene" uid="uid://cckmj8632s1ks" path="res://Objects/Level Objects/Checkpoint/checkpoint.tscn" id="8_5c2bp"]
+
+[sub_resource type="Resource" id="Resource_lx2w5"]
+metadata/__load_path__ = "res://Assets/Music/Stages/snake.wav"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qferd"]
 texture = ExtResource("5_4em40")
@@ -115,7 +117,7 @@ start_room = NodePath("ViewContainer/Room6")
 checkpoints = [NodePath("CheckpointContainer/Checkpoint1")]
 player_path = ExtResource("2_hurm4")
 camera_path = ExtResource("3_qi1ax")
-music_to_play = ExtResource("4_hkokl")
+music_to_play = SubResource("Resource_lx2w5")
 stream_player = NodePath("MusicPlayer")
 
 [node name="MetalStage" type="Sprite2D" parent="." index="1"]

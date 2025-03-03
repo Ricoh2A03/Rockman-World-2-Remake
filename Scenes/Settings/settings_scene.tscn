@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://do6lc4k2sxk00" path="res://Assets/PLACEHOLDER/Title Screen/title.png" id="2_dmbru"]
 [ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="3_ucn5k"]
-[ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/MegaMan/sfx_menu_select.wav" id="4_7g67i"]
+[ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="4_7g67i"]
 
 [sub_resource type="GDScript" id="GDScript_m3fxx"]
 script/source = "extends Scene

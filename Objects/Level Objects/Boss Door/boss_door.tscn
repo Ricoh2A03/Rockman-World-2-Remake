@@ -223,9 +223,9 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_knv53"]
 _data = {
-"RESET": SubResource("Animation_mipjf"),
-"close": SubResource("Animation_4bu4y"),
-"open": SubResource("Animation_u1irk")
+&"RESET": SubResource("Animation_mipjf"),
+&"close": SubResource("Animation_4bu4y"),
+&"open": SubResource("Animation_u1irk")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vn2np"]

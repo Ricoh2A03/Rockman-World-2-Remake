@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://d3dcuxijsdqq"]
 
-[ext_resource type="Script" path="res://Scenes/Scene Template/Stage Template/stage.gd" id="1_dl1j8"]
+[ext_resource type="Script" uid="uid://c051yv525inmt" path="res://Scenes/Scene Template/Stage Template/stage.gd" id="1_dl1j8"]
 [ext_resource type="Texture2D" uid="uid://ci7n321c38lkv" path="res://Assets/UI/Stage Start/ready.png" id="2_4gqfj"]
 
 [sub_resource type="Animation" id="Animation_k6nu6"]
@@ -90,9 +90,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cfb3i"]
 _data = {
-"RESET": SubResource("Animation_k6nu6"),
-"ready_appear": SubResource("Animation_ylf3n"),
-"ready_flash": SubResource("Animation_vpx1y")
+&"RESET": SubResource("Animation_k6nu6"),
+&"ready_appear": SubResource("Animation_ylf3n"),
+&"ready_flash": SubResource("Animation_vpx1y")
 }
 
 [node name="Stage" type="Node2D" groups=["Stage"]]

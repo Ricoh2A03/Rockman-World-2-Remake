@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dd3j3gx5a7wkg"]
 
-[ext_resource type="Script" path="res://Objects/Level Objects/Room/room.gd" id="1_iieus"]
+[ext_resource type="Script" uid="uid://cmg0tjah3mpgy" path="res://Objects/Level Objects/Room/room.gd" id="1_iieus"]
 [ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="2_ehvb5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_au1ui"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cos64k8hjfusj"]
 
-[ext_resource type="Script" path="res://Objects/Player/Ladder Detector/ladder_detector.gd" id="1_kr40j"]
+[ext_resource type="Script" uid="uid://btc28la6n0bia" path="res://Objects/Player/Ladder Detector/ladder_detector.gd" id="1_kr40j"]
 
 [node name="LadderDetector" type="Area2D"]
 collision_layer = 0

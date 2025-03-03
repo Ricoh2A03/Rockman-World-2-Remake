@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cxtcy0orx7i4q"]
 
-[ext_resource type="Script" path="res://Objects/Player/Weapons and Items/Variable Weapon System/variable_weapon_system.gd" id="1_88v6s"]
+[ext_resource type="Script" uid="uid://cj8hod2nlsdhu" path="res://Objects/Player/Weapons and Items/Variable Weapon System/variable_weapon_system.gd" id="1_88v6s"]
 
 [node name="VariableWeaponSystem" type="Node2D"]
 script = ExtResource("1_88v6s")

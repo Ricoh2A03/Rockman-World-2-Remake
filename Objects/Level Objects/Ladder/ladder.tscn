@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bwt1mrdejuoid"]
 
-[ext_resource type="Script" path="res://Objects/Level Objects/Ladder/ladder.gd" id="1_p6m6a"]
+[ext_resource type="Script" uid="uid://mb5kgl4vot75" path="res://Objects/Level Objects/Ladder/ladder.gd" id="1_p6m6a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eb0d2"]
 resource_local_to_scene = true

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="InventoryItem" load_steps=5 format=3 uid="uid://dpc0ffw4815vi"]
 
-[ext_resource type="Script" path="res://Objects/Player/Weapons and Items/Inventory Item Class/inventory_item.gd" id="1_iu3ja"]
+[ext_resource type="Script" uid="uid://bismn8cwrddbn" path="res://Objects/Player/Weapons and Items/Inventory Item Class/inventory_item.gd" id="1_iu3ja"]
 [ext_resource type="Texture2D" uid="uid://drgu8vvi41d5f" path="res://Assets/Weapons and Items/Rock Buster/rock_buster_icon.png" id="1_owupn"]
 [ext_resource type="PackedScene" uid="uid://b0do50xqapt1n" path="res://Objects/Player/Weapons and Items/Weapons/Rock Buster/Rock Buster Pellet/rock_buster_pellet.tscn" id="2_guy0v"]
 [ext_resource type="AudioStream" uid="uid://br4cmiev6ecbk" path="res://Assets/SFX/MegaMan/sfx_rock_buster.wav" id="4_mc0yu"]
