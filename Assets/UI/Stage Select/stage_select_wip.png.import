@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crd2bngqon872"
-path="res://.godot/imported/icon.png-b7032f7af70248c068afb9d98de50ab4.ctex"
+uid="uid://dt42ds4h3wco5"
+path="res://.godot/imported/stage_select_wip.png-02f8e165f62ac6531bb217a7896d2b27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/fabimakesgames.embed_game/assets/icon.png"
-dest_files=["res://.godot/imported/icon.png-b7032f7af70248c068afb9d98de50ab4.ctex"]
+source_file="res://Assets/UI/Stage Select/stage_select_wip.png"
+dest_files=["res://.godot/imported/stage_select_wip.png-02f8e165f62ac6531bb217a7896d2b27.ctex"]
 
 [params]
 

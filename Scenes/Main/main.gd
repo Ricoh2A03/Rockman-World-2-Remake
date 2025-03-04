@@ -28,6 +28,7 @@ var _is_paused: bool = false
 
 func is_paused() -> bool: return _is_paused
 
+## Pauses the game.
 func pauseGame(pause_groups: Array[StringName], exceptions: Array[StringName] = []) -> void:
 	# If game IS paused, skip
 	if _is_paused: return
@@ -90,6 +91,10 @@ func transit_to_scene(duration: float, to_scene: PackedScene = null, fade_in: bo
 		stop_music()
 		tween_in.stop()
 
+	if !fade_in:
+		var delay = get_tree().create_timer(1)
+		await delay.timeout
+
 	if to_scene:
 		if current_scene: current_scene.queue_free()
 		var scene_instance = to_scene.instantiate()
@@ -113,4 +118,5 @@ func play_music(music: AudioStreamWAV) -> void:
 
 func pause_music(paused: bool) -> void: music_player.stream_paused = paused
 
+## Stops music playback.
 func stop_music() -> void: music_player.stop()

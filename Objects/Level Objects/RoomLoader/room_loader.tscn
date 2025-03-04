@@ -1,7 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bdsd5s4cuy55y"]
-
-[sub_resource type="Resource" id="Resource_4o525"]
-metadata/__load_path__ = "res://Scenes/Objects/Level Objects/RoomLoader/room_loader.gd"
+[gd_scene load_steps=2 format=3 uid="uid://bdsd5s4cuy55y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_axlwg"]
 size = Vector2(224, 224)
@@ -9,7 +6,6 @@ size = Vector2(224, 224)
 [node name="RoomLoader1" type="Area2D"]
 collision_layer = 0
 collision_mask = 4
-script = SubResource("Resource_4o525")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://wwcwvudptq3b" path="res://Assets/SFX/MegaMan/sfx_mm_jump.wav" id="7_i8ann"]
 [ext_resource type="AudioStream" uid="uid://bx6k0cpl7g6qm" path="res://Assets/SFX/MegaMan/sfx_mm_slide.wav" id="9_e3ryg"]
 [ext_resource type="PackedScene" uid="uid://dgmmtaqdwnh6l" path="res://Objects/Player/Ceiling Detector/ceiling_detector.tscn" id="9_ex5gi"]
-[ext_resource type="PackedScene" uid="uid://ctu1aeva8uqde" path="res://Objects/FX Objects/Expolsion 1/Robot Master Explosion FX/robot_master_explosion_fx.tscn" id="10_mmksa"]
+[ext_resource type="PackedScene" uid="uid://ctu1aeva8uqde" path="res://Objects/Effect Objects/Expolsion 1/Robot Master Explosion FX/robot_master_explosion_fx.tscn" id="10_mmksa"]
 [ext_resource type="PackedScene" uid="uid://cos64k8hjfusj" path="res://Objects/Player/Ladder Detector/ladder_detector.tscn" id="11_ricv3"]
 [ext_resource type="AudioStream" uid="uid://bhbsk6fw4coqx" path="res://Assets/SFX/MegaMan/sfx_mm_explosion.wav" id="14_5xry6"]
 [ext_resource type="PackedScene" uid="uid://cxtcy0orx7i4q" path="res://Objects/Player/Weapons and Items/Variable Weapon System/variable_weapon_system.tscn" id="16_0h5ps"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=4 uid="uid://ciqs0sqagcg73"]
 
-[ext_resource type="PackedScene" uid="uid://d3dcuxijsdqq" path="res://Scenes/Scene Template/Stage Template/stage.tscn" id="1_5bc5n"]
+[ext_resource type="PackedScene" uid="uid://d3dcuxijsdqq" path="res://Scenes/Stage Template/stage.tscn" id="1_5bc5n"]
 [ext_resource type="Texture2D" uid="uid://cp7p3weex6tfs" path="res://Assets/Tilesets/Test/Cyber/cyber_tileset.png" id="2_cv1ti"]
 [ext_resource type="PackedScene" uid="uid://dse2a3b8xg2pb" path="res://Objects/Player/Mega Man/mega_man.tscn" id="2_ym7sp"]
 [ext_resource type="PackedScene" uid="uid://b0ssm2j4fnsaf" path="res://Objects/Level Objects/Camera/camera.tscn" id="3_hvtrl"]

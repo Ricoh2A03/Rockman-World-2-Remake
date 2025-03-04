@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cihomoo4y25x3"
-path="res://.godot/imported/explosion_boss.png-c232e0420697d50d2cc2c3de97944179.ctex"
+uid="uid://o216hifamkon"
+path="res://.godot/imported/stage_select_cursor.png-4866279d894aa55fd55cf444a72cbb0b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/FX/Player and Boss Explosion/explosion_boss.png"
-dest_files=["res://.godot/imported/explosion_boss.png-c232e0420697d50d2cc2c3de97944179.ctex"]
+source_file="res://Assets/UI/Stage Select/stage_select_cursor.png"
+dest_files=["res://.godot/imported/stage_select_cursor.png-4866279d894aa55fd55cf444a72cbb0b.ctex"]
 
 [params]
 

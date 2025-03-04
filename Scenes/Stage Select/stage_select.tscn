@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://bs6i8rta126bn" path="res://Scenes/Stage Select/stage_select.gd" id="1_dhu47"]
 [ext_resource type="AudioStream" uid="uid://c4w8c8gq81f20" path="res://Assets/Music/mus_stage-select-v.1.0.wav" id="2_o7bvx"]
-[ext_resource type="PackedScene" uid="uid://b64ts823vknoo" path="res://Objects/Scene Transitor/scene_transitor.tscn" id="3_3kunf"]
-[ext_resource type="Texture2D" uid="uid://dt42ds4h3wco5" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_wip.png" id="3_5eyif"]
+[ext_resource type="PackedScene" uid="uid://b64ts823vknoo" path="res://Objects/Components/Scene Transitor/scene_transitor.tscn" id="3_3kunf"]
+[ext_resource type="Texture2D" uid="uid://dt42ds4h3wco5" path="res://Assets/UI/Stage Select/stage_select_wip.png" id="3_5eyif"]
 [ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="3_qiqsc"]
-[ext_resource type="Texture2D" uid="uid://o216hifamkon" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_cursor.png" id="4_cyiw1"]
+[ext_resource type="Texture2D" uid="uid://o216hifamkon" path="res://Assets/UI/Stage Select/stage_select_cursor.png" id="4_cyiw1"]
 [ext_resource type="PackedScene" uid="uid://ciqs0sqagcg73" path="res://Scenes/Stages/Cyber Test Stage/cyber_test_stage.tscn" id="4_on21k"]
-[ext_resource type="Texture2D" uid="uid://b0iupg4yqdoru" path="res://Assets/PLACEHOLDER/Stage Select/stage_select_overlay.png" id="5_qektj"]
+[ext_resource type="Texture2D" uid="uid://b0iupg4yqdoru" path="res://Assets/UI/Stage Select/stage_select_overlay.png" id="5_qektj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u2ndr"]
 atlas = ExtResource("4_cyiw1")

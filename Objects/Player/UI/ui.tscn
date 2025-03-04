@@ -650,7 +650,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_o4ob3")
+&"": SubResource("AnimationLibrary_o4ob3")
 }
 
 [node name="Fader" type="ColorRect" parent="."]

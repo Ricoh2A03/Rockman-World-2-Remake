@@ -21,7 +21,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-EmbedGameAutoload="*res://addons/fabimakesgames.embed_game/embed_game_autoload.gd"
 Globals="*res://Globals/globals.gd"
 
 [display]
@@ -35,7 +34,7 @@ window/stretch/scale_mode="integer"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/fabimakesgames.embed_game/plugin.cfg", "res://addons/script-ide/plugin.cfg")
+enabled=PackedStringArray("res://addons/script-ide/plugin.cfg")
 
 [file_customization]
 

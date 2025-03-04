@@ -1,6 +1,8 @@
 extends Area2D
 
+## What room needs to be updated.
 @export var room_to_update: Room
+## What room will be loaded.
 @export var to_room: Room
 
 enum SCRLDIR {Left, Right, Up, Down}
@@ -10,9 +12,6 @@ enum SCRLDIR {Left, Right, Up, Down}
 @export var death_zone: bool = false
 
 func _on_body_entered(body: Node2D) -> void:
-	if death_zone:
-		room_to_update.exit_bottom = null
-
 	if room_to_update and to_room:
 		match room_exit_to_load:
 			SCRLDIR.Left:
@@ -23,3 +22,6 @@ func _on_body_entered(body: Node2D) -> void:
 				room_to_update.exit_top = to_room
 			SCRLDIR.Down:
 				room_to_update.exit_bottom = to_room
+
+	if death_zone:
+		room_to_update.exit_bottom = null

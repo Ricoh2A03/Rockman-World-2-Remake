@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://d3dcuxijsdqq"]
 
-[ext_resource type="Script" uid="uid://c051yv525inmt" path="res://Scenes/Scene Template/Stage Template/stage.gd" id="1_dl1j8"]
-[ext_resource type="Texture2D" uid="uid://ci7n321c38lkv" path="res://Assets/UI/Stage Start/ready.png" id="2_4gqfj"]
+[ext_resource type="Script" uid="uid://c051yv525inmt" path="res://Scenes/Stage Template/stage.gd" id="1_dl1j8"]
+[ext_resource type="Texture2D" uid="uid://ci7n321c38lkv" path="res://Assets/UI/Ready/ready.png" id="2_4gqfj"]
 
 [sub_resource type="Animation" id="Animation_k6nu6"]
 length = 0.001
@@ -126,7 +126,7 @@ vframes = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StageUI"]
 libraries = {
-"": SubResource("AnimationLibrary_cfb3i")
+&"": SubResource("AnimationLibrary_cfb3i")
 }
 
 [connection signal="player_died" from="." to="." method="_player_died"]
