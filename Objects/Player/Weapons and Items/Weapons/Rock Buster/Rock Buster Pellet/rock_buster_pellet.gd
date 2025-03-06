@@ -5,12 +5,12 @@ extends BasicProjectile
 @onready var vis_notif: VisibleOnScreenNotifier2D = $Visibility
 
 func _process(delta: float) -> void:
-	if !_collided:
-		global_position.x += (xSpeed * _direction) * delta
+	# move projectile if not collided yet
+	if !_collided: global_position.x += (xSpeed * _direction) * delta
 
 func _on_timeout() -> void:
-	if !vis_notif.is_on_screen():
-		_on_screen_exited()
+	# if timer is stopped and not on screen, destroy projectile
+	if !vis_notif.is_on_screen(): _on_screen_exited()
 
 func _on_screen_exited() -> void:
 	screen_exited.emit()

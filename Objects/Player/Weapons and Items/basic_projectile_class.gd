@@ -1,5 +1,6 @@
 class_name BasicProjectile extends Node2D
 
+## Tells VariableWeaponSystem to erase projectile from on screen list.
 signal screen_exited()
 
 @export_category("Projectile ID")
@@ -15,6 +16,7 @@ signal screen_exited()
 @export var apply_gravity: bool = false
 @export var gravity: int = 0
 
+## Tells whether projectile collided with something.
 var _collided: bool = false
 var _direction: int = 1
 
