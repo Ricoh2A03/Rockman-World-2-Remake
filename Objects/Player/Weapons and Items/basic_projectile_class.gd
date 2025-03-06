@@ -15,6 +15,7 @@ signal screen_exited()
 @export var apply_gravity: bool = false
 @export var gravity: int = 0
 
+var _collided: bool = false
 var _direction: int = 1
 
 @export_group("Misc.")

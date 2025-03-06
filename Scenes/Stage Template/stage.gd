@@ -112,8 +112,6 @@ func check_scrolling_criterias():
 					player_ref.scroll_player(2)
 					camera_ref.camera_start_scroll(_current_room.exit_right, 2)
 
-			#for spawner in _current_room.spawners: spawner.call_deferred("despawn")
-
 ###########################################
 
 # Loop through spawners in currently active room and destroy each object
@@ -136,15 +134,17 @@ func spawn_player() -> void:
 	call_deferred("add_child", p_instance)
 	player_ref = p_instance
 	player_ref.connect("player_dead", _player_died)
+	spawn_player_at_checkpoint()
 
+func spawn_player_at_checkpoint() -> void:
 	if current_checkpoint:
-		p_instance.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
+		player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
 	else:
 		if start_room:
 			if !current_checkpoint:
-				p_instance.global_position = Vector2(128, start_room.global_position.y - 16)
+				player_ref.global_position = Vector2(128, start_room.global_position.y - 16)
 			else:
-				p_instance.global_position = Vector2(current_checkpoint.global_position.x, _current_room.global_position.y - 16)
+				player_ref.global_position = Vector2(current_checkpoint.global_position.x, _current_room.global_position.y - 16)
 
 ############### C A M E R A ###############
 

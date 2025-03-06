@@ -48,7 +48,7 @@ func _process(delta: float) -> void:
 "
 
 [node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "snd_jump", "snd_land", "snd_slide", "snd_teleport_in", "snd_teleport_out", "snd_damage", "snd_death") groups=["Player"]]
-z_index = 1
+z_index = 99
 collision_layer = 4
 slide_on_ceiling = false
 floor_stop_on_slope = false

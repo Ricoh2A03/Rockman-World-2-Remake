@@ -1,18 +1,57 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0do50xqapt1n"]
+[gd_scene load_steps=9 format=3 uid="uid://b0do50xqapt1n"]
 
 [ext_resource type="Script" uid="uid://dvumk7p3wxghl" path="res://Objects/Player/Weapons and Items/Weapons/Rock Buster/Rock Buster Pellet/rock_buster_pellet.gd" id="1_oajlh"]
 [ext_resource type="Texture2D" uid="uid://cnmhkb4b1bfph" path="res://Assets/Weapons and Items/Rock Buster/buster_pellet.png" id="2_x3esh"]
+[ext_resource type="Texture2D" uid="uid://bdlwnkx16gdoq" path="res://Assets/Weapons and Items/Rock Buster/buster_diffuse.png" id="3_o2t2j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iw6vn"]
+atlas = ExtResource("3_o2t2j")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_weua4"]
+atlas = ExtResource("3_o2t2j")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cg2kv"]
+atlas = ExtResource("3_o2t2j")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vrvyt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_x3esh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iw6vn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_weua4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cg2kv")
+}],
+"loop": false,
+"name": &"diffuse",
+"speed": 24.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a3lwa"]
 size = Vector2(12, 10)
 
 [node name="RockBusterPellet" type="Node2D" groups=["PlayerProjectile"]]
+z_index = 98
 script = ExtResource("1_oajlh")
 xSpeed = 260
 metadata/_edit_group_ = true
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_x3esh")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vrvyt")
 
 [node name="Visibility" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(1, 1)
@@ -31,6 +70,7 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionBox"]
 shape = SubResource("RectangleShape2D_a3lwa")
 
+[connection signal="animation_finished" from="Sprite" to="." method="_on_animation_finished"]
 [connection signal="screen_exited" from="Visibility" to="." method="_on_screen_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timeout"]
 [connection signal="area_entered" from="CollisionBox" to="." method="_on_collision_box_entered"]
