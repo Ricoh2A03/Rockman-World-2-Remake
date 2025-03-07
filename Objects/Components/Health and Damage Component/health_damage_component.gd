@@ -10,7 +10,17 @@ var _is_dead: bool = false
 @export_category("Damage Table")
 @export var damage_table: DamageTable
 
-func _ready() -> void: _current_health = max_health
+@export_category("Sounds")
+@export var damage_sound: AudioStreamWAV
+@export var destroyed_sound: AudioStreamWAV
+
+@onready var snd_damage: AudioStreamPlayer2D = $snd_damage
+@onready var snd_destroyed: AudioStreamPlayer2D = $snd_destroyed
+
+func _ready() -> void:
+	_current_health = max_health
+	snd_damage.stream = damage_sound
+	snd_destroyed.stream = destroyed_sound
 
 func set_health(value: int) -> void: _current_health = value
 
@@ -28,3 +38,5 @@ func _get_damage(value: int):
 	if _current_health <= 0:
 		_is_dead = true
 		print("dead")
+	if value > _current_health: snd_destroyed.play()
+	else: snd_damage.play()

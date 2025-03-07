@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6srde08aptip"]
+[gd_scene load_steps=4 format=3 uid="uid://c6srde08aptip"]
 
 [ext_resource type="Script" uid="uid://dpka2yiehxkgs" path="res://Objects/Components/Health and Damage Component/health_damage_component.gd" id="1_u1yg3"]
+[ext_resource type="AudioStream" uid="uid://dbr58sf54kve8" path="res://Assets/SFX/Enemies/sfx_enemy_damage.wav" id="2_yu53c"]
+[ext_resource type="AudioStream" uid="uid://ct8ijxcypclee" path="res://Assets/SFX/Enemies/sfx_enemy_destroyed.wav" id="3_0cf3b"]
 
 [node name="HealthDamageComponent" type="Node2D"]
 script = ExtResource("1_u1yg3")
+metadata/_edit_group_ = true
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 0
@@ -11,5 +14,15 @@ collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="Shape" type="CollisionShape2D" parent="Hitbox"]
+
+[node name="snd_damage" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_yu53c")
+panning_strength = 1.75
+bus = &"SFX"
+
+[node name="snd_destroyed" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_0cf3b")
+panning_strength = 1.75
+bus = &"SFX"
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_entered"]

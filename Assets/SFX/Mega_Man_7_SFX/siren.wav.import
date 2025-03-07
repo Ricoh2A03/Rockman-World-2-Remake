@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://riy70h8lw85p"
-path="res://.godot/imported/roar.wav-1c8ab98456ebe530a2d17c29ab5a1833.sample"
+uid="uid://djan0iswfgs4y"
+path="res://.godot/imported/siren.wav-8146098d32219d9b56669bfcd4c7fe2f.sample"
 
 [deps]
 
-source_file="res://Assets/SFX/Mega_Man_7_SFX/roar.wav"
-dest_files=["res://.godot/imported/roar.wav-1c8ab98456ebe530a2d17c29ab5a1833.sample"]
+source_file="res://Assets/SFX/Mega_Man_7_SFX/siren.wav"
+dest_files=["res://.godot/imported/siren.wav-8146098d32219d9b56669bfcd4c7fe2f.sample"]
 
 [params]
 

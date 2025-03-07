@@ -161,6 +161,7 @@ player = NodePath("..")
 current_item = ExtResource("17_5ls8o")
 
 [node name="Debug" type="Node2D" parent="."]
+visible = false
 script = SubResource("GDScript_a3voq")
 
 [node name="Label" type="Label" parent="Debug"]
