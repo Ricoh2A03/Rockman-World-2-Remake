@@ -7,3 +7,8 @@ script = ExtResource("1_rm6tx")
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
 scale = Vector2(1.6, 1.6)
+
+[node name="SpawnDelayTimer" type="Timer" parent="."]
+
+[connection signal="screen_entered" from="VisibilityNotifier" to="." method="_on_screen_entered"]
+[connection signal="timeout" from="SpawnDelayTimer" to="." method="_on_spawn_delay_timeout"]
