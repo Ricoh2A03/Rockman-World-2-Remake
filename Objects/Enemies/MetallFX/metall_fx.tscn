@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b0difdwv403r0"]
+[gd_scene load_steps=18 format=3 uid="uid://b0difdwv403r0"]
 
 [ext_resource type="Script" uid="uid://c67f2l1jswgcq" path="res://Objects/Enemies/MetallFX/metall_fx.gd" id="1_ivoyb"]
 [ext_resource type="Texture2D" uid="uid://bp2ujb4djl4cq" path="res://Assets/Enemies/Metall EX/metall_fx.png" id="2_0r1pl"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://ngjpin4ivjo" path="res://Objects/Enemies/damage_table.gd" id="4_w8q4h"]
 [ext_resource type="AudioStream" uid="uid://dbr58sf54kve8" path="res://Assets/SFX/Enemies/sfx_enemy_damage.wav" id="5_dic64"]
 [ext_resource type="AudioStream" uid="uid://ct8ijxcypclee" path="res://Assets/SFX/Enemies/sfx_enemy_destroyed.wav" id="6_wkauq"]
+[ext_resource type="PackedScene" uid="uid://cs37l6yh7swru" path="res://Objects/Components/Platformer Component/platformer_component.tscn" id="7_wkauq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c2idu"]
 atlas = ExtResource("2_0r1pl")
@@ -81,8 +82,10 @@ table = Array[int]([1])
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_81ijr"]
 size = Vector2(16, 16)
 
-[node name="MetallFX" type="CharacterBody2D" groups=["Enemy"]]
+[node name="MetallFX" type="CharacterBody2D" node_paths=PackedStringArray("platform_component") groups=["Enemy"]]
+collision_layer = 0
 script = ExtResource("1_ivoyb")
+platform_component = NodePath("PlatformerComponent")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
@@ -108,5 +111,8 @@ collision_mask = 16
 
 [node name="Shape" parent="HealthDamageComponent/Hitbox" index="0"]
 shape = SubResource("RectangleShape2D_81ijr")
+
+[node name="PlatformerComponent" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("7_wkauq")]
+parent = NodePath("..")
 
 [editable path="HealthDamageComponent"]

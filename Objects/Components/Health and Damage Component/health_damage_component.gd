@@ -14,6 +14,7 @@ var _is_dead: bool = false
 @export var damage_sound: AudioStreamWAV
 @export var destroyed_sound: AudioStreamWAV
 
+@onready var hitbox_shape: CollisionShape2D = $Hitbox/Shape
 @onready var snd_damage: AudioStreamPlayer2D = $snd_damage
 @onready var snd_destroyed: AudioStreamPlayer2D = $snd_destroyed
 
@@ -36,6 +37,7 @@ func _get_damage(value: int):
 	_current_health -= value
 	print(_current_health)
 	if _current_health <= 0:
+		hitbox_shape.set_deferred("disabled", true)
 		_is_dead = true
 		print("dead")
 	if value > _current_health: snd_destroyed.play()
