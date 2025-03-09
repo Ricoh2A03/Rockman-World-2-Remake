@@ -7,6 +7,8 @@ class_name Spawner extends Node2D
 ## Delay between each spawn() call in seconds. 0 means it will spawn immediately.
 @export var spawn_delay: float = 0.0
 
+var _player: Player
+
 @onready var visibility_notifier = $VisibilityNotifier
 @onready var spawn_delay_timer = $SpawnDelayTimer
 
@@ -17,6 +19,8 @@ var _is_active: bool = false
 
 func set_active(active: bool):
 	_is_active = active
+	_player =  get_tree().get_first_node_in_group("Player")
+	print(_player)
 	if !active: return
 	if visibility_notifier.is_on_screen():
 		spawn()
