@@ -70,8 +70,7 @@ snd_teleport_out = NodePath("Sounds/snd_teleport_out")
 snd_damage = NodePath("Sounds/snd_damage")
 snd_death = NodePath("Sounds/snd_death")
 
-[node name="SpriteController" parent="." node_paths=PackedStringArray("player", "sprite_normal", "sprite_shoot") instance=ExtResource("6_7i60c")]
-player = NodePath("..")
+[node name="SpriteController" parent="." node_paths=PackedStringArray("sprite_normal", "sprite_shoot") instance=ExtResource("6_7i60c")]
 sprite_normal = NodePath("SpriteNormal")
 sprite_shoot = NodePath("SpriteShoot")
 

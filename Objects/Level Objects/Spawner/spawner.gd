@@ -20,7 +20,6 @@ var _is_active: bool = false
 func set_active(active: bool):
 	_is_active = active
 	_player =  get_tree().get_first_node_in_group("Player")
-	print(_player)
 	if !active: return
 	if visibility_notifier.is_on_screen():
 		spawn()
@@ -32,6 +31,8 @@ func spawn():
 	if object_to_spawn and _is_active: # Check if spawner is active and there's an object to spawn
 		# Instantiate object(s)
 		var obj_instance = object_to_spawn.instantiate()
+		# Pass reference to Player to the object
+		obj_instance._player_reference = _player
 		# Add obj_instance as child
 		add_child(obj_instance)
 		# Assign it's position to spawners' position

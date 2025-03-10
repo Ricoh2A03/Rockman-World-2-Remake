@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://b0difdwv403r0"]
+[gd_scene load_steps=19 format=3 uid="uid://b0difdwv403r0"]
 
 [ext_resource type="Script" uid="uid://c67f2l1jswgcq" path="res://Objects/Enemies/MetallFX/metall_fx.gd" id="1_ivoyb"]
 [ext_resource type="Texture2D" uid="uid://bp2ujb4djl4cq" path="res://Assets/Enemies/Metall EX/metall_fx.png" id="2_0r1pl"]
+[ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controler/sprite_controller.tscn" id="2_wyomj"]
 [ext_resource type="PackedScene" uid="uid://c6srde08aptip" path="res://Objects/Components/Health and Damage Component/health_damage_component.tscn" id="3_gpaqe"]
 [ext_resource type="Script" uid="uid://ngjpin4ivjo" path="res://Objects/Enemies/damage_table.gd" id="4_w8q4h"]
 [ext_resource type="AudioStream" uid="uid://dbr58sf54kve8" path="res://Assets/SFX/Enemies/sfx_enemy_damage.wav" id="5_dic64"]
@@ -82,12 +83,16 @@ table = Array[int]([1])
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_81ijr"]
 size = Vector2(16, 16)
 
-[node name="MetallFX" type="CharacterBody2D" node_paths=PackedStringArray("platform_component") groups=["Enemy"]]
+[node name="MetallFX" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "platform_component") groups=["Enemy"]]
 collision_layer = 0
 script = ExtResource("1_ivoyb")
+sprite_controller = NodePath("SpriteController")
 platform_component = NodePath("PlatformerComponent")
 
-[node name="Sprite" type="AnimatedSprite2D" parent="."]
+[node name="SpriteController" parent="." node_paths=PackedStringArray("sprite_normal") instance=ExtResource("2_wyomj")]
+sprite_normal = NodePath("Sprite")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="SpriteController"]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_ykrwn")
 animation = &"defending"
