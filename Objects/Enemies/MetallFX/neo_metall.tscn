@@ -1,0 +1,166 @@
+[gd_scene load_steps=26 format=3 uid="uid://b0difdwv403r0"]
+
+[ext_resource type="Script" uid="uid://c67f2l1jswgcq" path="res://Objects/Enemies/MetallFX/neo_metall.gd" id="1_di87d"]
+[ext_resource type="PackedScene" uid="uid://cs37l6yh7swru" path="res://Objects/Components/Platformer Component/platformer_component.tscn" id="2_w0aho"]
+[ext_resource type="PackedScene" uid="uid://c6srde08aptip" path="res://Objects/Components/Health and Damage Component/health_damage_component.tscn" id="3_g223p"]
+[ext_resource type="Script" uid="uid://ngjpin4ivjo" path="res://Objects/Enemies/damage_table.gd" id="4_ftkoi"]
+[ext_resource type="AudioStream" uid="uid://dbr58sf54kve8" path="res://Assets/SFX/Enemies/sfx_enemy_damage.wav" id="5_o0cs5"]
+[ext_resource type="AudioStream" uid="uid://ct8ijxcypclee" path="res://Assets/SFX/Enemies/sfx_enemy_destroyed.wav" id="6_aqfqf"]
+[ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controler/sprite_controller.tscn" id="7_wlkqg"]
+[ext_resource type="Texture2D" uid="uid://bp2ujb4djl4cq" path="res://Assets/Enemies/Metall EX/metall_fx.png" id="8_h12fd"]
+[ext_resource type="Texture2D" uid="uid://7shtvgb7k02x" path="res://Assets/Effects/Enemy Explosion/enemy_explosion.png" id="9_w0aho"]
+
+[sub_resource type="Resource" id="Resource_4c5ue"]
+script = ExtResource("4_ftkoi")
+table = Array[int]([1])
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_81ijr"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2idu"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g223p"]
+atlas = ExtResource("9_w0aho")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ftkoi"]
+atlas = ExtResource("9_w0aho")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0cs5"]
+atlas = ExtResource("9_w0aho")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqfqf"]
+atlas = ExtResource("9_w0aho")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlkqg"]
+atlas = ExtResource("9_w0aho")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h12fd"]
+atlas = ExtResource("9_w0aho")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skhu7"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmnju"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltwr5"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwi3c"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tug22"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ykrwn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2idu")
+}],
+"loop": true,
+"name": &"defending",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g223p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ftkoi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0cs5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqfqf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wlkqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h12fd")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skhu7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmnju")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ltwr5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwi3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tug22")
+}],
+"loop": false,
+"name": &"movin\'",
+"speed": 12.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_43tyi"]
+size = Vector2(14, 12)
+
+[node name="NEOMetall" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "health_component", "platform_component") groups=["Enemy"]]
+collision_layer = 0
+script = ExtResource("1_di87d")
+sprite_controller = NodePath("SpriteController")
+health_component = NodePath("HealthDamageComponent")
+platform_component = NodePath("PlatformerComponent")
+
+[node name="PlatformerComponent" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("2_w0aho")]
+parent = NodePath("..")
+
+[node name="HealthDamageComponent" parent="." node_paths=PackedStringArray("parent_node") instance=ExtResource("3_g223p")]
+parent_node = NodePath("..")
+max_health = 4
+damage_table = SubResource("Resource_4c5ue")
+damage_sound = ExtResource("5_o0cs5")
+destroyed_sound = ExtResource("6_aqfqf")
+
+[node name="Hitbox" parent="HealthDamageComponent" index="0"]
+position = Vector2(0, -8)
+collision_layer = 64
+collision_mask = 16
+
+[node name="Shape" parent="HealthDamageComponent/Hitbox" index="0"]
+shape = SubResource("RectangleShape2D_81ijr")
+
+[node name="SpriteController" parent="." node_paths=PackedStringArray("sprite_normal") instance=ExtResource("7_wlkqg")]
+sprite_normal = NodePath("Sprite")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="SpriteController"]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_ykrwn")
+animation = &"defending"
+autoplay = "defending"
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_43tyi")
+
+[connection signal="no_health" from="HealthDamageComponent" to="." method="_on_no_health"]
+[connection signal="animation_finished" from="SpriteController/Sprite" to="." method="_on_animation_finished"]
+
+[editable path="HealthDamageComponent"]

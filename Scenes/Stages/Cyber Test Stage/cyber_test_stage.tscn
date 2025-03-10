@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://7vhvokt7qyj" path="res://Assets/Music/PLACEHOLDER/mus_mm7_wily_stage3.wav" id="4_tn604"]
 [ext_resource type="PackedScene" uid="uid://bwt1mrdejuoid" path="res://Objects/Level Objects/Ladder/ladder.tscn" id="6_1afp7"]
 [ext_resource type="PackedScene" uid="uid://lggpunqgabkb" path="res://Objects/Level Objects/Spawner/spawner.tscn" id="6_6rfgj"]
-[ext_resource type="PackedScene" uid="uid://b0difdwv403r0" path="res://Objects/Enemies/MetallFX/metall_fx.tscn" id="7_lbhmk"]
+[ext_resource type="PackedScene" uid="uid://b0difdwv403r0" path="res://Objects/Enemies/MetallFX/neo_metall.tscn" id="7_lbhmk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qe2oe"]
 texture = ExtResource("2_cv1ti")

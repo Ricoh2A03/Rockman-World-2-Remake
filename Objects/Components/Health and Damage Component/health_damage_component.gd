@@ -1,5 +1,8 @@
 class_name HealthDamageComponent extends Node2D
 
+## Emits when there's no health left.
+signal no_health
+
 @export var parent_node: Node
 
 @export_category("Health")
@@ -23,9 +26,14 @@ func _ready() -> void:
 	snd_damage.stream = damage_sound
 	snd_destroyed.stream = destroyed_sound
 
+## Sets health to a passed value.
 func set_health(value: int) -> void: _current_health = value
 
+## Returns current health.
 func get_health() -> int: return _current_health
+
+## Returns if dead or not.
+func is_dead() -> bool: return _is_dead
 
 func _on_hitbox_entered(area: Area2D) -> void:
 	if _is_dead: return
@@ -39,6 +47,7 @@ func _get_damage(value: int):
 	if _current_health <= 0:
 		hitbox_shape.set_deferred("disabled", true)
 		_is_dead = true
+		no_health.emit()
 		print("dead")
 	if value > _current_health: snd_destroyed.play()
 	else: snd_damage.play()
