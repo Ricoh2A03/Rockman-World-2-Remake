@@ -1,8 +1,7 @@
 extends Enemy
 
 func _ready() -> void:
-	if self.global_position.x > _player_reference.global_position.x: platform_component.set_direction(-1)
-	else: platform_component.set_direction(1)
+	look_at_player()
 
 func _process(delta: float) -> void:
 	if !health_component.is_dead():
@@ -15,6 +14,11 @@ func _on_no_health():
 
 func _on_animation_finished():
 	if sprite_controller.get_current_animation() == "explode":
+		enemy_died.emit(self)
 		call_deferred("queue_free")
 		# NOTE: make so that when enemy dies, it emits a signal that tells
 		# the spawner that it's dead and it should be erased from it's object list.
+
+func _on_screen_exited() -> void:
+	enemy_died.emit(self)
+	call_deferred("queue_free")

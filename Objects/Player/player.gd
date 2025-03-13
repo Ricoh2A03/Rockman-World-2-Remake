@@ -91,7 +91,7 @@ func _ready() -> void:
 	flip_sprite()
 	snd_teleport_in.play()
 
-func _process(delta) -> void:
+func _process(_delta) -> void:
 
 	if apply_gravity:
 		if state != STATES.SCROLL:

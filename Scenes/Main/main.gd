@@ -55,7 +55,7 @@ func _ready() -> void:
 	Globals.main = self
 	# Mute everything so I can listen to music while debugging :D
 	AudioServer.set_bus_volume_db(0, -15)
-	AudioServer.set_bus_volume_db(0, -80)
+	#AudioServer.set_bus_volume_db(0, -80)
 	# Set windowed mode
 	toggle_fullscreen()
 	# Check if there's starting scene and instantiate it

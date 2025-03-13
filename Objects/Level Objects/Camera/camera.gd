@@ -62,9 +62,6 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 	# Allign with the player.
 	global_position = get_parent().global_position
 
-	await get_tree().create_timer(0.35)
-	#position_smoothing_enabled = false
-
 ##########################################
 
 func update_camera_limits(room: Room) -> void:

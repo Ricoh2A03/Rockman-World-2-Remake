@@ -1,5 +1,4 @@
-extends AnimatedSprite2D
-class_name ExplosionParticle
+class_name ExplosionParticle extends AnimatedSprite2D
 
 var directionX
 var directionY

@@ -50,7 +50,7 @@ func _ready() -> void:
 
 	flash_ready_text() # flash ready and turn health bar on
 
-func _process(delta):
+func _process(_delta):
 	check_scrolling_criterias()
 
 ###########################################
@@ -156,7 +156,7 @@ func create_camera() -> void:
 	cam_instance.connect("finished_scrolling", stage_finished_scrolling)
 	camera_ref = cam_instance
 
-func set_stage_camera_limits(room: Room) -> void: if camera_ref: camera_ref.update_camera_limits(_current_room)
+func set_stage_camera_limits(_room: Room) -> void: if camera_ref: camera_ref.update_camera_limits(_current_room)
 
 func connect_camera_to_player() -> void:
 	if camera_ref and player_ref:

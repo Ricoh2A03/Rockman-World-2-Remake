@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b0difdwv403r0"]
+[gd_scene load_steps=31 format=3 uid="uid://b0difdwv403r0"]
 
 [ext_resource type="Script" uid="uid://c67f2l1jswgcq" path="res://Objects/Enemies/MetallFX/neo_metall.gd" id="1_di87d"]
 [ext_resource type="PackedScene" uid="uid://cs37l6yh7swru" path="res://Objects/Components/Platformer Component/platformer_component.tscn" id="2_w0aho"]
@@ -45,6 +45,10 @@ region = Rect2(128, 0, 32, 32)
 atlas = ExtResource("9_w0aho")
 region = Rect2(160, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0aho"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(48, 0, 24, 24)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_skhu7"]
 atlas = ExtResource("8_h12fd")
 region = Rect2(0, 0, 24, 24)
@@ -64,6 +68,22 @@ region = Rect2(48, 0, 24, 24)
 [sub_resource type="AtlasTexture" id="AtlasTexture_tug22"]
 atlas = ExtResource("8_h12fd")
 region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55wrq"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28867"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(192, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7tudj"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ad0w2"]
+atlas = ExtResource("8_h12fd")
+region = Rect2(168, 0, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ykrwn"]
 animations = [{
@@ -100,23 +120,54 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_w0aho")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_skhu7")
 }, {
-"duration": 1.0,
+"duration": 0.75,
 "texture": SubResource("AtlasTexture_dmnju")
 }, {
-"duration": 1.0,
+"duration": 0.75,
 "texture": SubResource("AtlasTexture_ltwr5")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mwi3c")
 }, {
-"duration": 1.0,
+"duration": 1.2,
 "texture": SubResource("AtlasTexture_tug22")
 }],
 "loop": false,
-"name": &"movin\'",
-"speed": 12.0
+"name": &"reveal",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_55wrq")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_28867")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55wrq")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_7tudj")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_ad0w2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7tudj")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_43tyi"]
@@ -129,12 +180,15 @@ sprite_controller = NodePath("SpriteController")
 health_component = NodePath("HealthDamageComponent")
 platform_component = NodePath("PlatformerComponent")
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -8)
+
 [node name="PlatformerComponent" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("2_w0aho")]
 parent = NodePath("..")
 
 [node name="HealthDamageComponent" parent="." node_paths=PackedStringArray("parent_node") instance=ExtResource("3_g223p")]
 parent_node = NodePath("..")
-max_health = 4
+max_health = 1
 damage_table = SubResource("Resource_4c5ue")
 damage_sound = ExtResource("5_o0cs5")
 destroyed_sound = ExtResource("6_aqfqf")
@@ -155,11 +209,13 @@ position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_ykrwn")
 animation = &"defending"
 autoplay = "defending"
+frame_progress = 0.179389
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_43tyi")
 
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]
 [connection signal="no_health" from="HealthDamageComponent" to="." method="_on_no_health"]
 [connection signal="animation_finished" from="SpriteController/Sprite" to="." method="_on_animation_finished"]
 

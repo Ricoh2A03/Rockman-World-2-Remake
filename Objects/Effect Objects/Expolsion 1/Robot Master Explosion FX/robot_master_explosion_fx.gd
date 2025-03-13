@@ -1,5 +1,4 @@
-extends Node2D
-class_name RobotMasterExplosion
+class_name RobotMasterExplosion extends Node2D
 
 signal trigger_explosion()
 

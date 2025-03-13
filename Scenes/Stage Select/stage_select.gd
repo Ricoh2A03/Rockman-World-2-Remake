@@ -16,7 +16,7 @@ var selection: int
 func _ready() -> void:
 	super._ready()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 
 	# 2D into 1D
 	# index = j * WIDTH + i

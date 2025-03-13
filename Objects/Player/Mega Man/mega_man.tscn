@@ -39,7 +39,7 @@ script/source = "extends Node2D
 @onready var label: Label = $Label
 @onready var label2: Label = $Label2
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed(\"debug_show\"):
 		label.visible = !label.visible
 		label2.visible = !label2.visible

@@ -36,12 +36,13 @@ func play_animation(animation: String) -> void:
 		sprite_shoot.frame = 0
 		sprite_shoot.play(animation)
 
-func get_current_animation(normal: bool = true) -> String: return _current_animation
+func get_current_animation(_normal: bool = true) -> String: return _current_animation
 
-func set_speed_scale(scale: float) -> void:
-	sprite_normal.speed_scale = scale
+## Sets playback speed of the animation.
+func set_speed_scale(speed: float) -> void:
+	sprite_normal.speed_scale = speed
 	if !sprite_shoot: return
-	sprite_shoot.speed_scale = scale
+	sprite_shoot.speed_scale = speed
 
 func pause_playback(pause: bool) -> void:
 	if pause:
