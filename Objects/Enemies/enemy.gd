@@ -6,7 +6,7 @@ signal enemy_died
 @export var health_component: HealthDamageComponent
 @export var platform_component: PlatformerComponent
 
-@export var hor_speed: int = 10
+@export var hor_speed: int = 0
 
 enum STATES{}
 var _current_state: int

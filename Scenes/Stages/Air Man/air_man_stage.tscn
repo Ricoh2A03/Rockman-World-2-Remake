@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=4 uid="uid://dsx8yqc6k43cn"]
+[gd_scene load_steps=9 format=4 uid="uid://dsx8yqc6k43cn"]
 
 [ext_resource type="PackedScene" uid="uid://d3dcuxijsdqq" path="res://Scenes/Stage Template/stage.tscn" id="1_ba7k7"]
 [ext_resource type="PackedScene" uid="uid://dse2a3b8xg2pb" path="res://Objects/Player/Mega Man/mega_man.tscn" id="2_1tc0v"]
 [ext_resource type="Texture2D" uid="uid://dwwcoe7n56418" path="res://Assets/Tilesets/air_man_tileset.png" id="2_4oqsr"]
 [ext_resource type="PackedScene" uid="uid://dd3j3gx5a7wkg" path="res://Objects/Level Objects/Room/room.tscn" id="3_fedaa"]
 [ext_resource type="PackedScene" uid="uid://b0ssm2j4fnsaf" path="res://Objects/Level Objects/Camera/camera.tscn" id="3_s47bt"]
+[ext_resource type="PackedScene" uid="uid://bqe31iv01goqm" path="res://Objects/Enemies/Pipi/pipi.tscn" id="6_s47bt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fedaa"]
 texture = ExtResource("2_4oqsr")
@@ -164,3 +165,7 @@ tile_set = SubResource("TileSet_on471")
 offset_right = 2560.0
 offset_bottom = 224.0
 room_width_x = 10
+
+[node name="Pipi" parent="." index="9" instance=ExtResource("6_s47bt")]
+position = Vector2(172.556, 89.9399)
+hor_speed = 0

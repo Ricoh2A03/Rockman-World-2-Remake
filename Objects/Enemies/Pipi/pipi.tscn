@@ -1,0 +1,115 @@
+[gd_scene load_steps=19 format=3 uid="uid://bqe31iv01goqm"]
+
+[ext_resource type="Script" uid="uid://7withmyrpbn8" path="res://Objects/Enemies/Pipi/pipi.gd" id="1_ed0sl"]
+[ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controler/sprite_controller.tscn" id="2_tcmhj"]
+[ext_resource type="PackedScene" uid="uid://c6srde08aptip" path="res://Objects/Components/Health and Damage Component/health_damage_component.tscn" id="3_6v3aq"]
+[ext_resource type="Texture2D" uid="uid://duyjs1j4eydaq" path="res://Assets/Enemies/Pipi/pipi_beta.png" id="3_a20tj"]
+[ext_resource type="Texture2D" uid="uid://7shtvgb7k02x" path="res://Assets/Effects/Enemy Explosion/enemy_explosion.png" id="4_npyti"]
+[ext_resource type="Script" uid="uid://ngjpin4ivjo" path="res://Objects/Enemies/damage_table.gd" id="4_odgkp"]
+[ext_resource type="PackedScene" uid="uid://cs37l6yh7swru" path="res://Objects/Components/Platformer Component/platformer_component.tscn" id="5_odgkp"]
+[ext_resource type="AudioStream" uid="uid://dbr58sf54kve8" path="res://Assets/SFX/Enemies/sfx_enemy_damage.wav" id="6_yocm6"]
+[ext_resource type="AudioStream" uid="uid://ct8ijxcypclee" path="res://Assets/SFX/Enemies/sfx_enemy_destroyed.wav" id="7_npyti"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgfxc"]
+atlas = ExtResource("4_npyti")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_itak4"]
+atlas = ExtResource("4_npyti")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7trsp"]
+atlas = ExtResource("4_npyti")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3g8dk"]
+atlas = ExtResource("4_npyti")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qa0om"]
+atlas = ExtResource("4_npyti")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frnt7"]
+atlas = ExtResource("4_npyti")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r7onb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_a20tj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sgfxc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_itak4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7trsp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3g8dk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qa0om")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_frnt7")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 16.0
+}]
+
+[sub_resource type="Resource" id="Resource_a20tj"]
+script = ExtResource("4_odgkp")
+table = Array[int]([1])
+metadata/_custom_type_script = "uid://ngjpin4ivjo"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a20tj"]
+size = Vector2(18, 16)
+
+[node name="Pipi" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "health_component", "platform_component")]
+script = ExtResource("1_ed0sl")
+sprite_controller = NodePath("SpriteController")
+health_component = NodePath("HealthDamageComponent")
+platform_component = NodePath("PlatformerComponent")
+hor_speed = 128
+
+[node name="SpriteController" parent="." node_paths=PackedStringArray("sprite_normal") instance=ExtResource("2_tcmhj")]
+sprite_normal = NodePath("Sprite")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="SpriteController"]
+sprite_frames = SubResource("SpriteFrames_r7onb")
+
+[node name="HealthDamageComponent" parent="." node_paths=PackedStringArray("parent_node") instance=ExtResource("3_6v3aq")]
+visible = false
+position = Vector2(-1, 3)
+parent_node = NodePath("..")
+max_health = 1
+damage_table = SubResource("Resource_a20tj")
+damage_sound = ExtResource("6_yocm6")
+destroyed_sound = ExtResource("7_npyti")
+
+[node name="Hitbox" parent="HealthDamageComponent" index="0"]
+collision_layer = 64
+collision_mask = 16
+
+[node name="Shape" parent="HealthDamageComponent/Hitbox" index="0"]
+shape = SubResource("RectangleShape2D_a20tj")
+
+[node name="PlatformerComponent" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("5_odgkp")]
+visible = false
+parent = NodePath("..")
+
+[connection signal="animation_finished" from="SpriteController/Sprite" to="." method="_on_animation_finished"]
+[connection signal="no_health" from="HealthDamageComponent" to="." method="_on_no_health"]
+
+[editable path="HealthDamageComponent"]
