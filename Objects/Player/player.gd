@@ -85,7 +85,8 @@ enum STATES{
 var last_state = null
 var state = STATES.TELEPORT_IN
 
-var room_limits = [0, 0, 0, 0] # left, top, right, bottom
+## left, top, right, bottom
+var room_limits = [0, 0, 0, 0]
 
 func _ready() -> void:
 	flip_sprite()
@@ -453,10 +454,10 @@ func scroll_player(scroll_direction) -> void:
 func _stop_at_room_limits() -> void:
 	if room_limits == [0, 0, 0, 0]: return
 	if state != STATES.SCROLL and state != STATES.TELEPORT_IN:
-		if global_position.x - (collision_normal.shape.size.x / 2) < room_limits[0]:
-			global_position.x = room_limits[0] + (collision_normal.shape.size.x / 2)
-		elif global_position.x + (collision_normal.shape.size.x / 2) > room_limits[2]:
-			global_position.x = room_limits[2] - (collision_normal.shape.size.x / 2)
+		if global_position.x - 16 < room_limits[0]:
+			global_position.x = room_limits[0] + 16
+		elif global_position.x + 16 > room_limits[2]:
+			global_position.x = room_limits[2] - 16
 
 		if global_position.y + (collision_normal.shape.size.y / 2 ) < room_limits[1]:
 			global_position.y = room_limits[1] - (collision_normal.shape.size.y / 2 )

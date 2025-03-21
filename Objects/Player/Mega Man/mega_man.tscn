@@ -76,7 +76,7 @@ sprite_shoot = NodePath("SpriteShoot")
 
 [node name="SpriteNormal" type="AnimatedSprite2D" parent="SpriteController"]
 sprite_frames = ExtResource("4_mhlwb")
-animation = &"teleport"
+animation = &"idle"
 
 [node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
 visible = false
@@ -84,7 +84,6 @@ sprite_frames = ExtResource("5_dy1p1")
 animation = &"walk"
 
 [node name="Normal" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("RectangleShape2D_3pimt")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
