@@ -112,7 +112,7 @@ func transit_to_scene(duration: float, to_scene: PackedScene = null, fade_in: bo
 
 ##########################################
 
-func play_music(music: AudioStreamWAV) -> void:
+func play_music(music: AudioStream) -> void:
 	music_player.stream = music
 	music_player.play()
 

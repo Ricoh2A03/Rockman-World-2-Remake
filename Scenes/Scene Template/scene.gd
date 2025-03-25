@@ -2,7 +2,7 @@ class_name Scene extends Node2D
 
 @export_category("Scene Music")
 ## Which music starts when scene loads.
-@export var music_to_play: AudioStreamWAV
+@export var music_to_play: AudioStream
 ## Self-explanatory.
 @export var play_music_at_start: bool = false
 

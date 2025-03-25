@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cosjcealp457" path="res://Scenes/PLACEHOLDER/Title/title.gd" id="1_fqf64"]
 [ext_resource type="Texture2D" uid="uid://do6lc4k2sxk00" path="res://Assets/PLACEHOLDER/Title Screen/title.png" id="1_jyyao"]
-[ext_resource type="AudioStream" uid="uid://c3dq8d78jr8pv" path="res://Assets/Music/PLACEHOLDER/mus_title_7.wav" id="3_jpn66"]
+[ext_resource type="AudioStream" uid="uid://cqjv2hekhaa3e" path="res://Assets/Music/Rushjet1/TitleScreen.ogg" id="2_bkpdu"]
 [ext_resource type="Script" uid="uid://gbld5irc21s8" path="res://Objects/Components/Scene Transitor/scene_transitor.gd" id="3_we2a1"]
 [ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="4_v33p2"]
 [ext_resource type="PackedScene" uid="uid://d0w3aeoj18s8f" path="res://Scenes/Stage Select/stage_select.tscn" id="4_xnlo6"]
@@ -11,7 +11,7 @@
 
 [node name="TitleScreen" type="Node2D" node_paths=PackedStringArray("scene_transitor")]
 script = ExtResource("1_fqf64")
-music_to_play = ExtResource("3_jpn66")
+music_to_play = ExtResource("2_bkpdu")
 play_music_at_start = true
 scene_transitor = NodePath("SceneTransitor")
 

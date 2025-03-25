@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://d0w3aeoj18s8f"]
 
 [ext_resource type="Script" uid="uid://bs6i8rta126bn" path="res://Scenes/Stage Select/stage_select.gd" id="1_dhu47"]
-[ext_resource type="AudioStream" uid="uid://c4w8c8gq81f20" path="res://Assets/Music/mus_stage-select-v.1.0.wav" id="2_o7bvx"]
+[ext_resource type="AudioStream" uid="uid://d0q13gp80q1y8" path="res://Assets/Music/Rushjet1/StageSelect.ogg" id="2_732bc"]
 [ext_resource type="PackedScene" uid="uid://b64ts823vknoo" path="res://Objects/Components/Scene Transitor/scene_transitor.tscn" id="3_3kunf"]
 [ext_resource type="Texture2D" uid="uid://dt42ds4h3wco5" path="res://Assets/UI/Stage Select/stage_select_wip.png" id="3_5eyif"]
 [ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="3_qiqsc"]
@@ -44,7 +44,7 @@ animations = [{
 
 [node name="StageSelect" type="Node2D" node_paths=PackedStringArray("scene_transitor")]
 script = ExtResource("1_dhu47")
-music_to_play = ExtResource("2_o7bvx")
+music_to_play = ExtResource("2_732bc")
 play_music_at_start = true
 scene_transitor = NodePath("SceneTransitor")
 
