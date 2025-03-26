@@ -238,11 +238,8 @@ func _process(_delta) -> void:
 				### Slide --> Ground ###
 				if slide_timer.time_left == 0 and !ceiling: # !!!
 					# BUG !!!!!!!!
-					# Walk animation in the air
+					# Fall animation in the air
 					can_shoot = true
-					sprite_controller.play_animation("slide_end") ##
-					velocity.x = 0
-					state = STATES.GROUND
 
 				### Jumping --> Air ###
 				if !ceiling and Input.is_action_just_pressed("jump"):
