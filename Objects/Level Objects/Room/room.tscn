@@ -12,6 +12,7 @@ border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
 [node name="Room1" type="ReferenceRect"]
+z_index = 101
 offset_right = 256.0
 offset_bottom = 256.0
 border_color = Color(0.0805977, 0.475553, 1, 1)
