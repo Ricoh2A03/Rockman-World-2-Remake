@@ -14,6 +14,8 @@ func _on_animation_finished() -> void:
 	match sprite_controller.get_current_animation():
 
 		"teleport":
+			apply_gravity = true
+			can_shoot = true
 			state = STATES.GROUND
 
 		"land":

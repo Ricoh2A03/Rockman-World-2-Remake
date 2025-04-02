@@ -4,8 +4,8 @@ class_name Stage extends Scene
 signal player_died()
 signal boss_defeated()
 
-var player_ref = null
-var camera_ref = null
+var player_ref: Player = null
+var camera_ref: Camera2D = null
 
 var is_scrolling: bool = false
 
@@ -139,12 +139,7 @@ func spawn_player() -> void:
 func spawn_player_at_checkpoint() -> void:
 	if current_checkpoint:
 		player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
-	else:
-		if start_room:
-			if !current_checkpoint:
-				player_ref.global_position = Vector2(128, start_room.global_position.y - 16)
-			else:
-				player_ref.global_position = Vector2(current_checkpoint.global_position.x, _current_room.global_position.y - 16)
+		player_ref.teleport_to(current_checkpoint.global_position)
 
 ############### C A M E R A ###############
 

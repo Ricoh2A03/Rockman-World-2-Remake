@@ -9,4 +9,4 @@ func _on_fade_timeout() -> void:
 	%LogoSprite.play("default")
 	var timer = get_tree().create_timer(2)
 	await timer.timeout
-	Globals.main.transit_to_scene(0.35, scene_transitor.scenes[0])
+	Globals.main.goto_scene(0.35, scene_transitor.scenes[0])

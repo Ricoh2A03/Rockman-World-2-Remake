@@ -92,6 +92,7 @@ func _ready() -> void:
 	flip_sprite()
 	snd_teleport_in.play()
 
+#region Update routine
 func _process(_delta) -> void:
 
 	if apply_gravity:
@@ -127,8 +128,7 @@ func _process(_delta) -> void:
 
 		match state:
 
-##########################################
-
+#region Ground State
 			STATES.GROUND:
 				change_collision_shapes("normal")
 
@@ -176,9 +176,9 @@ func _process(_delta) -> void:
 					state = STATES.SLIDE
 
 				flip_sprite()
+#endregion
 
-##########################################
-
+#region Air State
 			STATES.AIR:
 				change_collision_shapes("normal")
 
@@ -216,9 +216,9 @@ func _process(_delta) -> void:
 				flip_sprite()
 
 				_terminal_Y_velocity()
+#endregion
 
-##########################################
-
+#region Slide State
 			STATES.SLIDE:
 				change_collision_shapes("slide")
 
@@ -253,9 +253,9 @@ func _process(_delta) -> void:
 				velocity.x = direction * stats.slide_speed
 
 				flip_sprite()
+#endregion
 
-##########################################
-
+#region Climb State
 			STATES.CLIMB:
 				apply_gravity = false
 				if !on_ladder_top:
@@ -306,25 +306,12 @@ func _process(_delta) -> void:
 					state = STATES.AIR
 					sprite_controller.set_speed_scale(1.0) ##
 					apply_gravity = true
-
-##########################################
+#endregion
 
 			STATES.TELEPORT_IN:
-				sprite_controller.play_animation("teleport")
+				velocity.y = 0
 				apply_gravity = false
-
-				if get_slide_collision_count() == 0:
-					sprite_controller.set_speed_scale(0.0) ##
-					velocity.y += 562
-					if velocity.y > 562: velocity.y = 562
-				else:
-					velocity.y = 0
-					sprite_controller.set_speed_scale(1.0) ##
-					sprite_controller.play_animation("teleport")
-					apply_gravity = true
-					can_shoot = true
-
-##########################################
+				can_shoot = false
 
 			STATES.DEAD:
 				sprite_controller.enable_sprite(false) ##
@@ -336,8 +323,19 @@ func _process(_delta) -> void:
 	_stop_at_room_limits()
 
 	if Input.is_action_just_pressed("debug_kill_player"): death_proccessing(false)
+#endregion
 
-##########################################
+func teleport_to(destination: Vector2) -> void:
+	set_colliders(false)
+	sprite_controller.play_animation("teleport")
+	sprite_controller.set_speed_scale(0.0)
+	self.global_position = Vector2(destination.x, room_limits[1])
+	var tween: Tween = create_tween()
+	tween.tween_property(self, "global_position:y", destination.y, 0.32)
+	await tween.finished
+	set_colliders(true)
+	sprite_controller.set_speed_scale(1.0)
+	sprite_controller.play_animation("teleport")
 
 func change_collision_shapes(shape: String) -> void:
 	if shape == "slide":
@@ -361,6 +359,11 @@ func set_shoot_state(is_shoot: bool) -> void: is_shooting = is_shoot
 
 # DIRECTION
 func set_direction(dir: int) -> void: direction = dir
+
+# COLLISION
+func set_colliders(can_collide: bool) -> void:
+	self.set_collision_layer_value(3, can_collide)
+	self.set_collision_mask_value(1, can_collide)
 
 ##########################################
 
@@ -461,19 +464,3 @@ func _stop_at_room_limits() -> void:
 			#sprite_controller.enable_sprite(false)
 		#else:
 			#sprite_controller.enable_sprite(true)
-
-##########################################
-
-#func menu_opened(opened: bool) -> void:
-	#if opened:
-		#sprite_controller.set_speed_scale(0.0)
-		#velocity.x = 0
-		#velocity.y = 0
-		#apply_gravity = false
-		#allow_movement = false
-		#if slide_timer.time_left > 0: slide_timer.paused = true
-	#elif !opened:
-		#sprite_controller.set_speed_scale(1.0)
-		#slide_timer.paused = false
-		#apply_gravity = true
-		#allow_movement = true

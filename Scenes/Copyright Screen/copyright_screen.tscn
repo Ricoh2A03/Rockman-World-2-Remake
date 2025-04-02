@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://br5ihmapn44vc"]
+[gd_scene load_steps=15 format=3 uid="uid://br5ihmapn44vc"]
 
 [ext_resource type="Script" uid="uid://cij1yb1ceiyhm" path="res://Scenes/Copyright Screen/copyright_screen.gd" id="1_qvh7j"]
 [ext_resource type="AudioStream" uid="uid://dn6pwhr1fucyi" path="res://Assets/Music/mus_logo.wav" id="2_upau0"]
 [ext_resource type="Script" uid="uid://gbld5irc21s8" path="res://Objects/Components/Scene Transitor/scene_transitor.gd" id="3_gt8fi"]
 [ext_resource type="PackedScene" uid="uid://cnvt4vlwtpda3" path="res://Scenes/PLACEHOLDER/Title/title.tscn" id="4_dc624"]
 [ext_resource type="Texture2D" uid="uid://ck4vxj3eyb1ya" path="res://Assets/UI/Copyright/capcom_logo.png" id="4_vg17v"]
+[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="6_lnwks"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t83k8"]
 atlas = ExtResource("4_vg17v")
@@ -85,6 +86,17 @@ position = Vector2(128, 112)
 sprite_frames = SubResource("SpriteFrames_dd861")
 frame = 6
 frame_progress = 1.0
+
+[node name="BossNameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 80.0
+offset_top = 88.0
+offset_right = 176.0
+offset_bottom = 97.0
+theme_override_fonts/font = ExtResource("6_lnwks")
+theme_override_font_sizes/font_size = 8
+text = "INSPIRED BY"
+horizontal_alignment = 1
 
 [node name="FadeIn" type="ColorRect" parent="."]
 unique_name_in_owner = true

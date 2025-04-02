@@ -5,25 +5,38 @@ class_name Main extends Node
 
 ##########################################
 
-## First Scene that loads at the start of the game.
+## Scene that loads at the start of the game.
 @export var first_scene: PackedScene
+## Speed at which [member first_scene] is faded in.
 @export var load_fade_speed: float = 0.0
 
 var current_scene: Scene
-var is_transiting: bool = false
 
 ##########################################
 
-var _fullscreen: bool = true
+var _fullscreen: bool = false
 var _debug_mute: bool = false
 
+#region Initialization routine
+func _ready() -> void:
+	Globals.main = self
+	# Mute everything so I can listen to music while debugging :D
+	AudioServer.set_bus_volume_db(0, -15)
+	#AudioServer.set_bus_volume_db(0, -80)
+	# Set windowed mode
+	toggle_fullscreen()
+	# Check if there's starting scene and instantiate it
+	if first_scene:
+		goto_scene(load_fade_speed, first_scene, true)
+#endregion
+
+## Toggles fullscreen mode.
 func toggle_fullscreen() -> void:
 	_fullscreen = !_fullscreen
 	if _fullscreen: DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else: DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
-##########################################
-
+#region Pause related code
 var _is_paused: bool = false
 
 func is_paused() -> bool: return _is_paused
@@ -48,38 +61,30 @@ func unpauseGame(groups: Array[StringName]) -> void:
 
 	get_tree().paused = false
 	_is_paused = false
+#endregion
 
-##########################################
-
-func _ready() -> void:
-	Globals.main = self
-	# Mute everything so I can listen to music while debugging :D
-	AudioServer.set_bus_volume_db(0, -15)
-	#AudioServer.set_bus_volume_db(0, -80)
-	# Set windowed mode
-	toggle_fullscreen()
-	# Check if there's starting scene and instantiate it
-	if first_scene:
-		transit_to_scene(load_fade_speed, first_scene, true)
-	#if first_scene:
-		#var scene_instance = first_scene.instantiate()
-		#current_scene = scene_instance
-		#call_deferred("add_child", scene_instance)
-
-##########################################
-
+#region Input handler
 func _input(event):
 	if event.is_action_pressed("toggle_fullscreen"):
 		toggle_fullscreen()
+#endregion
 
-##########################################
+#region Scene Transition routine
 
-func transit_to_scene(duration: float, to_scene: PackedScene = null, fade_in: bool = false) -> void:
+var is_scene_transition: bool = false
+
+## Returns [member is_scene_transition].
+func get_scene_transition() -> bool: return is_scene_transition
+
+## Initiaizes a scene transition to a specified file.[br]
+## Parameter [param duration] determines the speed of the transition.[br]
+## If [param fade_in] is [code]true[/code], if transition should start with the fade in effect.
+func goto_scene(duration: float, to_scene: PackedScene = null, fade_in: bool = false) -> void:
 	# Get out if transitioning already.
-	if is_transiting: return
+	if is_scene_transition: return
 
 	if !fade_in:
-		is_transiting = true
+		is_scene_transition = true
 		# Create tween.
 		var tween_in = get_tree().create_tween()
 		tween_in.set_parallel()
@@ -108,15 +113,41 @@ func transit_to_scene(duration: float, to_scene: PackedScene = null, fade_in: bo
 	tween_out.tween_property(fade_color, "self_modulate", Color(1, 1, 1, 0), duration) # color to transparent
 	tween_out.play()
 	await tween_out.finished
-	is_transiting = false
+	is_scene_transition = false
+#endregion
 
-##########################################
-
+#region Background Music related functions
+## Plays music. First stops previous track, then resets volume to 0 (in case the fade out was applied before),
+## and then starts to play passed audio reference.
 func play_music(music: AudioStream) -> void:
+	music_player.stop()
+	music_player.volume_db = 0
 	music_player.stream = music
 	music_player.play()
 
+## If  [code]true[/code], pauses currently played track.
 func pause_music(paused: bool) -> void: music_player.stream_paused = paused
 
 ## Stops music playback.
 func stop_music() -> void: music_player.stop()
+
+## Fades currently played music in or out, depending on a passed boolean value.
+func fade_music(fade_in: bool, fade_speed: float) -> void:
+	var tween = get_tree().create_tween()
+	if fade_in: tween.tween_property(music_player, "volume_db", 0, fade_speed)
+	else: tween.tween_property(music_player, "volume_db", -80, fade_speed)
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+#

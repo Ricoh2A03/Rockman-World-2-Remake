@@ -11,7 +11,7 @@ func _input(event):
 	if event.is_action_pressed("weapon_menu"):
 		_can_select = false
 		if scene_transitor:
-			Globals.main.transit_to_scene(0.35, scene_transitor.scenes[cur_Ypos])
+			Globals.main.goto_scene(0.35, scene_transitor.scenes[cur_Ypos])
 
 	if _can_select and event.is_action_pressed("up"):
 		if cur_Ypos != 0: cur_Ypos -= 1

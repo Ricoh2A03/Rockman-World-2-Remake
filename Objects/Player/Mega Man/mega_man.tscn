@@ -88,7 +88,6 @@ shape = SubResource("RectangleShape2D_3pimt")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="Slide" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_6gvmi")
 disabled = true
@@ -111,7 +110,6 @@ shape = SubResource("RectangleShape2D_qtxg6")
 debug_color = Color(3.22476e-06, 0.645431, 0.260216, 0.42)
 
 [node name="CeilingDetector" parent="." instance=ExtResource("9_ex5gi")]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CeilingDetector"]
 position = Vector2(0, 2)

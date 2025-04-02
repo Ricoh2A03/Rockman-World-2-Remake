@@ -1,14 +1,23 @@
-[gd_scene load_steps=14 format=3 uid="uid://d0w3aeoj18s8f"]
+[gd_scene load_steps=26 format=3 uid="uid://d0w3aeoj18s8f"]
 
 [ext_resource type="Script" uid="uid://bs6i8rta126bn" path="res://Scenes/Stage Select/stage_select.gd" id="1_dhu47"]
+[ext_resource type="AudioStream" uid="uid://canvp6b3nve6u" path="res://Assets/Music/Rushjet1/StageSelected.ogg" id="2_34vyr"]
 [ext_resource type="AudioStream" uid="uid://d0q13gp80q1y8" path="res://Assets/Music/Rushjet1/StageSelect.ogg" id="2_732bc"]
 [ext_resource type="PackedScene" uid="uid://b64ts823vknoo" path="res://Objects/Components/Scene Transitor/scene_transitor.tscn" id="3_3kunf"]
-[ext_resource type="Texture2D" uid="uid://dt42ds4h3wco5" path="res://Assets/UI/Stage Select/stage_select_wip.png" id="3_5eyif"]
 [ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="3_qiqsc"]
 [ext_resource type="PackedScene" uid="uid://dsx8yqc6k43cn" path="res://Scenes/Stages/Air Man/air_man_stage.tscn" id="4_732bc"]
 [ext_resource type="Texture2D" uid="uid://o216hifamkon" path="res://Assets/UI/Stage Select/stage_select_cursor.png" id="4_cyiw1"]
 [ext_resource type="PackedScene" uid="uid://ciqs0sqagcg73" path="res://Scenes/Stages/Cyber Test Stage/cyber_test_stage.tscn" id="4_on21k"]
-[ext_resource type="Texture2D" uid="uid://b0iupg4yqdoru" path="res://Assets/UI/Stage Select/stage_select_overlay.png" id="5_qektj"]
+[ext_resource type="Texture2D" uid="uid://cxgutv4of7tol" path="res://Assets/UI/Stage Select/boss_intro_stars2.png" id="6_7so4t"]
+[ext_resource type="AudioStream" uid="uid://q1g4fu5hj8ka" path="res://Assets/SFX/Menus/sfx_stage_selected.wav" id="7_l0qwi"]
+[ext_resource type="Texture2D" uid="uid://cn21u3u737re" path="res://Assets/UI/Stage Select/boss_intro_stars3.png" id="7_o2u7y"]
+[ext_resource type="Texture2D" uid="uid://2a4tnxm7y74e" path="res://Assets/UI/Stage Select/brick_bg.png" id="9_o2u7y"]
+[ext_resource type="Texture2D" uid="uid://dlykmdtcn33ca" path="res://Assets/UI/Stage Select/bosses_row1.png" id="10_7so4t"]
+[ext_resource type="Texture2D" uid="uid://he1086k5n6tf" path="res://Assets/UI/Stage Select/boss_intro_stars1.png" id="11_lo8wf"]
+[ext_resource type="Texture2D" uid="uid://c7skmkf0kk52g" path="res://Assets/UI/Stage Select/bosses_row2.png" id="11_o2u7y"]
+[ext_resource type="Texture2D" uid="uid://cj17eskt5x37s" path="res://Assets/UI/Stage Select/bosses_row3.png" id="12_w2ct4"]
+[ext_resource type="Texture2D" uid="uid://briypdbcxcmx5" path="res://Assets/UI/Stage Select/boss_intro_pedestal.png" id="13_xbuua"]
+[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="18_1svv6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u2ndr"]
 atlas = ExtResource("4_cyiw1")
@@ -42,8 +51,191 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="Animation" id="Animation_34vyr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StageIconsContainer/Row1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(128, 40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StageIconsContainer/Row2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(128, 112)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("StageIconsContainer/Row3:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(128, 184)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("StageIconsContainer/BossPedestal:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-152, 112)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BGContainer/BGTiles:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BossNameLabel:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-256, 104)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BossNameLabel:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_w2ct4"]
+resource_name = "transition_start"
+length = 0.9
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StageIconsContainer/Row1:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(128, 40), Vector2(-128, 40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StageIconsContainer/Row2:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(128, 112), Vector2(384, 112)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("StageIconsContainer/Row3:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(128, 184), Vector2(-128, 184)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("StageIconsContainer/BossPedestal:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-152, 112), Vector2(128, 112)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BGContainer/BGTiles:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BossNameLabel:position")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-256, 104), Vector2(24, 104)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BossNameLabel:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xbuua"]
+_data = {
+&"RESET": SubResource("Animation_34vyr"),
+&"transition_start": SubResource("Animation_w2ct4")
+}
+
 [node name="StageSelect" type="Node2D" node_paths=PackedStringArray("scene_transitor")]
 script = ExtResource("1_dhu47")
+mus_stage_start = ExtResource("2_34vyr")
 music_to_play = ExtResource("2_732bc")
 play_music_at_start = true
 scene_transitor = NodePath("SceneTransitor")
@@ -51,25 +243,111 @@ scene_transitor = NodePath("SceneTransitor")
 [node name="SceneTransitor" parent="." instance=ExtResource("3_3kunf")]
 scenes = Array[PackedScene]([null, ExtResource("4_732bc"), null, null, ExtResource("4_on21k"), null, null, null, null])
 
+[node name="BGContainer" type="Node" parent="."]
+
+[node name="BGStreaks1" type="TextureRect" parent="BGContainer"]
+z_index = -1
+offset_right = 512.0
+offset_bottom = 256.0
+texture = ExtResource("11_lo8wf")
+stretch_mode = 1
+
+[node name="BGStreaks2" type="TextureRect" parent="BGContainer"]
+z_index = -1
+offset_right = 512.0
+offset_bottom = 256.0
+texture = ExtResource("7_o2u7y")
+stretch_mode = 1
+
+[node name="BGStreaks3" type="TextureRect" parent="BGContainer"]
+z_index = -1
+offset_right = 512.0
+offset_bottom = 256.0
+texture = ExtResource("6_7so4t")
+stretch_mode = 1
+
+[node name="BGTiles" type="TextureRect" parent="BGContainer"]
+z_index = -1
+offset_right = 256.0
+offset_bottom = 224.0
+texture = ExtResource("9_o2u7y")
+metadata/_edit_use_anchors_ = true
+
+[node name="ScreenFlash" type="ColorRect" parent="BGContainer"]
+unique_name_in_owner = true
+visible = false
+offset_right = 256.0
+offset_bottom = 224.0
+
+[node name="Black" type="ColorRect" parent="BGContainer"]
+z_index = -10
+offset_right = 256.0
+offset_bottom = 224.0
+color = Color(0, 0, 0, 1)
+
+[node name="StageIconsContainer" type="Node" parent="."]
+
+[node name="Row1" type="Sprite2D" parent="StageIconsContainer"]
+position = Vector2(128, 40)
+texture = ExtResource("10_7so4t")
+
+[node name="Row2" type="Sprite2D" parent="StageIconsContainer"]
+position = Vector2(128, 112)
+texture = ExtResource("11_o2u7y")
+
+[node name="Row3" type="Sprite2D" parent="StageIconsContainer"]
+position = Vector2(128, 184)
+texture = ExtResource("12_w2ct4")
+
+[node name="BossPedestal" type="Sprite2D" parent="StageIconsContainer"]
+position = Vector2(-152, 112)
+texture = ExtResource("13_xbuua")
+
+[node name="SceneTransitionDelay" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.5
+one_shot = true
+
 [node name="CursorSFX" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_qiqsc")
 bus = &"SFX"
 
-[node name="BG" type="TextureRect" parent="."]
-offset_right = 256.0
-offset_bottom = 224.0
-texture = ExtResource("3_5eyif")
-metadata/_edit_lock_ = true
-
-[node name="BG2" type="TextureRect" parent="."]
-offset_right = 256.0
-offset_bottom = 224.0
-texture = ExtResource("5_qektj")
-metadata/_edit_lock_ = true
+[node name="StageSelectedSFX" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_l0qwi")
+bus = &"SFX"
 
 [node name="Cursor" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+z_index = 1
 position = Vector2(128, 112)
 sprite_frames = SubResource("SpriteFrames_04d56")
 autoplay = "default"
+
+[node name="BossIntro" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(-64, 0)
+
+[node name="BossNameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+offset_left = -256.0
+offset_top = 104.0
+offset_right = -128.0
+offset_bottom = 113.0
+theme_override_fonts/font = ExtResource("18_1svv6")
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_xbuua")
+}
+
+[connection signal="timeout" from="SceneTransitionDelay" to="." method="_on_scene_transition_delay_timeout"]
+[connection signal="finished" from="StageSelectedSFX" to="." method="_on_selected_sfx_finished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

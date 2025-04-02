@@ -207,7 +207,7 @@ sprite_normal = NodePath("Sprite")
 [node name="Sprite" type="AnimatedSprite2D" parent="SpriteController"]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_ykrwn")
-animation = &"explode"
+animation = &"defending"
 autoplay = "defending"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
