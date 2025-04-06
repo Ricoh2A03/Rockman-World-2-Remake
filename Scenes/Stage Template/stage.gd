@@ -190,7 +190,9 @@ func _on_fade_timeout() -> void:
 	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 1), 1)
 	await tween.finished
 	tween.stop()
-	set_stage_camera_limits(current_checkpoint.associated_room)
+	_current_room = current_checkpoint.associated_room
+	set_stage_camera_limits(_current_room)
+	player_ref.room_limits = _current_room_limits
 	player_ref.teleport_to(current_checkpoint.global_position)
 	Globals.main.play_music(music_to_play)
 	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 0), 1)

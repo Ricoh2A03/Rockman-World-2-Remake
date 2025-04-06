@@ -192,7 +192,7 @@ sources/0 = SubResource("TileSetAtlasSource_l5gvf")
 
 [node name="CyberTestStage" node_paths=PackedStringArray("start_room", "checkpoints") instance=ExtResource("1_5bc5n")]
 start_room = NodePath("RoomContainer/Room1")
-checkpoints = [NodePath("CheckpointContainer/Checkpoint1")]
+checkpoints = [NodePath("CheckpointContainer/Checkpoint1"), NodePath("CheckpointContainer/Checkpoint2")]
 player_path = ExtResource("2_ym7sp")
 camera_path = ExtResource("3_hvtrl")
 music_to_play = ExtResource("4_tn604")
@@ -225,13 +225,14 @@ exit_bottom = NodePath("../Room1")
 spawners = [NodePath("../../SpawnerContainer/Spawner1")]
 metadata/_edit_use_anchors_ = true
 
-[node name="Room3" parent="RoomContainer" index="2" node_paths=PackedStringArray("exit_left", "exit_top", "exit_right") instance=ExtResource("3_p0a6h")]
+[node name="Room3" parent="RoomContainer" index="2" node_paths=PackedStringArray("exit_left", "exit_top", "exit_right", "room_checkpoint") instance=ExtResource("3_p0a6h")]
 offset_left = 512.0
 offset_right = 768.0
 offset_bottom = 224.0
 exit_left = NodePath("../Room1")
 exit_top = NodePath("../Room4")
 exit_right = NodePath("../Room6")
+room_checkpoint = NodePath("../../CheckpointContainer/Checkpoint2")
 metadata/_edit_use_anchors_ = true
 
 [node name="Room4" parent="RoomContainer" index="3" node_paths=PackedStringArray("exit_left", "exit_right", "exit_bottom") instance=ExtResource("3_p0a6h")]
@@ -293,3 +294,8 @@ ladder_size = 15
 position = Vector2(128, 173)
 stage_reference = NodePath("../..")
 associated_room = NodePath("../../RoomContainer/Room1")
+
+[node name="Checkpoint2" parent="CheckpointContainer" index="1" node_paths=PackedStringArray("stage_reference", "associated_room") instance=ExtResource("10_avvjb")]
+position = Vector2(640, 109)
+stage_reference = NodePath("../..")
+associated_room = NodePath("../../RoomContainer/Room3")
