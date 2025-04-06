@@ -289,5 +289,7 @@ ladder_size = 14
 position = Vector2(896, 200)
 ladder_size = 15
 
-[node name="Checkpoint1" parent="CheckpointContainer" index="0" instance=ExtResource("10_avvjb")]
+[node name="Checkpoint1" parent="CheckpointContainer" index="0" node_paths=PackedStringArray("stage_reference", "associated_room") instance=ExtResource("10_avvjb")]
 position = Vector2(128, 173)
+stage_reference = NodePath("../..")
+associated_room = NodePath("../../RoomContainer/Room1")

@@ -14,11 +14,13 @@ var is_scrolling: bool = false
 @export var start_room: Room
 ## Current active room
 var _current_room: Room
-var _current_room_limits: Array[int] = [0, 0, 0, 0] # left - [0], top - [1], right - [2], bottom - [3]
+## left - [0], top - [1], right - [2], bottom - [3]
+var _current_room_limits: Array[int] = [0, 0, 0, 0]
 
 @export_category("Checkpoint List")
 ## List of all stage checkpoints. First one in this array is the start of the stage.
 @export var checkpoints: Array[Checkpoint] = []
+##
 var current_checkpoint: Checkpoint
 
 @export_category("Player and Camera")
@@ -27,8 +29,10 @@ var current_checkpoint: Checkpoint
 ## Path to Camera node to instatiate.
 @export var camera_path: PackedScene
 
-@onready var stage_ui = $StageUI
-@onready var ui_anim_player = $StageUI/AnimationPlayer
+@onready var stage_ui: CanvasLayer = $StageUI
+@onready var ui_anim_player: AnimationPlayer = $StageUI/AnimationPlayer
+@onready var fade_overlay: ColorRect = $StageUI/Fade
+@onready var fade_timer: Timer = $FadeTimer
 
 ###########################################
 
@@ -117,8 +121,9 @@ func check_scrolling_criterias():
 # Loop through spawners in currently active room and destroy each object
 
 func stage_finished_scrolling(room: Room) -> void:
-	room.activate_spawners()
 	_current_room = room
+	room.activate_spawners()
+	if room.get_checkpoint() is Checkpoint: current_checkpoint = room.get_checkpoint()
 	set_stage_room_limits()
 	is_scrolling = false
 	player_ref.room_limits = _current_room_limits
@@ -163,6 +168,7 @@ func connect_camera_to_player() -> void:
 
 func _player_died() -> void:
 	Globals.main.pause_music(true)
+	fade_timer.start()
 
 func flash_ready_text() -> void: ui_anim_player.play("ready_appear")
 
@@ -178,3 +184,14 @@ func _on_animation_player_finished(anim_name) -> void:
 			connect_camera_to_player()
 
 # ГОООООООООООЛ
+
+func _on_fade_timeout() -> void:
+	var tween = get_tree().create_tween()
+	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 1), 1)
+	await tween.finished
+	tween.stop()
+	set_stage_camera_limits(current_checkpoint.associated_room)
+	player_ref.teleport_to(current_checkpoint.global_position)
+	Globals.main.play_music(music_to_play)
+	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 0), 1)
+	print("Hi")

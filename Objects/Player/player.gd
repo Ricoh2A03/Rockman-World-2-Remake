@@ -90,7 +90,6 @@ var room_limits = [0, 0, 0, 0]
 
 func _ready() -> void:
 	flip_sprite()
-	snd_teleport_in.play()
 
 #region Update routine
 func _process(_delta) -> void:
@@ -326,6 +325,13 @@ func _process(_delta) -> void:
 #endregion
 
 func teleport_to(destination: Vector2) -> void:
+	sprite_controller.enable_sprite(true) ##
+	self.visible = true
+	allow_movement = true
+	#can_double_jump = false
+
+	snd_teleport_in.play()
+	set_player_state(STATES.TELEPORT_IN)
 	set_colliders(false)
 	sprite_controller.play_animation("teleport")
 	sprite_controller.set_speed_scale(0.0)

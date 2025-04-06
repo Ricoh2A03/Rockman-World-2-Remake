@@ -73,13 +73,13 @@ func _input(event):
 
 var is_scene_transition: bool = false
 
-## Returns [member is_scene_transition].
+## Returns [code]true[/code] if [member is_scene_transition] is in process.
 func get_scene_transition() -> bool: return is_scene_transition
 
 ## Initiaizes a scene transition to a specified file.[br]
 ## Parameter [param duration] determines the speed of the transition.[br]
 ## If [param fade_in] is [code]true[/code], if transition should start with the fade in effect.
-func goto_scene(duration: float, to_scene: PackedScene = null, fade_in: bool = false) -> void:
+func goto_scene(duration: float, to_scene: PackedScene = null, fade_in: bool = false, music_fade_out: bool = true) -> void:
 	# Get out if transitioning already.
 	if is_scene_transition: return
 
@@ -90,13 +90,14 @@ func goto_scene(duration: float, to_scene: PackedScene = null, fade_in: bool = f
 		tween_in.set_parallel()
 
 		tween_in.tween_property(fade_color, "self_modulate", Color(1, 1, 1, 1), duration) # transparent to color
-		tween_in.tween_property(music_player, "volume_db", -80, duration)
+		if music_fade_out: tween_in.tween_property(music_player, "volume_db", -80, duration)
 
 		await tween_in.finished
-		stop_music()
+		if music_fade_out: stop_music()
 		tween_in.stop()
 
 	if !fade_in:
+		# Creates a small delay so that the transition feels lees jarring.
 		var delay = get_tree().create_timer(1)
 		await delay.timeout
 
@@ -106,7 +107,7 @@ func goto_scene(duration: float, to_scene: PackedScene = null, fade_in: bool = f
 		current_scene = scene_instance
 		call_deferred("add_child", scene_instance)
 
-	music_player.volume_db = 0
+	if music_fade_out: music_player.volume_db = 0
 
 	var tween_out = get_tree().create_tween()
 

@@ -1,8 +1,10 @@
 @tool
+## Class description.
 class_name Room extends ReferenceRect
 
 @export_category("Room Size")
-## Horizontal size of room in screens.
+## Horizontal size of room in screens.[br]
+## 
 @export_range(1, 25) var room_width_x: int = 1:
 	set(value):
 		room_width_x = value
@@ -14,15 +16,15 @@ class_name Room extends ReferenceRect
 		room_width_y = value
 		set_room_size()
 
+## References to other rooms.
+## If room doesn't have exits from left and right,
+## player won't be able to go past screen edges.
+##
+## If room doesn't have exit from the top,
+## it won't trigger scroll even when climbing up ladders.
+##
+## If room doesn't have exit from the bottom, it will trigger a pit death.
 @export_category("Exits")
-# References to other rooms.
-# If room doesn't have exits from left and right,
-# player won't be able to go past screen edges.
-#
-# If room doesn't have exit from the top,
-# it won't trigger scroll even when climbing up ladders.
-#
-# If room doesn't have exit from the bottom, it will trigger a pit death.
 @export var exit_left: Room
 @export var exit_top: Room
 @export var exit_right: Room
@@ -31,6 +33,24 @@ class_name Room extends ReferenceRect
 @export_category("Spawners")
 ## List of all room spawners.
 @export var spawners: Array[Spawner]
+
+@export_category("Checkpoint")
+## Reference to the checkpoint that will be activated after finishing scrolling.
+@export var room_checkpoint: Checkpoint
+
+
+func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		$Label.text = self.name
+	else:
+		self.visible = false
+
+func get_checkpoint() -> Checkpoint: return room_checkpoint
+
+func set_room_size() -> void:
+	if Engine.is_editor_hint():
+		size.x = 256 * room_width_x
+		size.y = 224 * room_width_y
 
 func activate_spawners() -> void:
 	# Loop through all spawners and activate them
@@ -48,14 +68,3 @@ func deactivate_spawners() -> void:
 
 # Loop through all spawners and despawn all spawned objects
 func despawn_objects() -> void: for spawner in spawners: spawner.despawn()
-
-func _enter_tree() -> void:
-	if Engine.is_editor_hint():
-		$Label.text = self.name
-	else:
-		self.visible = false
-
-func set_room_size() -> void:
-	if Engine.is_editor_hint():
-		size.x = 256 * room_width_x
-		size.y = 224 * room_width_y
