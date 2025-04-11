@@ -4,7 +4,7 @@ signal player_scroll_finished()
 signal player_dead()
 
 @export_category("Player Stats")
-## Resource that contains all of the values that are relevant to physics.
+## [param Resource] that contains all of the values that are relevant to physics.
 @export var stats: PlayerStats # player stat resource
 
 @export_category("Dependent Nodes")
@@ -45,13 +45,13 @@ var weapon_inventory
 @export var snd_death: AudioStreamPlayer
 
 @export_group("Physics Toggles")
-## Wether or not the gravity should be applied. 
+## Whether or not the gravity should be applied. 
 @export var apply_gravity: bool = true
 ## Set to true to ignore control from the player.
 @export var allow_movement: bool = true
 ## Self-explanatory.
 @export var can_double_jump: bool = false
-## Wether or not physics should be processed.
+## Whether or not physics should be processed.
 @export var move_and_slide_on: bool = true
 
 var can_step: bool = true
@@ -69,6 +69,17 @@ var current_ladder: Ladder
 var double_jump: bool = true
 var direction: int = 1
 
+## Player states enumerator.[br]
+## 0 - Ground[br]
+## 1 - Air[br]
+## 2 - Climb[br]
+## 3 - Slide[br]
+## 4 - Dash[br]
+## 5 - Hurt[br]
+## 6 - Scroll[br]
+## 7 - Teleport in[br]
+## 8 - Teleport out[br]
+## 9 - Dead[br]
 enum STATES{
 	GROUND,
 	AIR,
@@ -82,14 +93,18 @@ enum STATES{
 	DEAD
 }
 
+## The last state that the player was in.
 var last_state = null
+## Current player state.
 var state = STATES.TELEPORT_IN
 
-## left, top, right, bottom
+## Left, top, right, bottom.
 var room_limits = [0, 0, 0, 0]
 
+#region Initialization routine
 func _ready() -> void:
 	flip_sprite()
+#endregion
 
 #region Update routine
 func _process(_delta) -> void:
@@ -129,7 +144,7 @@ func _process(_delta) -> void:
 
 #region Ground State
 			STATES.GROUND:
-				change_collision_shapes("normal")
+				set_collision_shapes("normal")
 
 				if can_step and move_vector: # stepping
 					is_step = true
@@ -179,7 +194,7 @@ func _process(_delta) -> void:
 
 #region Air State
 			STATES.AIR:
-				change_collision_shapes("normal")
+				set_collision_shapes("normal")
 
 				### Variable Jump Height ###
 				if velocity.y < 0 and !Input.is_action_pressed("jump"):
@@ -219,7 +234,7 @@ func _process(_delta) -> void:
 
 #region Slide State
 			STATES.SLIDE:
-				change_collision_shapes("slide")
+				set_collision_shapes("slide")
 
 				if !ceiling and ((velocity.x > 0 and Input.is_action_pressed("left")) or \
 								(velocity.x < 0 and Input.is_action_pressed("right"))):
@@ -307,21 +322,53 @@ func _process(_delta) -> void:
 					apply_gravity = true
 #endregion
 
+#region Teleport State
 			STATES.TELEPORT_IN:
 				velocity.y = 0
 				apply_gravity = false
 				can_shoot = false
+#endregion
 
+#region Dead State
 			STATES.DEAD:
 				sprite_controller.enable_sprite(false) ##
 				can_shoot = false
 				apply_gravity = false
 				allow_movement = false
 				can_double_jump = false
+#endregion
 
 	_stop_at_room_limits()
 
 	if Input.is_action_just_pressed("debug_kill_player"): death_proccessing(false)
+
+#endregion
+
+#region Setters and Getters
+# STATE
+func get_player_state() -> int: return state
+func set_player_state(to_state: int) -> void: state = to_state
+
+# SHOOT
+func get_shoot_state() -> bool: return is_shooting
+func set_shoot_state(is_shoot: bool) -> void: is_shooting = is_shoot
+
+# DIRECTION
+func set_direction(dir: int) -> void: direction = dir
+
+# COLLISION SHAPES
+func set_collision_shapes(shape: String) -> void:
+	if shape == "slide":
+		collision_normal.disabled = true
+		collision_slide.disabled = false
+	elif shape == "normal":
+		collision_slide.disabled = true
+		collision_normal.disabled = false
+
+# COLLISION
+func set_colliders(can_collide: bool) -> void:
+	self.set_collision_layer_value(3, can_collide)
+	self.set_collision_mask_value(1, can_collide)
 #endregion
 
 func teleport_to(destination: Vector2) -> void:
@@ -343,45 +390,11 @@ func teleport_to(destination: Vector2) -> void:
 	sprite_controller.set_speed_scale(1.0)
 	sprite_controller.play_animation("teleport")
 
-func change_collision_shapes(shape: String) -> void:
-	if shape == "slide":
-		collision_normal.disabled = true
-		collision_slide.disabled = false
-	elif shape == "normal":
-		collision_slide.disabled = true
-		collision_normal.disabled = false
-
-##########################################
-
-## SETTERS AND GETTERS
-
-# STATE
-func get_player_state() -> int: return state
-func set_player_state(to_state: int) -> void: state = to_state
-
-# SHOOT
-func get_shoot_state() -> bool: return is_shooting
-func set_shoot_state(is_shoot: bool) -> void: is_shooting = is_shoot
-
-# DIRECTION
-func set_direction(dir: int) -> void: direction = dir
-
-# COLLISION
-func set_colliders(can_collide: bool) -> void:
-	self.set_collision_layer_value(3, can_collide)
-	self.set_collision_mask_value(1, can_collide)
-
-##########################################
-
 func flip_sprite() -> void:
 	if direction > 0: sprite_controller.flip_sprite_h(true)
 	elif direction < 0: sprite_controller.flip_sprite_h(false)
 
-##########################################
-
 func _terminal_Y_velocity() -> void: if velocity.y > 448: velocity.y = 448
-
-##########################################
 
 func death_proccessing(pit_death: bool = false) -> void:
 	if state != STATES.DEAD:
@@ -400,8 +413,6 @@ func death_proccessing(pit_death: bool = false) -> void:
 			exp_inst.trigger_explosion.emit()
 		state = STATES.DEAD
 		player_dead.emit()
-
-##########################################
 
 func scroll_player(scroll_direction) -> void:
 	slide_timer.paused = true
@@ -454,8 +465,6 @@ func scroll_player(scroll_direction) -> void:
 
 	player_scroll_finished.emit()
 	weapon_system.pause_cooldown_timer(false)
-
-##########################################
 
 func _stop_at_room_limits() -> void:
 	if room_limits == [0, 0, 0, 0]: return

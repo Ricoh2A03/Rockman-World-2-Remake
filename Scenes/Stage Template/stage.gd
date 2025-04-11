@@ -40,6 +40,7 @@ var current_checkpoint: Checkpoint
 
 ###########################################
 
+#region Initialization routine
 func _ready() -> void:
 
 	super._ready() # play music
@@ -53,18 +54,22 @@ func _ready() -> void:
 	if camera_ref and current_checkpoint: camera_ref.global_position = current_checkpoint.global_position # set camera position to checkpoint
 
 	flash_ready_text() # flash ready and turn health bar on
+#endregion
 
+#region Update routine
 func _process(_delta):
 	check_scrolling_criterias()
+#endregion
 
-###########################################
+#region Scrolling related routines
 
-func set_stage_room_limits() -> void:
-	if !_current_room: return
-	_current_room_limits = [_current_room.global_position.x, 
-	_current_room.global_position.y,
-	(_current_room.global_position.x + _current_room.size.x),
-	(_current_room.global_position.y + _current_room.size.y)]
+func stage_finished_scrolling(room: Room) -> void:
+	_current_room = room
+	room.activate_spawners()
+	if room.get_checkpoint() is Checkpoint: current_checkpoint = room.get_checkpoint()
+	set_stage_room_limits()
+	is_scrolling = false
+	player_ref.room_limits = _current_room_limits
 
 func check_scrolling_criterias():
 	# Skip if there's no _current_room
@@ -116,38 +121,25 @@ func check_scrolling_criterias():
 					player_ref.scroll_player(2)
 					camera_ref.camera_start_scroll(_current_room.exit_right, 2)
 
-###########################################
+#endregion
 
-# Loop through spawners in currently active room and destroy each object
-
-func stage_finished_scrolling(room: Room) -> void:
-	_current_room = room
-	room.activate_spawners()
-	if room.get_checkpoint() is Checkpoint: current_checkpoint = room.get_checkpoint()
-	set_stage_room_limits()
-	is_scrolling = false
-	player_ref.room_limits = _current_room_limits
-
-###########################################
-
-func load_checkpoint(checkpoint: Checkpoint) -> void:
-	pass
-
+#region Player related routines
 func spawn_player() -> void:
 	if !player_path or player_ref: return
 	var p_instance = player_path.instantiate()
 	call_deferred("add_child", p_instance)
 	player_ref = p_instance
 	player_ref.connect("player_dead", _player_died)
-	spawn_player_at_checkpoint()
+	player_ref.global_position = Vector2(checkpoints[0].global_position.x, (_current_room.global_position.y - 16))
+	player_ref.teleport_to(checkpoints[0].global_position)
 
-func spawn_player_at_checkpoint() -> void:
+func respawn_player() -> void:
 	if current_checkpoint:
 		player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
 		player_ref.teleport_to(current_checkpoint.global_position)
+#endregion
 
-############### C A M E R A ###############
-
+#region Camera related routines
 func create_camera() -> void:
 	if !camera_path or camera_ref: return
 	var cam_instance = camera_path.instantiate()
@@ -156,24 +148,35 @@ func create_camera() -> void:
 	cam_instance.connect("finished_scrolling", stage_finished_scrolling)
 	camera_ref = cam_instance
 
-func set_stage_camera_limits(_room: Room) -> void: if camera_ref: camera_ref.update_camera_limits(_current_room)
-
 func connect_camera_to_player() -> void:
 	if camera_ref and player_ref:
 		camera_ref.reparent(player_ref, false)
 		camera_ref.player_instance = player_ref
 		camera_ref.global_position = player_ref.global_position
 
-###########################################
+func set_stage_camera_limits(_room: Room) -> void: if camera_ref: camera_ref.update_camera_limits(_current_room)
+#endregion
 
+#region Room related routines
+func set_stage_room_limits() -> void:
+	if !_current_room: return
+	_current_room_limits = [_current_room.global_position.x, 
+	_current_room.global_position.y,
+	(_current_room.global_position.x + _current_room.size.x),
+	(_current_room.global_position.y + _current_room.size.y)]
+#endregion
+
+#region Event handlers
 func _player_died() -> void:
 	Globals.main.pause_music(true)
 	fade_timer.start()
+#endregion
 
 func flash_ready_text() -> void: ui_anim_player.play("ready_appear")
 
 ###########################################
 
+#region Signal handlers
 func _on_animation_player_finished(anim_name) -> void:
 	match anim_name:
 		"ready_appear":
@@ -182,8 +185,6 @@ func _on_animation_player_finished(anim_name) -> void:
 			spawn_player() # spawn player
 			if player_ref: player_ref.room_limits = _current_room_limits
 			connect_camera_to_player()
-
-# ГОООООООООООЛ
 
 func _on_fade_timeout() -> void:
 	var tween = get_tree().create_tween()
@@ -197,3 +198,6 @@ func _on_fade_timeout() -> void:
 	Globals.main.play_music(music_to_play)
 	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 0), 1)
 	print("Hi")
+#endregion
+
+# ГОООООООООООЛ

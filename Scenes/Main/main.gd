@@ -30,12 +30,6 @@ func _ready() -> void:
 		goto_scene(load_fade_speed, first_scene, true)
 #endregion
 
-## Toggles fullscreen mode.
-func toggle_fullscreen() -> void:
-	_fullscreen = !_fullscreen
-	if _fullscreen: DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-	else: DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-
 #region Pause related code
 var _is_paused: bool = false
 
@@ -139,16 +133,8 @@ func fade_music(fade_in: bool, fade_speed: float) -> void:
 	else: tween.tween_property(music_player, "volume_db", -80, fade_speed)
 #endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-#
+## Toggles fullscreen mode.
+func toggle_fullscreen() -> void:
+	_fullscreen = !_fullscreen
+	if _fullscreen: DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else: DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
