@@ -38,7 +38,6 @@ class_name Room extends ReferenceRect
 ## Reference to the checkpoint that will be activated after finishing scrolling.
 @export var room_checkpoint: Checkpoint
 
-
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
 		$Label.text = self.name

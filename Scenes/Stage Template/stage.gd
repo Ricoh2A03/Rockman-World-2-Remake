@@ -59,27 +59,23 @@ func _ready() -> void:
 #region Update routine
 func _process(_delta):
 	check_scrolling_criterias()
+	%DebugStageLabel.text = "Current room: " + var_to_str(_current_room.name) + "\n" + \
+	"Limits: \n" + "Left: " + var_to_str(_current_room_limits[0]) + "\n" + \
+	"Top: " + var_to_str(_current_room_limits[1]) + "\n" + \
+	"Right: " + var_to_str(_current_room_limits[2]) + "\n" + \
+	"Bottom: " + var_to_str(_current_room_limits[3]) + "\n" + \
+	"Current chckpnt: " + var_to_str(current_checkpoint.name)
 #endregion
 
 #region Scrolling related routines
 
 func stage_finished_scrolling(room: Room) -> void:
-	print("Current room before scroll: " + var_to_str(_current_room.name) + "\n")
-	print("Room limits before scroll: " + " left: " + var_to_str(_current_room_limits[0])\
-	+ "\ntop: " + var_to_str(_current_room_limits[1])\
-	+ " \nright: " + var_to_str(_current_room_limits[2])\
-	+ "\nbottom: " + var_to_str(_current_room_limits[3]) + "\n\n")
 	_current_room = room
 	room.activate_spawners()
 	if room.get_checkpoint() is Checkpoint: current_checkpoint = room.get_checkpoint()
 	set_stage_room_limits()
 	is_scrolling = false
 	player_ref.room_limits = _current_room_limits
-	print("Current room after scroll: " + var_to_str(_current_room.name) + "\n")
-	print("Room limits after scroll: " + " left: " + var_to_str(_current_room_limits[0])\
-	+ "\ntop: " + var_to_str(_current_room_limits[1])\
-	+ " \nright: " + var_to_str(_current_room_limits[2])\
-	+ "\nbottom: " + var_to_str(_current_room_limits[3]) + "\n\n")
 
 func check_scrolling_criterias():
 	# Skip if there's no _current_room
@@ -202,9 +198,11 @@ func _on_fade_timeout() -> void:
 	await tween.finished
 	tween.stop()
 	_current_room = current_checkpoint.associated_room
+	set_stage_room_limits()
 	set_stage_camera_limits(_current_room)
 	player_ref.room_limits = _current_room_limits
-	player_ref.teleport_to(current_checkpoint.global_position)
+	#player_ref.teleport_to(current_checkpoint.global_position)
+	respawn_player()
 	Globals.main.play_music(music_to_play)
 	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 0), 1)
 #endregion

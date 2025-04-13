@@ -411,6 +411,7 @@ func death_proccessing(pit_death: bool = false) -> void:
 			get_parent().add_sibling(exp_inst)
 			exp_inst.global_position = global_position
 			exp_inst.trigger_explosion.emit()
+		print("PIT DEATH")
 		state = STATES.DEAD
 		player_dead.emit()
 

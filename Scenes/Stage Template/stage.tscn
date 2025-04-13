@@ -135,6 +135,21 @@ offset_right = 256.0
 offset_bottom = 224.0
 color = Color(0, 0, 0, 0)
 
+[node name="Panel" type="Panel" parent="StageUI"]
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 170.0
+offset_bottom = 128.0
+
+[node name="DebugStageLabel" type="Label" parent="StageUI"]
+unique_name_in_owner = true
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 168.0
+offset_bottom = 134.0
+theme_override_font_sizes/font_size = 10
+text = "Debug"
+
 [node name="FadeTimer" type="Timer" parent="."]
 wait_time = 2.35
 one_shot = true
