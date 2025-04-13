@@ -55,8 +55,8 @@ func remove_object_from_list(obj: Node2D) -> void:
 		for object in _object_list:
 			if object.get_instance_id() == obj_id: # Erase it if it's ID matches.
 				_object_list.erase(object)
-	print(obj)
-	print(_object_list)
+	#print(obj)
+	#print(_object_list)
 
 func _on_screen_entered():
 	if _object_list.size() < object_limit:

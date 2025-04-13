@@ -57,14 +57,14 @@ func activate_spawners() -> void:
 	for spawner in spawners:
 		spawner.set_active(true)
 		# DEBUG: display activated spawner name and related room name
-		print(spawner.name + " in " + self.name + " activated")
+		#print(spawner.name + " in " + self.name + " activated")
 
 func deactivate_spawners() -> void:
 	# Loop through all spawners and deactivate them
 	for spawner in spawners:
 		spawner.set_active(false)
 		# DEBUG: display deactivated spawner name and related room name
-		print(spawner.name + " in " + self.name + " deactivated")
+		#print(spawner.name + " in " + self.name + " deactivated")
 
 # Loop through all spawners and despawn all spawned objects
 func despawn_objects() -> void: for spawner in spawners: spawner.despawn()
