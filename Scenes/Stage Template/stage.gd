@@ -176,6 +176,18 @@ func set_stage_room_limits() -> void:
 func _player_died() -> void:
 	Globals.main.pause_music(true)
 	fade_timer.start()
+
+func _respawn_handler() -> void:
+	var tween = get_tree().create_tween()
+
+	_current_room = current_checkpoint.associated_room
+	set_stage_room_limits()
+	set_stage_camera_limits(_current_room)
+	player_ref.room_limits = _current_room_limits
+	respawn_player()
+	Globals.main.play_music(music_to_play)
+
+	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 0), 1)
 #endregion
 
 func flash_ready_text() -> void: ui_anim_player.play("ready_appear")
@@ -196,15 +208,7 @@ func _on_fade_timeout() -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 1), 1)
 	await tween.finished
-	tween.stop()
-	_current_room = current_checkpoint.associated_room
-	set_stage_room_limits()
-	set_stage_camera_limits(_current_room)
-	player_ref.room_limits = _current_room_limits
-	#player_ref.teleport_to(current_checkpoint.global_position)
-	respawn_player()
-	Globals.main.play_music(music_to_play)
-	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 0), 1)
+	_respawn_handler()
 #endregion
 
 # ГОООООООООООЛ
