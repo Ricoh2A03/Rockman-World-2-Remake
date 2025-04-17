@@ -1,5 +1,7 @@
 class_name Main extends Node
 
+const screenshot_path: String = "screenshots"
+
 @onready var fade_color: ColorRect = $SceneTransition/FadeColor
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
 
@@ -61,6 +63,8 @@ func unpauseGame(groups: Array[StringName]) -> void:
 func _input(event):
 	if event.is_action_pressed("toggle_fullscreen"):
 		toggle_fullscreen()
+	if event.is_action_pressed("debug_screenshot"):
+		_debug_take_screenshot()
 #endregion
 
 #region Scene Transition routine
@@ -138,3 +142,10 @@ func toggle_fullscreen() -> void:
 	_fullscreen = !_fullscreen
 	if _fullscreen: DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else: DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+func _debug_take_screenshot() -> void:
+	await RenderingServer.frame_post_draw
+	var img = get_viewport().get_texture().get_image()
+	var dir = DirAccess.open("user://")
+	dir.make_dir(screenshot_path)
+	img.save_png("user://" + screenshot_path + "test" + ".png")
