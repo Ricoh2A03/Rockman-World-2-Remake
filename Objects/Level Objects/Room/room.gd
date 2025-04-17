@@ -2,9 +2,11 @@
 ## Class description.
 class_name Room extends ReferenceRect
 
+var screen_width: int = ProjectSettings.get_setting("display/window/size/viewport_width")
+var screen_height: int = ProjectSettings.get_setting("display/window/size/viewport_height")
+
 @export_category("Room Size")
-## Horizontal size of room in screens.[br]
-## 
+## Horizontal size of room in screens.
 @export_range(1, 25) var room_width_x: int = 1:
 	set(value):
 		room_width_x = value
@@ -48,8 +50,8 @@ func get_checkpoint() -> Checkpoint: return room_checkpoint
 
 func set_room_size() -> void:
 	if Engine.is_editor_hint():
-		size.x = 256 * room_width_x
-		size.y = 224 * room_width_y
+		size.x = screen_width * room_width_x
+		size.y = screen_height * room_width_y
 
 func activate_spawners() -> void:
 	# Loop through all spawners and activate them

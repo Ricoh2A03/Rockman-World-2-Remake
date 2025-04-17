@@ -136,6 +136,7 @@ offset_bottom = 224.0
 color = Color(0, 0, 0, 0)
 
 [node name="Panel" type="Panel" parent="StageUI"]
+visible = false
 offset_left = 6.0
 offset_top = 6.0
 offset_right = 170.0
@@ -143,6 +144,7 @@ offset_bottom = 128.0
 
 [node name="DebugStageLabel" type="Label" parent="StageUI"]
 unique_name_in_owner = true
+visible = false
 offset_left = 8.0
 offset_top = 6.0
 offset_right = 168.0
