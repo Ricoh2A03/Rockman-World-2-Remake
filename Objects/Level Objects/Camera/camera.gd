@@ -2,6 +2,9 @@ class_name StageCamera extends Camera2D
 
 signal finished_scrolling(room: Room)
 
+const SCREEN_WIDTH: int = 384
+const SCREEN_HEIGHT: int = 224
+
 var player_instance: Player
 var follow_player: bool = true
 
@@ -21,17 +24,17 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 	match scroll_direction:
 
 		0: # left
-			self.limit_left = limit_left - 256
-			global_position.x = (room.global_position.x + room.size.x) + 128
-			global_position.y = room.global_position.y + 128
-			tarX = (room.global_position.x + room.size.x) - 128
+			self.limit_left = limit_left - SCREEN_WIDTH
+			global_position.x = (room.global_position.x + room.size.x) + (SCREEN_WIDTH / 2)
+			global_position.y = room.global_position.y + (SCREEN_WIDTH / 2)
+			tarX = (room.global_position.x + room.size.x) - (SCREEN_WIDTH / 2)
 			tarY = self.global_position.y
 
 		2: # right
-			self.limit_right = limit_right + 256
-			global_position.x = room.global_position.x - 128
-			global_position.y = room.global_position.y + 128
-			tarX = room.global_position.x + 128
+			self.limit_right = limit_right + SCREEN_WIDTH
+			global_position.x = room.global_position.x - (SCREEN_WIDTH / 2)
+			global_position.y = room.global_position.y + (SCREEN_WIDTH / 2)
+			tarX = room.global_position.x + (SCREEN_WIDTH / 2)
 			tarY = self.global_position.y
 
 		1: # up
@@ -39,7 +42,7 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 			global_position.y = limit_top + room.size.y / 2
 			tarX = player_instance.global_position.x #self.global_position.x
 			tarY = self.global_position.y - room.size.y
-			limit_top = self.limit_top - 224
+			limit_top = self.limit_top - SCREEN_HEIGHT
 
 		3: # down
 			self.limit_bottom = limit_bottom + 256

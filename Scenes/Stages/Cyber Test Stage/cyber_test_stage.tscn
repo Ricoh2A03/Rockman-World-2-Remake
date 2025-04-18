@@ -297,6 +297,3 @@ associated_room = NodePath("../../RoomContainer/Room1")
 position = Vector2(640, 109)
 stage_reference = NodePath("../..")
 associated_room = NodePath("../../RoomContainer/Room3")
-
-[node name="Fade" parent="StageUI" index="2"]
-visible = true

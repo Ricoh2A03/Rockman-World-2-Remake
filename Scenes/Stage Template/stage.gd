@@ -7,6 +7,7 @@ signal boss_defeated()
 var player_ref: Player = null
 var camera_ref: Camera2D = null
 
+var first_spawn: bool = false
 var is_scrolling: bool = false
 
 @export_category("Room List")
@@ -71,11 +72,11 @@ func _process(_delta):
 
 func stage_finished_scrolling(room: Room) -> void:
 	_current_room = room
-	room.activate_spawners()
-	if room.get_checkpoint() is Checkpoint: current_checkpoint = room.get_checkpoint()
-	set_stage_room_limits()
 	is_scrolling = false
+	set_stage_room_limits()
 	player_ref.room_limits = _current_room_limits
+	if room.get_checkpoint() is Checkpoint: current_checkpoint = room.get_checkpoint()
+	room.activate_spawners()
 
 func check_scrolling_criterias():
 	# Skip if there's no _current_room
@@ -183,10 +184,10 @@ func _respawn_handler() -> void:
 	_current_room = current_checkpoint.associated_room
 	set_stage_room_limits()
 	set_stage_camera_limits(_current_room)
-	player_ref.room_limits = _current_room_limits
-	respawn_player()
+	camera_ref.global_position = current_checkpoint.global_position
 	Globals.main.play_music(music_to_play)
 
+	ui_anim_player.play("ready_appear")
 	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 0), 1)
 #endregion
 
@@ -200,9 +201,15 @@ func _on_animation_player_finished(anim_name) -> void:
 		"ready_appear":
 			ui_anim_player.play("ready_flash")
 		"ready_flash":
-			spawn_player() # spawn player
-			if player_ref: player_ref.room_limits = _current_room_limits
-			connect_camera_to_player()
+			if !first_spawn:
+				spawn_player() # spawn player
+				if player_ref: player_ref.room_limits = _current_room_limits
+				connect_camera_to_player()
+				first_spawn = true
+			else:
+				player_ref.room_limits = _current_room_limits
+				connect_camera_to_player()
+				respawn_player()
 
 func _on_fade_timeout() -> void:
 	var tween = get_tree().create_tween()
