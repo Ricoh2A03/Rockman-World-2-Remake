@@ -437,9 +437,9 @@ func scroll_player(scroll_direction) -> void:
 
 	match scroll_direction:
 		0: # left
-			tarX = global_position.x - 48
+			tarX = global_position.x - 64
 		2: # right
-			tarX = global_position.x + 48
+			tarX = global_position.x + 64
 		1: # up
 			tarY = global_position.y - 20
 		3: # down
