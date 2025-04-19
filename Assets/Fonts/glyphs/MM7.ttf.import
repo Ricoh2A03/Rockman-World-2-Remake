@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bv7wt3hxgq047"
-path="res://.godot/imported/MMRock9.ttf-f77aab3896701b0fd4589b77bfc427c9.fontdata"
+uid="uid://dllufnyi50y3o"
+path="res://.godot/imported/MM7.ttf-abdf7d9893d991a0def0bcfd392e4871.fontdata"
 
 [deps]
 
-source_file="res://Assets/Fonts/MMRock9.ttf"
-dest_files=["res://.godot/imported/MMRock9.ttf-f77aab3896701b0fd4589b77bfc427c9.fontdata"]
+source_file="res://Assets/Fonts/glyphs/MM7.ttf"
+dest_files=["res://.godot/imported/MM7.ttf-abdf7d9893d991a0def0bcfd392e4871.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

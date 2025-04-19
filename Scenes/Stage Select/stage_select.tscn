@@ -18,7 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://c7skmkf0kk52g" path="res://Assets/UI/Stage Select/bosses_row2.png" id="11_o2u7y"]
 [ext_resource type="Texture2D" uid="uid://cj17eskt5x37s" path="res://Assets/UI/Stage Select/bosses_row3.png" id="12_w2ct4"]
 [ext_resource type="Texture2D" uid="uid://briypdbcxcmx5" path="res://Assets/UI/Stage Select/boss_intro_pedestal.png" id="13_xbuua"]
-[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="18_1svv6"]
+[ext_resource type="FontFile" uid="uid://d3mvhty73n05n" path="res://Assets/Fonts/Rightot7.ttf" id="19_m0myh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u2ndr"]
 atlas = ExtResource("4_cyiw1")
@@ -339,7 +339,7 @@ offset_left = -256.0
 offset_top = 104.0
 offset_right = -128.0
 offset_bottom = 113.0
-theme_override_fonts/font = ExtResource("18_1svv6")
+theme_override_fonts/font = ExtResource("19_m0myh")
 theme_override_font_sizes/font_size = 8
 horizontal_alignment = 1
 

@@ -179,7 +179,6 @@ tile_set = SubResource("TileSet_on471")
 
 [node name="Room1" parent="RoomContainer" index="0" node_paths=PackedStringArray("room_checkpoint") instance=ExtResource("3_fedaa")]
 offset_right = 1536.0
-offset_bottom = 224.0
 room_width_x = 4
 room_checkpoint = NodePath("../../CheckpointContainer/Checkpoint1")
 metadata/_edit_use_anchors_ = true

@@ -15,7 +15,7 @@
 [ext_resource type="Resource" uid="uid://dpc0ffw4815vi" path="res://Objects/Player/Weapons and Items/Weapons/Rock Buster/item_rock_buster.tres" id="17_5ls8o"]
 [ext_resource type="PackedScene" uid="uid://b3syn4jy34f3v" path="res://Objects/Player/UI/ui.tscn" id="17_08btc"]
 [ext_resource type="AudioStream" uid="uid://drmdx6slnlar8" path="res://Assets/SFX/MegaMan/sfx_mm_land.wav" id="18_2laaq"]
-[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="18_37qvn"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/MMRock9.ttf" id="18_37qvn"]
 [ext_resource type="Script" uid="uid://d2643r7g3d148" path="res://Objects/Components/Pause Component/pause_component.gd" id="19_fcqlu"]
 [ext_resource type="AudioStream" uid="uid://dbil5j36jniqx" path="res://Assets/SFX/MegaMan/sfx_teleport_in.wav" id="19_ggfsd"]
 [ext_resource type="AudioStream" uid="uid://bkr860a3quvb4" path="res://Assets/SFX/MegaMan/sfx_teleport_out.wav" id="20_pksg3"]
