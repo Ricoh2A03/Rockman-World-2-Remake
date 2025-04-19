@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fbnnfuvsn28"
-path="res://.godot/imported/rm7test.png-17f1479dc0e547ccdf9bb5eae6d914cd.ctex"
+uid="uid://hlk0nljmf8k3"
+path="res://.godot/imported/rm7fontgrouped.png-39cdf0620dbb624e8bf5f4699b1ab0de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Fonts/rm7test.png"
-dest_files=["res://.godot/imported/rm7test.png-17f1479dc0e547ccdf9bb5eae6d914cd.ctex"]
+source_file="res://Assets/Fonts/Font Assets/rm7fontgrouped.png"
+dest_files=["res://.godot/imported/rm7fontgrouped.png-39cdf0620dbb624e8bf5f4699b1ab0de.ctex"]
 
 [params]
 

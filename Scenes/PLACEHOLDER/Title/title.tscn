@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://do6lc4k2sxk00" path="res://Assets/PLACEHOLDER/Title Screen/title.png" id="1_jyyao"]
 [ext_resource type="AudioStream" uid="uid://cqjv2hekhaa3e" path="res://Assets/Music/Rushjet1/TitleScreen.ogg" id="2_bkpdu"]
 [ext_resource type="Script" uid="uid://gbld5irc21s8" path="res://Objects/Components/Scene Transitor/scene_transitor.gd" id="3_we2a1"]
-[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="4_v33p2"]
 [ext_resource type="PackedScene" uid="uid://d0w3aeoj18s8f" path="res://Scenes/Stage Select/stage_select.tscn" id="4_xnlo6"]
 [ext_resource type="PackedScene" uid="uid://xmo08katsae5" path="res://Scenes/Settings/settings_scene.tscn" id="5_6x8gp"]
 [ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="6_fop4u"]
+[ext_resource type="PackedScene" uid="uid://dvbqo5o3b64ux" path="res://Shared/Color Label/color_label.tscn" id="7_bkpdu"]
 
 [node name="TitleScreen" type="Node2D" node_paths=PackedStringArray("scene_transitor")]
 script = ExtResource("1_fqf64")
@@ -19,11 +19,23 @@ scene_transitor = NodePath("SceneTransitor")
 script = ExtResource("3_we2a1")
 scenes = Array[PackedScene]([ExtResource("4_xnlo6"), ExtResource("5_6x8gp")])
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="BGColor" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 256.0
+offset_right = 384.0
+offset_bottom = 224.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0313726, 0, 0.0941176, 1)
+metadata/_edit_lock_ = true
+
+[node name="BGLogo" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_right = 320.0
 offset_bottom = 224.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -34,26 +46,22 @@ metadata/_edit_lock_ = true
 volume_db = -3.5
 bus = &"Music"
 
-[node name="MenuText" type="Label" parent="."]
+[node name="MenuText" parent="." instance=ExtResource("7_bkpdu")]
 unique_name_in_owner = true
-offset_left = 48.0
+offset_left = 112.0
 offset_top = 144.0
-offset_right = 128.0
-offset_bottom = 177.0
-theme_override_fonts/font = ExtResource("4_v33p2")
-theme_override_font_sizes/font_size = 8
+offset_right = 202.0
+offset_bottom = 174.0
 text = "START DEMO
 
 SETTINGS"
 
-[node name="Cursor" type="Label" parent="."]
+[node name="Cursor" parent="." instance=ExtResource("7_bkpdu")]
 unique_name_in_owner = true
-offset_left = 32.0
+offset_left = 96.0
 offset_top = 144.0
-offset_right = 40.0
-offset_bottom = 153.0
-theme_override_fonts/font = ExtResource("4_v33p2")
-theme_override_font_sizes/font_size = 8
+offset_right = 105.0
+offset_bottom = 152.0
 text = ">"
 
 [node name="CursorSFX" type="AudioStreamPlayer" parent="."]

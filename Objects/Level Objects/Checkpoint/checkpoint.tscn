@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://naf2c5786p2u" path="res://Objects/Level Objects/Checkpoint/checkpoint.gd" id="1_xch7v"]
 [ext_resource type="Texture2D" uid="uid://cpsgawvwur13g" path="res://Objects/Level Objects/Checkpoint/checkpoint_sprite.png" id="2_r0gbf"]
-[ext_resource type="FontFile" uid="uid://bv7wt3hxgq047" path="res://Assets/Fonts/MMRock9.ttf" id="3_41pyk"]
+[ext_resource type="FontFile" uid="uid://d3mvhty73n05n" path="res://Assets/Fonts/Rightot7.ttf" id="2_w26pn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dlptm"]
 bg_color = Color(0, 0, 0, 1)
@@ -20,7 +20,7 @@ metadata/_edit_group_ = true
 [node name="Panel" type="Panel" parent="."]
 offset_left = -48.0
 offset_top = -39.0
-offset_right = 48.0
+offset_right = 56.0
 offset_bottom = -23.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_dlptm")
 
@@ -29,7 +29,7 @@ offset_left = -44.0
 offset_top = -35.0
 offset_right = 44.0
 offset_bottom = -26.0
-theme_override_fonts/font = ExtResource("3_41pyk")
+theme_override_fonts/font = ExtResource("2_w26pn")
 theme_override_font_sizes/font_size = 8
 text = "Checkpoint1"
 

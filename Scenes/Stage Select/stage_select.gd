@@ -109,7 +109,7 @@ func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "transition_start":
 		$%ScreenFlash.visible = true
 		%BossIntro.texture = BOSS_SPRITES_TABLE[selection]
-		%BossNameLabel.text = BOSS_NAMES_TABLE[selection]
+		%BossNameLabel.set_label(BOSS_NAMES_TABLE[selection])
 		%BossIntro.global_position.x = 184 #X_TABLE[cur_Xpos]
 		%BossIntro.global_position.y = 112 #Y_TABLE[cur_Ypos]
 		animate_streaks = true

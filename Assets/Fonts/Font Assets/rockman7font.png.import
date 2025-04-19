@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://du1bov6wd7cn6"
-path="res://.godot/imported/rockman7font.png-bebf278796cdecdcd5577f2dd5b25759.ctex"
+path="res://.godot/imported/rockman7font.png-e5a467d986f7675aefdcbe82a13778df.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Fonts/rockman7font.png"
-dest_files=["res://.godot/imported/rockman7font.png-bebf278796cdecdcd5577f2dd5b25759.ctex"]
+source_file="res://Assets/Fonts/Font Assets/rockman7font.png"
+dest_files=["res://.godot/imported/rockman7font.png-e5a467d986f7675aefdcbe82a13778df.ctex"]
 
 [params]
 

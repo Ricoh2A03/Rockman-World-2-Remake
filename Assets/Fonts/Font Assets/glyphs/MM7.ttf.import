@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://dllufnyi50y3o"
-path="res://.godot/imported/MM7.ttf-abdf7d9893d991a0def0bcfd392e4871.fontdata"
+path="res://.godot/imported/MM7.ttf-7b10d7b101df5b93b163557cbc6e86bb.fontdata"
 
 [deps]
 
-source_file="res://Assets/Fonts/glyphs/MM7.ttf"
-dest_files=["res://.godot/imported/MM7.ttf-abdf7d9893d991a0def0bcfd392e4871.fontdata"]
+source_file="res://Assets/Fonts/Font Assets/glyphs/MM7.ttf"
+dest_files=["res://.godot/imported/MM7.ttf-7b10d7b101df5b93b163557cbc6e86bb.fontdata"]
 
 [params]
 

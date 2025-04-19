@@ -1,6 +1,6 @@
 extends Scene
 
-const Y_TABLE = [144, 168]
+const Y_TABLE = [144, 166]
 const CURSOR_SPEED = 0.5
 
 var cur_Ypos: int = 0

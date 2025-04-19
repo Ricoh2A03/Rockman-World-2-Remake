@@ -18,7 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://c7skmkf0kk52g" path="res://Assets/UI/Stage Select/bosses_row2.png" id="11_o2u7y"]
 [ext_resource type="Texture2D" uid="uid://cj17eskt5x37s" path="res://Assets/UI/Stage Select/bosses_row3.png" id="12_w2ct4"]
 [ext_resource type="Texture2D" uid="uid://briypdbcxcmx5" path="res://Assets/UI/Stage Select/boss_intro_pedestal.png" id="13_xbuua"]
-[ext_resource type="FontFile" uid="uid://d3mvhty73n05n" path="res://Assets/Fonts/Rightot7.ttf" id="19_m0myh"]
+[ext_resource type="PackedScene" uid="uid://dvbqo5o3b64ux" path="res://Shared/Color Label/color_label.tscn" id="19_m0myh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u2ndr"]
 atlas = ExtResource("4_cyiw1")
@@ -114,30 +114,6 @@ tracks/4/keys = {
 "update": 1,
 "values": [true]
 }
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("BossNameLabel:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-256, 104)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("BossNameLabel:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_w2ct4"]
 resource_name = "transition_start"
@@ -202,30 +178,6 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("BossNameLabel:position")
-tracks/5/interp = 2
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-256, 104), Vector2(24, 104)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("BossNameLabel:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.9),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xbuua"]
@@ -331,23 +283,19 @@ unique_name_in_owner = true
 z_index = 1
 position = Vector2(-64, 0)
 
-[node name="BossNameLabel" type="Label" parent="."]
-unique_name_in_owner = true
-visible = false
-z_index = 1
-offset_left = -256.0
-offset_top = 104.0
-offset_right = -128.0
-offset_bottom = 113.0
-theme_override_fonts/font = ExtResource("19_m0myh")
-theme_override_font_sizes/font_size = 8
-horizontal_alignment = 1
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_xbuua")
 }
+
+[node name="BossNameLabel" parent="." instance=ExtResource("19_m0myh")]
+unique_name_in_owner = true
+z_index = 1
+offset_left = 48.0
+offset_top = 104.0
+offset_right = 176.0
+offset_bottom = 112.0
 
 [connection signal="timeout" from="SceneTransitionDelay" to="." method="_on_scene_transition_delay_timeout"]
 [connection signal="finished" from="StageSelectedSFX" to="." method="_on_selected_sfx_finished"]

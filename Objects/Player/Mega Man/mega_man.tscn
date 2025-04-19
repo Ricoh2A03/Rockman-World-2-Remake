@@ -15,7 +15,7 @@
 [ext_resource type="Resource" uid="uid://dpc0ffw4815vi" path="res://Objects/Player/Weapons and Items/Weapons/Rock Buster/item_rock_buster.tres" id="17_5ls8o"]
 [ext_resource type="PackedScene" uid="uid://b3syn4jy34f3v" path="res://Objects/Player/UI/ui.tscn" id="17_08btc"]
 [ext_resource type="AudioStream" uid="uid://drmdx6slnlar8" path="res://Assets/SFX/MegaMan/sfx_mm_land.wav" id="18_2laaq"]
-[ext_resource type="FontFile" path="res://Assets/Fonts/MMRock9.ttf" id="18_37qvn"]
+[ext_resource type="FontFile" uid="uid://d3mvhty73n05n" path="res://Assets/Fonts/Rightot7.ttf" id="18_dlxiw"]
 [ext_resource type="Script" uid="uid://d2643r7g3d148" path="res://Objects/Components/Pause Component/pause_component.gd" id="19_fcqlu"]
 [ext_resource type="AudioStream" uid="uid://dbil5j36jniqx" path="res://Assets/SFX/MegaMan/sfx_teleport_in.wav" id="19_ggfsd"]
 [ext_resource type="AudioStream" uid="uid://bkr860a3quvb4" path="res://Assets/SFX/MegaMan/sfx_teleport_out.wav" id="20_pksg3"]
@@ -167,7 +167,7 @@ offset_left = -32.0
 offset_top = -64.0
 offset_right = 32.0
 offset_bottom = -48.0
-theme_override_fonts/font = ExtResource("18_37qvn")
+theme_override_fonts/font = ExtResource("18_dlxiw")
 theme_override_font_sizes/font_size = 8
 text = "test"
 horizontal_alignment = 1
@@ -179,7 +179,7 @@ offset_left = -32.0
 offset_top = -48.0
 offset_right = 32.0
 offset_bottom = -32.0
-theme_override_fonts/font = ExtResource("18_37qvn")
+theme_override_fonts/font = ExtResource("18_dlxiw")
 theme_override_font_sizes/font_size = 8
 text = "test"
 horizontal_alignment = 1

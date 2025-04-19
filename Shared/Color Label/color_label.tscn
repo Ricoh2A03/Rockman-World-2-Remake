@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvbqo5o3b64ux"]
+
+[ext_resource type="FontFile" uid="uid://cwf0uhm7cxqtv" path="res://Assets/Fonts/ROCK7SFC-MainColorVer.ttf" id="1_46km5"]
+[ext_resource type="Script" uid="uid://dp20jwox0u5eq" path="res://Shared/Color Label/color_label.gd" id="2_j0sfi"]
+[ext_resource type="FontFile" uid="uid://xyxfwshnfow3" path="res://Assets/Fonts/ROCK7SFC-ShadowVer.ttf" id="2_n7hlb"]
+
+[node name="ColorLabel" type="Label"]
+offset_right = 56.0
+offset_bottom = 8.0
+theme_override_colors/font_color = Color(0.741176, 0.741176, 0.776471, 1)
+theme_override_fonts/font = ExtResource("1_46km5")
+theme_override_font_sizes/font_size = 8
+script = ExtResource("2_j0sfi")
+metadata/_edit_group_ = true
+
+[node name="Shadow" type="Label" parent="."]
+layout_mode = 0
+offset_right = 56.0
+offset_bottom = 8.0
+theme_override_colors/font_color = Color(0.352941, 0.352941, 0.388235, 1)
+theme_override_fonts/font = ExtResource("2_n7hlb")
+theme_override_font_sizes/font_size = 8
