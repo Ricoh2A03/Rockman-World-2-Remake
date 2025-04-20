@@ -1,12 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://mjdfaonk3tq2"]
+[gd_scene load_steps=2 format=3 uid="uid://mjdfaonk3tq2"]
 
 [ext_resource type="Script" uid="uid://dwx2ii0tuwmi3" path="res://Scenes/Main/main.gd" id="1_wt6wc"]
-[ext_resource type="PackedScene" uid="uid://br5ihmapn44vc" path="res://Scenes/Copyright Screen/copyright_screen.tscn" id="2_lixft"]
 
 [node name="Main" type="Node"]
 process_mode = 3
 script = ExtResource("1_wt6wc")
-first_scene = ExtResource("2_lixft")
+first_scene = "res://Scenes/Copyright Screen/copyright_screen.tscn"
 
 [node name="SceneTransition" type="CanvasLayer" parent="."]
 layer = 10

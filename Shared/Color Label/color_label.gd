@@ -1,4 +1,3 @@
-@tool
 class_name ColorLabel extends Label
 
 const DEFAULT_COLOR = 0xBDBDC6
@@ -8,6 +7,7 @@ const DEFAULT_SHADOW = 0x5A5A63
 
 func _ready():
 	shadow.text = text
+	shadow.horizontal_alignment = horizontal_alignment
 
 ## Both label texts will be set to a [param txt].
 func set_label(txt: String) -> void:

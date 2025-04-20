@@ -1,9 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://br5ihmapn44vc"]
+[gd_scene load_steps=14 format=3 uid="uid://br5ihmapn44vc"]
 
 [ext_resource type="Script" uid="uid://cij1yb1ceiyhm" path="res://Scenes/Copyright Screen/copyright_screen.gd" id="1_qvh7j"]
 [ext_resource type="AudioStream" uid="uid://dn6pwhr1fucyi" path="res://Assets/Music/mus_logo.wav" id="2_upau0"]
 [ext_resource type="Script" uid="uid://gbld5irc21s8" path="res://Objects/Components/Scene Transitor/scene_transitor.gd" id="3_gt8fi"]
-[ext_resource type="PackedScene" uid="uid://cnvt4vlwtpda3" path="res://Scenes/PLACEHOLDER/Title/title.tscn" id="4_dc624"]
 [ext_resource type="Texture2D" uid="uid://ck4vxj3eyb1ya" path="res://Assets/UI/Copyright/capcom_logo.png" id="4_vg17v"]
 [ext_resource type="PackedScene" uid="uid://dvbqo5o3b64ux" path="res://Shared/Color Label/color_label.tscn" id="6_lnwks"]
 
@@ -72,7 +71,7 @@ scene_transitor = NodePath("SceneTransitor")
 
 [node name="SceneTransitor" type="Node" parent="."]
 script = ExtResource("3_gt8fi")
-scenes = Array[PackedScene]([ExtResource("4_dc624")])
+scenes = Array[String](["res://Scenes/PLACEHOLDER/Title/title.tscn"])
 
 [node name="BG" type="ColorRect" parent="."]
 offset_right = 384.0

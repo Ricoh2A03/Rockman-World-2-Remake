@@ -8,11 +8,11 @@ const screenshot_path: String = "screenshots"
 ##########################################
 
 ## Scene that loads at the start of the game.
-@export var first_scene: PackedScene
+@export var first_scene: String
 ## Speed at which [member first_scene] is faded in.
 @export var load_fade_speed: float = 0.0
 
-var current_scene: Scene
+var current_scene
 
 ##########################################
 
@@ -72,12 +72,12 @@ func _input(event):
 var is_scene_transition: bool = false
 
 ## Returns [code]true[/code] if [member is_scene_transition] is in process.
-func get_scene_transition() -> bool: return is_scene_transition
+func get_scene_transition_state() -> bool: return is_scene_transition
 
 ## Initiaizes a scene transition to a specified file.[br]
 ## Parameter [param duration] determines the speed of the transition.[br]
 ## If [param fade_in] is [code]true[/code], if transition should start with the fade in effect.
-func goto_scene(duration: float, to_scene: PackedScene = null, fade_in: bool = false, music_fade_out: bool = true) -> void:
+func goto_scene(duration: float, scene_path: String = "", fade_in: bool = false, music_fade_out: bool = true) -> void:
 	# Get out if transitioning already.
 	if is_scene_transition: return
 
@@ -99,9 +99,9 @@ func goto_scene(duration: float, to_scene: PackedScene = null, fade_in: bool = f
 		var delay = get_tree().create_timer(1)
 		await delay.timeout
 
-	if to_scene:
+	if scene_path != "":
 		if current_scene: current_scene.queue_free()
-		var scene_instance = to_scene.instantiate()
+		var scene_instance = load(scene_path).instantiate()
 		current_scene = scene_instance
 		call_deferred("add_child", scene_instance)
 

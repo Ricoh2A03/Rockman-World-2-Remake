@@ -1,5 +1,5 @@
 class_name SceneTransitor extends Node
 
-@export var scenes: Array[PackedScene] = []
+@export var scenes: Array[String] = []
 
-signal start_transition
+#signal start_transition

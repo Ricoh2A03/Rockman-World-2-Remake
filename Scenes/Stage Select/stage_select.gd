@@ -77,7 +77,7 @@ func _process(_delta: float) -> void:
 			else: cur_Ypos = 0
 			%CursorSFX.play()
 
-		if Input.is_action_just_pressed("weapon_menu") and !Globals.main.get_scene_transition():
+		if Input.is_action_just_pressed("weapon_menu") and !Globals.main.get_scene_transition_state():
 			if scene_transitor.scenes[selection]:
 				can_select = false
 				%Cursor.visible = false
