@@ -201,6 +201,7 @@ offset_right = 512.0
 offset_bottom = 256.0
 texture = ExtResource("11_lo8wf")
 stretch_mode = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="BGStreaks2" type="TextureRect" parent="BGContainer"]
 z_index = -1
@@ -208,6 +209,7 @@ offset_right = 512.0
 offset_bottom = 256.0
 texture = ExtResource("7_o2u7y")
 stretch_mode = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="BGStreaks3" type="TextureRect" parent="BGContainer"]
 z_index = -1
@@ -215,6 +217,7 @@ offset_right = 512.0
 offset_bottom = 256.0
 texture = ExtResource("6_7so4t")
 stretch_mode = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="BGTiles" type="TextureRect" parent="BGContainer"]
 z_index = -1
@@ -234,6 +237,7 @@ z_index = -10
 offset_right = 256.0
 offset_bottom = 224.0
 color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="StageIconsContainer" type="Node" parent="."]
 
@@ -293,6 +297,7 @@ offset_left = 48.0
 offset_top = 104.0
 offset_right = 176.0
 offset_bottom = 112.0
+metadata/_edit_use_anchors_ = true
 
 [connection signal="timeout" from="SceneTransitionDelay" to="." method="_on_scene_transition_delay_timeout"]
 [connection signal="finished" from="StageSelectedSFX" to="." method="_on_selected_sfx_finished"]

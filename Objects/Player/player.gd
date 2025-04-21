@@ -1,7 +1,6 @@
 class_name Player extends CharacterBody2D
 
 signal player_scroll_finished()
-signal player_dead()
 
 @export_category("Player Stats")
 ## [param Resource] that contains all of the values that are relevant to physics.
@@ -413,7 +412,7 @@ func death_proccessing(pit_death: bool = false) -> void:
 			exp_inst.trigger_explosion.emit()
 		print("PIT DEATH")
 		state = STATES.DEAD
-		player_dead.emit()
+		EventBus.stage_event_player_died.emit()
 
 func scroll_player(scroll_direction) -> void:
 	slide_timer.paused = true
@@ -480,3 +479,20 @@ func _stop_at_room_limits() -> void:
 			#sprite_controller.enable_sprite(false)
 		#else:
 			#sprite_controller.enable_sprite(true)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#

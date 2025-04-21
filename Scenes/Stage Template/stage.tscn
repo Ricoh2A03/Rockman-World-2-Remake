@@ -159,6 +159,5 @@ metadata/_edit_lock_ = true
 wait_time = 2.35
 one_shot = true
 
-[connection signal="player_died" from="." to="." method="_player_died"]
 [connection signal="animation_finished" from="StageUI/AnimationPlayer" to="." method="_on_animation_player_finished"]
 [connection signal="timeout" from="FadeTimer" to="." method="_on_fade_timeout"]
