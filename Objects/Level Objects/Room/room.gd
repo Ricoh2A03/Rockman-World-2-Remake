@@ -10,13 +10,13 @@ var screen_height: int = ProjectSettings.get_setting("display/window/size/viewpo
 @export_range(1, 25) var room_width_x: int = 1:
 	set(value):
 		room_width_x = value
-		set_room_size()
+		_set_room_size()
 
 ## Vertical size of room in screens.
 @export_range(1, 25) var room_width_y: int = 1:
 	set(value):
 		room_width_y = value
-		set_room_size()
+		_set_room_size()
 
 ## References to other rooms.
 ## If room doesn't have exits from left and right,
@@ -46,26 +46,27 @@ func _enter_tree() -> void:
 	else:
 		self.visible = false
 
+## Returns checkpoint that's attached to this room.
 func get_checkpoint() -> Checkpoint: return room_checkpoint
 
-func set_room_size() -> void:
+func _set_room_size() -> void:
 	if Engine.is_editor_hint():
 		size.x = screen_width * room_width_x
 		size.y = screen_height * room_width_y
 
+## Activate all spawners.
 func activate_spawners() -> void:
-	# Loop through all spawners and activate them
 	for spawner in spawners:
 		spawner.set_active(true)
 		# DEBUG: display activated spawner name and related room name
 		#print(spawner.name + " in " + self.name + " activated")
 
+## Deactivate all spawners.
 func deactivate_spawners() -> void:
-	# Loop through all spawners and deactivate them
 	for spawner in spawners:
 		spawner.set_active(false)
 		# DEBUG: display deactivated spawner name and related room name
 		#print(spawner.name + " in " + self.name + " deactivated")
 
-# Loop through all spawners and despawn all spawned objects
+## Despawn all spawned objects in the room.
 func despawn_objects() -> void: for spawner in spawners: spawner.despawn()

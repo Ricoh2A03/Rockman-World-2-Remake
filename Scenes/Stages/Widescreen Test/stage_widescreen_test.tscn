@@ -55,9 +55,8 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_lbixf")
 
-[node name="Stage" node_paths=PackedStringArray("start_room", "checkpoints") instance=ExtResource("1_v88j7")]
+[node name="Stage" node_paths=PackedStringArray("start_room") instance=ExtResource("1_v88j7")]
 start_room = NodePath("RoomContainer/Room1")
-checkpoints = [NodePath("CheckpointContainer/Checkpoint1")]
 player_path = ExtResource("2_u36e2")
 camera_path = ExtResource("3_j4s0n")
 music_to_play = ExtResource("4_hxldl")
@@ -102,6 +101,5 @@ room_checkpoint = NodePath("../../CheckpointContainer/Checkpoint1")
 position = Vector2(1104, 200)
 ladder_size = 10
 
-[node name="Checkpoint1" parent="CheckpointContainer" index="0" node_paths=PackedStringArray("associated_room") instance=ExtResource("6_j4s0n")]
+[node name="Checkpoint1" parent="CheckpointContainer" index="0" instance=ExtResource("6_j4s0n")]
 position = Vector2(192, 173)
-associated_room = NodePath("../../RoomContainer/Room1")

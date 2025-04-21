@@ -12,9 +12,9 @@ var is_scrolling: bool = false
 @export_category("Room List")
 ## First room of the stage.
 @export var start_room: Room
-## Current active room
+## Currently active room.
 var _current_room: Room
-## left - [0], top - [1], right - [2], bottom - [3]
+## Left - [0], top - [1], right - [2], bottom - [3]
 var _current_room_limits: Array[int] = [0, 0, 0, 0]
 
 var current_checkpoint: Checkpoint
@@ -43,15 +43,14 @@ func _ready() -> void:
 	create_camera()
 
 	_current_room = start_room
-	set_stage_camera_limits(_current_room)
-	set_stage_room_limits()
+	self.set_room_limits()
+	#set_stage_camera_limits(_current_room)
 
 	#if checkpoints.size() != 0: current_checkpoint = checkpoints[0] # set current checkpoint to the first in the array
-	if camera_ref and current_checkpoint: camera_ref.global_position = current_checkpoint.global_position # set camera position to checkpoint
+	#if camera_ref and current_checkpoint: camera_ref.global_position = current_checkpoint.global_position # set camera position to checkpoint
 
 	# Connect signals
 	EventBus.stage_event_player_died.connect(_player_died)
-
 	flash_ready_text() # flash ready and turn health bar on
 #endregion
 
@@ -71,7 +70,7 @@ func _process(_delta):
 func stage_finished_scrolling(room: Room) -> void:
 	_current_room = room
 	is_scrolling = false
-	set_stage_room_limits()
+	self.set_room_limits()
 	player_ref.room_limits = _current_room_limits
 	if room.get_checkpoint() is Checkpoint: current_checkpoint = room.get_checkpoint()
 	room.activate_spawners()
@@ -167,7 +166,7 @@ func set_stage_camera_limits(_room: Room) -> void: if camera_ref: camera_ref.upd
 #endregion
 
 #region Room related routines
-func set_stage_room_limits() -> void:
+func set_room_limits() -> void:
 	if !_current_room: return
 	_current_room_limits = [_current_room.global_position.x, 
 	_current_room.global_position.y,
