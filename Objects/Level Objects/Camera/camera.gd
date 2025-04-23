@@ -6,17 +6,22 @@ const SCREEN_WIDTH: int = 384
 const SCREEN_HEIGHT: int = 224
 
 var player_instance: Player
-var follow_player: bool = true
+
+var _follow_target: bool = false
+var _current_target: Node2D
 
 func _ready() -> void:
 	EventBus.stage_event_scroll_start.connect(camera_start_scroll)
+
+func _physics_process(delta):
+	if _follow_target: follow_target()
 
 func camera_start_scroll(scroll_direction: int, room: Room) -> void:
 	# If no reference to the player exists, find it and set.
 	if !player_instance: player_instance = get_tree().get_first_node_in_group("Player")
 
 	# Stop following the player.
-	follow(false)
+	# follow(false)
 	position_smoothing_enabled = false
 
 	var tween = get_tree().create_tween()
@@ -62,26 +67,26 @@ func camera_start_scroll(scroll_direction: int, room: Room) -> void:
 	EventBus.stage_event_scroll_finished.emit(room)
 
 	# Set camera limits to match dimensions of the new room.
-	update_camera_limits(room)
+	set_limits(room)
 	#position_smoothing_enabled = true
 	# Follow player again.
-	follow(true)
+	# follow(true)
 	# Allign with the player.
 	global_position = get_parent().global_position
 
+func follow_target() -> void:
+	self.global_position = _current_target.global_position
+
 ##########################################
 
-func update_camera_limits(room: Room) -> void:
+## Sets limits.
+func set_limits(room: Room) -> void:
 	if !room: return
 	limit_left = room.global_position.x
 	limit_top = room.global_position.y
 	limit_right = limit_left + room.size.x
 	limit_bottom = limit_top + room.size.y
 
-##########################################
+func set_target(target: Node2D) -> void: _current_target = target
 
-func follow(to_follow: bool) -> void:
-	if to_follow == true:
-		top_level = false
-	else:
-		top_level = true
+##########################################

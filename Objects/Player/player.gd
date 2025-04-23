@@ -413,7 +413,6 @@ func death_proccessing(pit_death: bool = false) -> void:
 		state = STATES.DEAD
 		EventBus.stage_event_player_died.emit()
 
-
 func _check_room_transition() -> void:
 	if room_limits == [0, 0, 0, 0]: return
 	if state != STATES.SCROLL and state != STATES.TELEPORT_IN:

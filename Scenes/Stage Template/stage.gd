@@ -51,7 +51,7 @@ func _ready() -> void:
 	else: current_checkpoint = _current_room.get_checkpoint()
 
 	create_camera()
-	camera_ref.update_camera_limits(_current_room)
+	camera_ref.set_limits(_current_room)
 
 	#if camera_ref and current_checkpoint: camera_ref.global_position = current_checkpoint.global_position # set camera position to checkpoint
 
@@ -69,12 +69,10 @@ func _process(_delta):
 	"Limits: \n" + "Left: " + var_to_str(_current_room_limits[0]) + "\n" + \
 	"Top: " + var_to_str(_current_room_limits[1]) + "\n" + \
 	"Right: " + var_to_str(_current_room_limits[2]) + "\n" + \
-	"Bottom: " + var_to_str(_current_room_limits[3]) + "\n"# + \
-	#"Current chckpnt: " + var_to_str(current_checkpoint.name)
+	"Bottom: " + var_to_str(_current_room_limits[3])
 #endregion
 
 #region Scrolling related routines
-
 func check_scrolling_criterias(dir: int):
 	match dir:
 		0:
@@ -144,7 +142,7 @@ func _scrolling_finished(room: Room) -> void:
 	_current_room = room
 	#is_scrolling = false
 	self.set_room_limits()
-	# player_ref.room_limits = _current_room_limits # TODO: move this to the player script
+	player_ref.room_limits = _current_room_limits # TODO: move this to the player script
 	if room.get_checkpoint() is Checkpoint: self.current_checkpoint = room.get_checkpoint()
 	room.activate_spawners()
 
@@ -173,8 +171,9 @@ func _on_animation_player_finished(anim_name) -> void:
 		"ready_flash":
 			if !first_spawn:
 				create_player() # spawn player
+				camera_ref.set_target(player_ref)
 				if player_ref: player_ref.room_limits = _current_room_limits
-				#connect_camera_to_player()
+				camera_ref._follow_target = true
 				first_spawn = true
 			else:
 				player_ref.room_limits = _current_room_limits
