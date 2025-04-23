@@ -3,20 +3,23 @@ class_name Stage extends Scene
 # Signals
 signal boss_defeated()
 
+## Reference to the [class Player] object.
 var player_ref: Player = null
-var camera_ref: Camera2D = null
+var camera_ref: StageCamera = null
 
+## Tells if player was spawned before.
 var first_spawn: bool = false
-var is_scrolling: bool = false
+#var is_scrolling: bool = false
 
 @export_category("Room List")
 ## First room of the stage.
-@export var start_room: Room
+@export var _start_room: Room
 ## Currently active room.
 var _current_room: Room
 ## Left - [0], top - [1], right - [2], bottom - [3]
 var _current_room_limits: Array[int] = [0, 0, 0, 0]
 
+## Currently active checkpoint.
 var current_checkpoint: Checkpoint
 
 @export_category("Player and Camera")
@@ -40,23 +43,28 @@ var current_checkpoint: Checkpoint
 func _ready() -> void:
 
 	super._ready() # play music
-	create_camera()
 
-	_current_room = start_room
+	_current_room = _start_room
 	self.set_room_limits()
-	#set_stage_camera_limits(_current_room)
 
-	#if checkpoints.size() != 0: current_checkpoint = checkpoints[0] # set current checkpoint to the first in the array
+	if _current_room.get_checkpoint() == null: push_error("\n" + "First room doesn't have a checkpoint!" + "\n" + "Please, set one in the editor.")
+	else: current_checkpoint = _current_room.get_checkpoint()
+
+	create_camera()
+	camera_ref.update_camera_limits(_current_room)
+
 	#if camera_ref and current_checkpoint: camera_ref.global_position = current_checkpoint.global_position # set camera position to checkpoint
 
 	# Connect signals
 	EventBus.stage_event_player_died.connect(_player_died)
+	EventBus.stage_event_player_at_border.connect(check_scrolling_criterias)
+	EventBus.stage_event_scroll_finished.connect(_scrolling_finished)
+
 	flash_ready_text() # flash ready and turn health bar on
 #endregion
 
 #region Update routine
 func _process(_delta):
-	check_scrolling_criterias()
 	%DebugStageLabel.text = "Current room: " + var_to_str(_current_room.name) + "\n" + \
 	"Limits: \n" + "Left: " + var_to_str(_current_room_limits[0]) + "\n" + \
 	"Top: " + var_to_str(_current_room_limits[1]) + "\n" + \
@@ -67,76 +75,32 @@ func _process(_delta):
 
 #region Scrolling related routines
 
-func stage_finished_scrolling(room: Room) -> void:
-	_current_room = room
-	is_scrolling = false
-	self.set_room_limits()
-	player_ref.room_limits = _current_room_limits
-	if room.get_checkpoint() is Checkpoint: current_checkpoint = room.get_checkpoint()
-	room.activate_spawners()
-
-func check_scrolling_criterias():
-	## Skip if there's no _current_room
-	#if !_current_room: return
-	## Check only if there's Player and Camera
-	#if player_ref and camera_ref:
-#
-		## Check only if not currently scrolling
-		#if !is_scrolling:
-			## Check bottom edge
-			#if (player_ref.global_position.y >= (_current_room_limits[3]) and player_ref.get_player_state() == 1 and player_ref.velocity.y > 0) or \
-				#(player_ref.global_position.y >= (_current_room_limits[3]) and player_ref.get_player_state() == 2 and player_ref.velocity.y > 0):
-				#if _current_room.exit_bottom:
-					#is_scrolling = true
-					#_current_room.despawn_objects()
-					#_current_room.deactivate_spawners()
-					#player_ref.scroll_player(3)
-					## Start scrolling. Everything is exactly the same from this point, so I won't repeat
-					#camera_ref.camera_start_scroll(_current_room.exit_bottom, 3)
-				#else:
-					## Pit death if there's no bottom exit from _current_room
-					#player_ref.death_proccessing(true)
-#
-			## Check top edge
-			#if (player_ref.global_position.y <= _current_room_limits[1] and player_ref.get_player_state() == 2 and player_ref.velocity.y < 0):
-				#if _current_room.exit_top:
-					#is_scrolling = true
-					#_current_room.despawn_objects()
-					#_current_room.deactivate_spawners()
-					#player_ref.scroll_player(1)
-					#camera_ref.camera_start_scroll(_current_room.exit_top, 1)
-#
-			## Check left edge
-			#if (player_ref.global_position.x <= (_current_room_limits[0] + 16)):
-				#if _current_room.exit_left:
-					#is_scrolling = true
-					#_current_room.despawn_objects()
-					#_current_room.deactivate_spawners()
-					#player_ref.scroll_player(0)
-					#camera_ref.camera_start_scroll(_current_room.exit_left, 0)
-#
-			## Check right edge
-			#if (player_ref.global_position.x >= (_current_room_limits[2] - 16)):
-				#if _current_room.exit_right:
-					#is_scrolling = true
-					#_current_room.despawn_objects()
-					#_current_room.deactivate_spawners()
-					#player_ref.scroll_player(2)
-					#camera_ref.camera_start_scroll(_current_room.exit_right, 2)
-	pass
-
+func check_scrolling_criterias(dir: int):
+	match dir:
+		0:
+			if self._current_room.exit_left: EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_left)
+			return
+		1:
+			if self._current_room.exit_top: EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_top)
+			return
+		2:
+			if self._current_room.exit_right: EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_right)
+			return
+		3:
+			if self._current_room.exit_bottom:
+				EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_bottom)
+			else: player_ref.death_proccessing(true)
+			return
 #endregion
 
 #region Player related routines
 func create_player() -> void:
-	#if !player_path or player_ref: return
-	#var p_instance = player_path.instantiate()
-	#call_deferred("add_child", p_instance)
-	#player_ref = p_instance
-	##player_ref.connect("player_dead", _player_died)
-	#player_ref.global_position = Vector2(checkpoints[0].global_position.x, (_current_room.global_position.y - 16))
-	#player_ref.teleport_to(checkpoints[0].global_position)
-	pass
+	if !player_path or player_ref: return
+	var p_instance = player_path.instantiate()
+	call_deferred("add_child", p_instance)
+	player_ref = p_instance
+	player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
+	player_ref.teleport_to(current_checkpoint.global_position)
 
 func respawn_player() -> void:
 	#if current_checkpoint:
@@ -147,12 +111,10 @@ func respawn_player() -> void:
 
 #region Camera related routines
 func create_camera() -> void:
-	#if !camera_path or camera_ref: return
-	#var cam_instance = camera_path.instantiate()
-	#call_deferred("add_child", cam_instance)
-	## Connect Camera's "finished_scrolling" signal to Stage's "stage_finished_scrolling" function
-	#cam_instance.connect("finished_scrolling", stage_finished_scrolling)
-	#camera_ref = cam_instance
+	if !camera_path or camera_ref: return
+	var cam_instance = camera_path.instantiate()
+	call_deferred("add_child", cam_instance)
+	camera_ref = cam_instance
 	pass
 
 func connect_camera_to_player() -> void:
@@ -162,7 +124,6 @@ func connect_camera_to_player() -> void:
 		#camera_ref.global_position = player_ref.global_position
 	pass
 
-func set_stage_camera_limits(_room: Room) -> void: if camera_ref: camera_ref.update_camera_limits(_current_room)
 #endregion
 
 #region Room related routines
@@ -179,9 +140,16 @@ func _player_died() -> void:
 	Globals.main.pause_music(true)
 	fade_timer.start()
 
+func _scrolling_finished(room: Room) -> void:
+	_current_room = room
+	#is_scrolling = false
+	self.set_room_limits()
+	# player_ref.room_limits = _current_room_limits # TODO: move this to the player script
+	if room.get_checkpoint() is Checkpoint: self.current_checkpoint = room.get_checkpoint()
+	room.activate_spawners()
+
 func _respawn_handler() -> void:
 	#var tween = get_tree().create_tween()
-#
 	#_current_room = current_checkpoint.associated_room
 	#set_stage_room_limits()
 	#set_stage_camera_limits(_current_room)
@@ -203,16 +171,15 @@ func _on_animation_player_finished(anim_name) -> void:
 		"ready_appear":
 			ui_anim_player.play("ready_flash")
 		"ready_flash":
-			#if !first_spawn:
-				#create_player() # spawn player
-				#if player_ref: player_ref.room_limits = _current_room_limits
+			if !first_spawn:
+				create_player() # spawn player
+				if player_ref: player_ref.room_limits = _current_room_limits
 				#connect_camera_to_player()
-				#first_spawn = true
-			#else:
-				#player_ref.room_limits = _current_room_limits
+				first_spawn = true
+			else:
+				player_ref.room_limits = _current_room_limits
 				#connect_camera_to_player()
-				#respawn_player()
-			pass
+				respawn_player()
 
 func _on_fade_timeout() -> void:
 	var tween = get_tree().create_tween()

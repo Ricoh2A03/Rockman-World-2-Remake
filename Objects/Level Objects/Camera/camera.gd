@@ -1,6 +1,6 @@
 class_name StageCamera extends Camera2D
 
-signal finished_scrolling(room: Room)
+#signal finished_scrolling(room: Room)
 
 const SCREEN_WIDTH: int = 384
 const SCREEN_HEIGHT: int = 224
@@ -8,12 +8,16 @@ const SCREEN_HEIGHT: int = 224
 var player_instance: Player
 var follow_player: bool = true
 
-func camera_start_scroll(new_room: Room, scroll_direction) -> void:
+func _ready() -> void:
+	EventBus.stage_event_scroll_start.connect(camera_start_scroll)
+
+func camera_start_scroll(scroll_direction: int, room: Room) -> void:
+	# If no reference to the player exists, find it and set.
+	if !player_instance: player_instance = get_tree().get_first_node_in_group("Player")
+
 	# Stop following the player.
 	follow(false)
 	position_smoothing_enabled = false
-
-	var room = new_room
 
 	var tween = get_tree().create_tween()
 	tween.set_parallel(true)
@@ -30,19 +34,19 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 			tarX = (room.global_position.x + room.size.x) - (SCREEN_WIDTH / 2)
 			tarY = self.global_position.y
 
-		2: # right
-			self.limit_right = limit_right + SCREEN_WIDTH
-			global_position.x = room.global_position.x - (SCREEN_WIDTH / 2)
-			global_position.y = room.global_position.y + (SCREEN_WIDTH / 2)
-			tarX = room.global_position.x + (SCREEN_WIDTH / 2)
-			tarY = self.global_position.y
-
 		1: # up
 			global_position.x = player_instance.global_position.x #room.global_position.x + 128
 			global_position.y = limit_top + room.size.y / 2
 			tarX = player_instance.global_position.x #self.global_position.x
 			tarY = self.global_position.y - room.size.y
 			limit_top = self.limit_top - SCREEN_HEIGHT
+
+		2: # right
+			self.limit_right = limit_right + SCREEN_WIDTH
+			global_position.x = room.global_position.x - (SCREEN_WIDTH / 2)
+			global_position.y = room.global_position.y + (SCREEN_WIDTH / 2)
+			tarX = room.global_position.x + (SCREEN_WIDTH / 2)
+			tarY = self.global_position.y
 
 		3: # down
 			self.limit_bottom = limit_bottom + 256
@@ -55,10 +59,10 @@ func camera_start_scroll(new_room: Room, scroll_direction) -> void:
 	tween.tween_property(self, "global_position:y", tarY, 0.68)
 
 	await tween.finished
-	finished_scrolling.emit(new_room)
+	EventBus.stage_event_scroll_finished.emit(room)
 
 	# Set camera limits to match dimensions of the new room.
-	update_camera_limits(new_room)
+	update_camera_limits(room)
 	#position_smoothing_enabled = true
 	# Follow player again.
 	follow(true)

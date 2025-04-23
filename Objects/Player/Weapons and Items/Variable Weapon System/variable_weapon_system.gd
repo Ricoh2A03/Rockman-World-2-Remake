@@ -47,7 +47,7 @@ func spawn_projectile() -> void:
 	sfx_player.play() # play sound
 
 func projectile_despawned():
-	_on_screen_count.erase(_on_screen_count.front())
+	if _on_screen_count.size() > 0: _on_screen_count.erase(_on_screen_count.front())
 
 func pause_cooldown_timer(pause: bool):
 	animation_cooldown_timer.paused = pause

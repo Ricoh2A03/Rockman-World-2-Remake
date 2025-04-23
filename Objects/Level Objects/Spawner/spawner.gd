@@ -48,7 +48,7 @@ func despawn() -> void:
 			_object_list.erase(obj)
 
 func remove_object_from_list(obj: Node2D) -> void:
-	# Don't bother with looping through an array if there's only one object possible.
+	# Don't bother with looping if there's only one object possible.
 	if object_limit < 2: _object_list.erase(obj)
 	elif object_limit > 1:
 		var obj_id = obj.get_instance_id() # Get ID of current object.

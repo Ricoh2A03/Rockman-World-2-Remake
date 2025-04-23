@@ -1,7 +1,5 @@
 class_name Player extends CharacterBody2D
 
-signal player_scroll_finished()
-
 @export_category("Player Stats")
 ## [param Resource] that contains all of the values that are relevant to physics.
 @export var stats: PlayerStats # player stat resource
@@ -98,10 +96,11 @@ var last_state = null
 var state = STATES.TELEPORT_IN
 
 ## Left, top, right, bottom.
-var room_limits = [0, 0, 0, 0]
+var room_limits: Array[int] = [0, 0, 0, 0]
 
 #region Initialization routine
 func _ready() -> void:
+	EventBus.stage_event_scroll_start.connect(_scroll_handler)
 	flip_sprite()
 #endregion
 
@@ -337,6 +336,7 @@ func _process(_delta) -> void:
 				can_double_jump = false
 #endregion
 
+	_check_room_transition()
 	_stop_at_room_limits()
 
 	if Input.is_action_just_pressed("debug_kill_player"): death_proccessing(false)
@@ -410,11 +410,43 @@ func death_proccessing(pit_death: bool = false) -> void:
 			get_parent().add_sibling(exp_inst)
 			exp_inst.global_position = global_position
 			exp_inst.trigger_explosion.emit()
-		print("PIT DEATH")
 		state = STATES.DEAD
 		EventBus.stage_event_player_died.emit()
 
-func scroll_player(scroll_direction) -> void:
+
+func _check_room_transition() -> void:
+	if room_limits == [0, 0, 0, 0]: return
+	if state != STATES.SCROLL and state != STATES.TELEPORT_IN:
+		if global_position.x - 16 < room_limits[0]:
+			EventBus.stage_event_player_at_border.emit(0) # at the left border
+
+		elif global_position.x + 16 > room_limits[2]:
+			EventBus.stage_event_player_at_border.emit(2) # at the right border
+
+		elif (global_position.y >= (room_limits[3]) and state == 1 and velocity.y > 0) or \
+				(global_position.y >= (room_limits[3]) and state == 2 and velocity.y > 0): # at the bottom border
+			EventBus.stage_event_player_at_border.emit(3)
+			print("YES")
+
+		elif (global_position.y <= room_limits[1] and state == 2 and velocity.y < 0): # at the top border
+			EventBus.stage_event_player_at_border.emit(1)
+
+func _stop_at_room_limits() -> void:
+	if room_limits == [0, 0, 0, 0]: return
+	if state != STATES.SCROLL and state != STATES.TELEPORT_IN:
+		if global_position.x - 16 < room_limits[0]:
+			global_position.x = room_limits[0] + 16
+		elif global_position.x + 16 > room_limits[2]:
+			global_position.x = room_limits[2] - 16
+
+		if global_position.y + (collision_normal.shape.size.y / 2 ) < room_limits[1]:
+			global_position.y = room_limits[1] - (collision_normal.shape.size.y / 2 )
+			#sprite_controller.enable_sprite(false)
+		#else:
+			#sprite_controller.enable_sprite(true)
+
+#region Event Handlers
+func _scroll_handler(scroll_direction: int, room: Room) -> void:
 	slide_timer.paused = true
 	weapon_system.pause_cooldown_timer(true)
 	var last_x_velocity = velocity.x
@@ -437,10 +469,10 @@ func scroll_player(scroll_direction) -> void:
 	match scroll_direction:
 		0: # left
 			tarX = global_position.x - 64
-		2: # right
-			tarX = global_position.x + 64
 		1: # up
 			tarY = global_position.y - 20
+		2: # right
+			tarX = global_position.x + 64
 		3: # down
 			tarY = global_position.y + 20
 
@@ -463,24 +495,11 @@ func scroll_player(scroll_direction) -> void:
 		velocity.x = last_x_velocity
 		velocity.y = 0
 
-	player_scroll_finished.emit()
 	weapon_system.pause_cooldown_timer(false)
 
-func _stop_at_room_limits() -> void:
-	if room_limits == [0, 0, 0, 0]: return
-	if state != STATES.SCROLL and state != STATES.TELEPORT_IN:
-		if global_position.x - 16 < room_limits[0]:
-			global_position.x = room_limits[0] + 16
-		elif global_position.x + 16 > room_limits[2]:
-			global_position.x = room_limits[2] - 16
-
-		if global_position.y + (collision_normal.shape.size.y / 2 ) < room_limits[1]:
-			global_position.y = room_limits[1] - (collision_normal.shape.size.y / 2 )
-			#sprite_controller.enable_sprite(false)
-		#else:
-			#sprite_controller.enable_sprite(true)
-
-
+func _scrolling_finished(room: Room) -> void:
+	pass
+#endregion
 
 
 

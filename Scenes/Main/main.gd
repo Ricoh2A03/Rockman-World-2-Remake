@@ -16,7 +16,7 @@ var current_scene
 
 ##########################################
 
-var _fullscreen: bool = false
+var _fullscreen: bool = true
 var _debug_mute: bool = false
 
 #region Initialization routine

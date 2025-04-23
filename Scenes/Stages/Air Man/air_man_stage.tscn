@@ -152,9 +152,7 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_fedaa")
 
-[node name="Stage" node_paths=PackedStringArray("start_room", "checkpoints") instance=ExtResource("1_ba7k7")]
-start_room = NodePath("RoomContainer/Room1")
-checkpoints = [NodePath("CheckpointContainer/Checkpoint1")]
+[node name="Stage" instance=ExtResource("1_ba7k7")]
 player_path = ExtResource("2_1tc0v")
 camera_path = ExtResource("3_s47bt")
 music_to_play = ExtResource("4_ksiqo")
@@ -209,10 +207,8 @@ position = Vector2(1152, 112)
 room_to_update = NodePath("../../RoomContainer/Room1")
 death_zone = true
 
-[node name="Checkpoint1" parent="CheckpointContainer" index="0" node_paths=PackedStringArray("stage_reference", "associated_room") instance=ExtResource("8_hebev")]
+[node name="Checkpoint1" parent="CheckpointContainer" index="0" instance=ExtResource("8_hebev")]
 position = Vector2(192, 141)
-stage_reference = NodePath("../..")
-associated_room = NodePath("../../RoomContainer/Room1")
 
 [node name="Fade" parent="StageUI" index="2"]
 metadata/_edit_use_anchors_ = true
