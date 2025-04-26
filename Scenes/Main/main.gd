@@ -23,8 +23,8 @@ var _debug_mute: bool = false
 func _ready() -> void:
 	Globals.main = self
 	# Mute everything so I can listen to music while debugging :D
-	AudioServer.set_bus_volume_db(0, -15)
-	#AudioServer.set_bus_volume_db(0, -80)
+	AudioServer.set_bus_volume_linear(0, 0.2)
+	#AudioServer.set_bus_volume_linear(0, 0.0)
 	# Set windowed mode
 	toggle_fullscreen()
 	# Check if there's starting scene and instantiate it
@@ -88,7 +88,7 @@ func goto_scene(duration: float, scene_path: String = "", fade_in: bool = false,
 		tween_in.set_parallel()
 
 		tween_in.tween_property(fade_color, "self_modulate", Color(1, 1, 1, 1), duration) # transparent to color
-		if music_fade_out: tween_in.tween_property(music_player, "volume_db", -80, duration)
+		if music_fade_out: tween_in.tween_property(music_player, "volume_linear", 0, duration)
 
 		await tween_in.finished
 		if music_fade_out: stop_music()
@@ -105,7 +105,7 @@ func goto_scene(duration: float, scene_path: String = "", fade_in: bool = false,
 		current_scene = scene_instance
 		call_deferred("add_child", scene_instance)
 
-	if music_fade_out: music_player.volume_db = 0
+	if music_fade_out: music_player.volume_linear = 0.2
 
 	var tween_out = get_tree().create_tween()
 
@@ -120,7 +120,7 @@ func goto_scene(duration: float, scene_path: String = "", fade_in: bool = false,
 ## and then starts to play passed audio reference.
 func play_music(music: AudioStream) -> void:
 	music_player.stop()
-	music_player.volume_db = 0
+	music_player.volume_linear = 1
 	music_player.stream = music
 	music_player.play()
 
@@ -133,8 +133,8 @@ func stop_music() -> void: music_player.stop()
 ## Fades currently played music in or out, depending on a passed boolean value.
 func fade_music(fade_in: bool, fade_speed: float) -> void:
 	var tween = get_tree().create_tween()
-	if fade_in: tween.tween_property(music_player, "volume_db", 0, fade_speed)
-	else: tween.tween_property(music_player, "volume_db", -80, fade_speed)
+	if fade_in: tween.tween_property(music_player, "volume_linear", 1, fade_speed)
+	else: tween.tween_property(music_player, "volume_linear", 0, fade_speed)
 #endregion
 
 ## Toggles fullscreen mode.

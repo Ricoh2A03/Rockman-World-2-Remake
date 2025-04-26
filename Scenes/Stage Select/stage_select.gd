@@ -102,8 +102,10 @@ func _process(_delta: float) -> void:
 
 #region Signals
 func _on_selected_sfx_finished() -> void:
-	Globals.main.play_music(mus_stage_start)
-	%AnimationPlayer.play("transition_start")
+	if selection != 4:
+		Globals.main.play_music(mus_stage_start)
+		%AnimationPlayer.play("transition_start")
+	else: Globals.main.goto_scene(0.35, scene_transitor.scenes[selection])
 
 func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "transition_start":

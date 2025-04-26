@@ -116,6 +116,7 @@ bus = &"Music"
 [node name="CheckpointContainer" type="Node" parent="."]
 
 [node name="StageUI" type="CanvasLayer" parent="."]
+layer = 99
 
 [node name="ReadySprite" type="Sprite2D" parent="StageUI"]
 visible = false

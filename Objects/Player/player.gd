@@ -36,9 +36,9 @@ var weapon_inventory
 @export var snd_jump: AudioStreamPlayer2D
 @export var snd_land: AudioStreamPlayer2D
 @export var snd_slide: AudioStreamPlayer2D
+@export var snd_damage: AudioStreamPlayer2D
 @export var snd_teleport_in: AudioStreamPlayer
 @export var snd_teleport_out: AudioStreamPlayer
-@export var snd_damage: AudioStreamPlayer
 @export var snd_death: AudioStreamPlayer
 
 @export_group("Physics Toggles")
@@ -101,7 +101,17 @@ var room_limits: Array[int] = [0, 0, 0, 0]
 #region Initialization routine
 func _ready() -> void:
 	EventBus.stage_event_scroll_start.connect(_scroll_handler)
+	EventBus.stage_event_scroll_finished.connect(_scrolling_finished)
 	flip_sprite()
+#endregion
+
+#region Input handler
+func _input(event):
+	if event.is_action_pressed("debug_damage_player"):
+		state = STATES.HURT
+		snd_damage.play()
+		sprite_controller.set_anim_frame(0)
+		sprite_controller.play_animation("hurt")
 #endregion
 
 #region Update routine
@@ -267,6 +277,12 @@ func _process(_delta) -> void:
 				flip_sprite()
 #endregion
 
+#region Hurt State
+			STATES.HURT:
+				can_shoot = false
+				allow_movement = false
+#endregion
+
 #region Climb State
 			STATES.CLIMB:
 				apply_gravity = false
@@ -355,7 +371,9 @@ func set_shoot_state(is_shoot: bool) -> void: is_shooting = is_shoot
 # DIRECTION
 func set_direction(dir: int) -> void: direction = dir
 
-# COLLISION SHAPES
+## Enables one collision shape while disabling the other one.[br]
+## Pass [param "slide"] to enable sliding collision shape; 
+## pass [param "normal"] to enable regular collision shape.
 func set_collision_shapes(shape: String) -> void:
 	if shape == "slide":
 		collision_normal.disabled = true
@@ -364,7 +382,7 @@ func set_collision_shapes(shape: String) -> void:
 		collision_slide.disabled = true
 		collision_normal.disabled = false
 
-# COLLISION
+## Sets collision layer and mask based on [param can_collide].
 func set_colliders(can_collide: bool) -> void:
 	self.set_collision_layer_value(3, can_collide)
 	self.set_collision_mask_value(1, can_collide)
@@ -376,7 +394,7 @@ func teleport_to(destination: Vector2) -> void:
 	allow_movement = true
 	#can_double_jump = false
 
-	snd_teleport_in.play()
+	# snd_teleport_in.play() # TODO: MOVE TO INITIALIZATION
 	set_player_state(STATES.TELEPORT_IN)
 	set_colliders(false)
 	sprite_controller.play_animation("teleport")
@@ -425,7 +443,6 @@ func _check_room_transition() -> void:
 		elif (global_position.y >= (room_limits[3]) and state == 1 and velocity.y > 0) or \
 				(global_position.y >= (room_limits[3]) and state == 2 and velocity.y > 0): # at the bottom border
 			EventBus.stage_event_player_at_border.emit(3)
-			print("YES")
 
 		elif (global_position.y <= room_limits[1] and state == 2 and velocity.y < 0): # at the top border
 			EventBus.stage_event_player_at_border.emit(1)

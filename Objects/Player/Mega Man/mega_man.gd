@@ -23,3 +23,8 @@ func _on_animation_finished() -> void:
 
 		"slide_end":
 			sprite_controller.play_animation("idle")
+
+		"hurt":
+			allow_movement = true
+			can_shoot = true
+			state = STATES.GROUND

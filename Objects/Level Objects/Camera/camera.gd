@@ -13,16 +13,15 @@ var _current_target: Node2D
 func _ready() -> void:
 	EventBus.stage_event_scroll_start.connect(camera_start_scroll)
 
-func _physics_process(delta):
-	if _follow_target: follow_target()
+func _process(delta):
+	if _follow_target: _look_at_target()
 
 func camera_start_scroll(scroll_direction: int, room: Room) -> void:
 	# If no reference to the player exists, find it and set.
 	if !player_instance: player_instance = get_tree().get_first_node_in_group("Player")
 
 	# Stop following the player.
-	# follow(false)
-	position_smoothing_enabled = false
+	_follow_target = false
 
 	var tween = get_tree().create_tween()
 	tween.set_parallel(true)
@@ -68,13 +67,11 @@ func camera_start_scroll(scroll_direction: int, room: Room) -> void:
 
 	# Set camera limits to match dimensions of the new room.
 	set_limits(room)
-	#position_smoothing_enabled = true
 	# Follow player again.
-	# follow(true)
-	# Allign with the player.
-	global_position = get_parent().global_position
+	_follow_target = true
 
-func follow_target() -> void:
+## Sets camera position to the [member _current_target]'s position.
+func _look_at_target() -> void:
 	self.global_position = _current_target.global_position
 
 ##########################################
@@ -87,6 +84,7 @@ func set_limits(room: Room) -> void:
 	limit_right = limit_left + room.size.x
 	limit_bottom = limit_top + room.size.y
 
+## Sets target which camera would follow.
 func set_target(target: Node2D) -> void: _current_target = target
 
 ##########################################
