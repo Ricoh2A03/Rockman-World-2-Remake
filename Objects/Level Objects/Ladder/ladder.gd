@@ -1,3 +1,4 @@
+@tool
 extends Area2D
 class_name Ladder
 
@@ -6,7 +7,10 @@ class_name Ladder
 
 #@export var one_way: StaticBody2D
 
-@export_range(1, 512) var ladder_size: int
+@export_range(1, 512) var ladder_size: int = 1:
+	set(value):
+		ladder_size = value
+		_set_ladder_length()
 
 var on_top := false
 
@@ -38,3 +42,11 @@ func _on_ladder_top_exited(body):
 	body.on_ladder_top = false
 	on_top = false
 	#rotate_top(false)
+
+###########################################
+
+func _set_ladder_length() -> void:
+	if Engine.is_editor_hint():
+		ladder_texture.size.y = ladder_size * 16
+		shape.shape.size.y = ladder_size * 16
+		shape.position.y = ($shape.shape.size.y / 2) - 8
