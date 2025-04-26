@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://rwjin5udol3d"]
+
+[ext_resource type="Script" uid="uid://p4xtd11hlbbg" path="res://Objects/Components/Player State Machine/player_state_machine.gd" id="1_3kpvw"]
+
+[node name="PlayerStateMachine" type="Node"]
+editor_description = "This node should always be a direct child of Player."
+script = ExtResource("1_3kpvw")
