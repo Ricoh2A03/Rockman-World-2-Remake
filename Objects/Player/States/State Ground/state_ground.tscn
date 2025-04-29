@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cd2pvgx3g4mgr"]
+
+[ext_resource type="Script" uid="uid://bugxrc1ybjdb4" path="res://Objects/Player/States/State Ground/state_ground.gd" id="1_3hm4o"]
+
+[node name="StateIdle" type="Node"]
+script = ExtResource("1_3hm4o")
+can_move = true
+can_attack = true
+apply_gravity = true
+call_move_and_slide = true

@@ -8,15 +8,15 @@ func _on_slide_timeout() -> void:
 		can_shoot = true
 		sprite_controller.play_animation("slide_end")
 		velocity.x = 0
-		state = STATES.GROUND
+		#state = STATES.GROUND
 
 func _on_animation_finished() -> void:
 	match sprite_controller.get_current_animation():
 
 		"teleport":
-			apply_gravity = true
+			#apply_gravity = true
 			can_shoot = true
-			state = STATES.GROUND
+			#state = STATES.GROUND
 
 		"land":
 			sprite_controller.play_animation("idle")
@@ -25,6 +25,6 @@ func _on_animation_finished() -> void:
 			sprite_controller.play_animation("idle")
 
 		"hurt":
-			allow_movement = true
+			#allow_movement = true
 			can_shoot = true
-			state = STATES.GROUND
+			#state = STATES.GROUND

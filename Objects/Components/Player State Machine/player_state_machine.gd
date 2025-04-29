@@ -4,8 +4,10 @@ class_name PlayerStateMachine extends Node
 ## An [Array] which holds all [PlayerState]'s.[br]
 ## Filled up when first entering a tree.
 var states: Array[PlayerState]
-## Currently active [PlayerState].
+## Currently active PlayerState.
 @export var current_state: PlayerState
+## Previously active PlayerState.
+var previous_state: PlayerState
 
 func _ready() -> void:
 	for child in get_children():
@@ -13,6 +15,7 @@ func _ready() -> void:
 			states.append(child)
 			child.ptr_player = get_parent()
 		else: push_warning(child.name + "is not a PlayerState")
+	current_state._on_enter()
 
 func _process(delta: float) -> void:
 	if current_state.next_state != null:
@@ -27,5 +30,6 @@ func _change_to_state(new_state: PlayerState) -> void:
 	if current_state != null:
 		current_state._on_exit()
 		current_state.next_state = null
+	previous_state = current_state
 	current_state = new_state
 	current_state._on_enter()

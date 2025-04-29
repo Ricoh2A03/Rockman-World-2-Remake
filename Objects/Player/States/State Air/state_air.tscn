@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://yt8xb8rq26sl"]
+
+[ext_resource type="Script" uid="uid://ubi03j2f4kd4" path="res://Objects/Player/States/State Air/state_air.gd" id="1_emrpc"]
+
+[node name="StateAir" type="Node"]
+script = ExtResource("1_emrpc")
+can_move = true
+can_attack = true
+apply_gravity = true
+call_move_and_slide = true

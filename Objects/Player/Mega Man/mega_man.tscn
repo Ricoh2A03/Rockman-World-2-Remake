@@ -1,12 +1,13 @@
-[gd_scene load_steps=28 format=3 uid="uid://dse2a3b8xg2pb"]
+[gd_scene load_steps=29 format=3 uid="uid://dse2a3b8xg2pb"]
 
 [ext_resource type="Script" uid="uid://boj3i7rith8f8" path="res://Objects/Player/Mega Man/mega_man.gd" id="1_7awde"]
 [ext_resource type="Resource" uid="uid://c18kq1fivowwj" path="res://Objects/Player/Stat Resource/mega_man_stats.tres" id="2_c1ucl"]
 [ext_resource type="SpriteFrames" uid="uid://br3u5goxp8nie" path="res://Objects/Player/Mega Man/mega_man_anim_normal.tres" id="4_mhlwb"]
 [ext_resource type="PackedScene" uid="uid://rwjin5udol3d" path="res://Objects/Components/Player State Machine/player_state_machine.tscn" id="4_q66og"]
 [ext_resource type="SpriteFrames" uid="uid://2p0a3cd70r0l" path="res://Objects/Player/Mega Man/mega_man_anim_shoot.tres" id="5_dy1p1"]
-[ext_resource type="Script" uid="uid://bf7ugvgg3dnf" path="res://Objects/Components/Player State Machine/player_state.gd" id="5_wifyk"]
+[ext_resource type="PackedScene" uid="uid://cd2pvgx3g4mgr" path="res://Objects/Player/States/State Ground/state_ground.tscn" id="5_wifyk"]
 [ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controler/sprite_controller.tscn" id="6_7i60c"]
+[ext_resource type="PackedScene" uid="uid://yt8xb8rq26sl" path="res://Objects/Player/States/State Air/state_air.tscn" id="6_m3rru"]
 [ext_resource type="AudioStream" uid="uid://wwcwvudptq3b" path="res://Assets/SFX/MegaMan/sfx_mm_jump.wav" id="7_i8ann"]
 [ext_resource type="AudioStream" uid="uid://bx6k0cpl7g6qm" path="res://Assets/SFX/MegaMan/sfx_mm_slide.wav" id="9_e3ryg"]
 [ext_resource type="PackedScene" uid="uid://dgmmtaqdwnh6l" path="res://Objects/Player/Ceiling Detector/ceiling_detector.tscn" id="9_ex5gi"]
@@ -46,11 +47,11 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed(\"debug_show\"):
 		label.visible = !label.visible
 		label2.visible = !label2.visible
-	label.text = \"State: \" + var_to_str(mega_man.state)
-	label2.text = \"Slide Tmr: \" + var_to_str(mega_man.slide_timer.time_left)
+	#label.text = \"State: \" + var_to_str(mega_man.state)
+	#label2.text = \"Slide Tmr: \" + var_to_str(mega_man.slide_timer.time_left)
 "
 
-[node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "snd_jump", "snd_land", "snd_slide", "snd_damage", "snd_teleport_in", "snd_teleport_out", "snd_death") groups=["Player"]]
+[node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "snd_jump", "snd_land", "snd_slide", "snd_damage", "snd_teleport_in", "snd_teleport_out", "snd_death") groups=["Player"]]
 z_index = 99
 collision_layer = 4
 slide_on_ceiling = false
@@ -58,6 +59,7 @@ floor_stop_on_slope = false
 platform_floor_layers = 0
 script = ExtResource("1_7awde")
 stats = ExtResource("2_c1ucl")
+state_machine = NodePath("PlayerStateMachine")
 sprite_controller = NodePath("SpriteController")
 step_timer = NodePath("StepTimer")
 slide_timer = NodePath("SlideTimer")
@@ -73,11 +75,13 @@ snd_teleport_in = NodePath("Sounds/snd_teleport_in")
 snd_teleport_out = NodePath("Sounds/snd_teleport_out")
 snd_death = NodePath("Sounds/snd_death")
 
-[node name="PlayerStateMachine" parent="." instance=ExtResource("4_q66og")]
+[node name="PlayerStateMachine" parent="." node_paths=PackedStringArray("current_state") instance=ExtResource("4_q66og")]
+current_state = NodePath("StateGround")
 
-[node name="PlayerState" type="Node" parent="PlayerStateMachine"]
-script = ExtResource("5_wifyk")
-metadata/_custom_type_script = "uid://bf7ugvgg3dnf"
+[node name="StateGround" parent="PlayerStateMachine" node_paths=PackedStringArray("state_air") instance=ExtResource("5_wifyk")]
+state_air = NodePath("../StateAir")
+
+[node name="StateAir" parent="PlayerStateMachine" instance=ExtResource("6_m3rru")]
 
 [node name="SpriteController" parent="." node_paths=PackedStringArray("sprite_normal", "sprite_shoot") instance=ExtResource("6_7i60c")]
 sprite_normal = NodePath("SpriteNormal")
@@ -85,7 +89,7 @@ sprite_shoot = NodePath("SpriteShoot")
 
 [node name="SpriteNormal" type="AnimatedSprite2D" parent="SpriteController"]
 sprite_frames = ExtResource("4_mhlwb")
-animation = &"hurt"
+animation = &"idle"
 
 [node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
 visible = false
