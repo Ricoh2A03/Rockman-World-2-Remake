@@ -45,11 +45,11 @@ var weapon_inventory
 ## Whether or not the gravity should be applied. 
 @export var apply_gravity: bool = true
 ## Set to true to ignore control from the player.
-@export var allow_movement: bool = true
+@export var can_move: bool = true
 ## Self-explanatory.
 @export var can_double_jump: bool = false
 ## Whether or not physics should be processed.
-@export var move_and_slide_on: bool = true
+@export var call_move_and_slide: bool = true
 
 var can_step: bool = true
 var is_step: bool = false
@@ -121,15 +121,14 @@ func _process(_delta) -> void:
 		if state != STATES.SCROLL:
 			velocity.y += stats.gravity
 
-	if move_and_slide_on:
-		move_and_slide()
+	if call_move_and_slide: move_and_slide()
 
 	var move_vector
 
 	### Ignore horizontal input if hurt or climbing ###
 	if state != STATES.CLIMB or STATES.HURT or STATES.SCROLL: move_vector = Input.get_axis("left", "right")
 
-	if allow_movement:
+	if can_move:
 
 		### Horizontal Movement ###
 		if move_vector:
@@ -139,8 +138,9 @@ func _process(_delta) -> void:
 				velocity.x = move_vector * stats.horizontal_speed
 
 			### Set direction ###
-			if move_vector == 1 and state != STATES.SCROLL: direction = 1
-			elif move_vector == -1 and state != STATES.SCROLL: direction = -1
+			if state != STATES.SCROLL or STATES.HURT:
+				if move_vector == 1: direction = 1
+				elif move_vector == -1: direction = -1
 
 		else:
 			### Apply velocity regardless of input if sliding ###
@@ -279,8 +279,9 @@ func _process(_delta) -> void:
 
 #region Hurt State
 			STATES.HURT:
+				velocity.x = 0
 				can_shoot = false
-				allow_movement = false
+				can_move = false
 #endregion
 
 #region Climb State
@@ -348,7 +349,7 @@ func _process(_delta) -> void:
 				sprite_controller.enable_sprite(false) ##
 				can_shoot = false
 				apply_gravity = false
-				allow_movement = false
+				can_move = false
 				can_double_jump = false
 #endregion
 
@@ -391,7 +392,7 @@ func set_colliders(can_collide: bool) -> void:
 func teleport_to(destination: Vector2) -> void:
 	sprite_controller.enable_sprite(true) ##
 	self.visible = true
-	allow_movement = true
+	can_move = true
 	#can_double_jump = false
 
 	# snd_teleport_in.play() # TODO: MOVE TO INITIALIZATION
@@ -417,7 +418,7 @@ func death_proccessing(pit_death: bool = false) -> void:
 	if state != STATES.DEAD:
 		apply_gravity = false
 		can_shoot = false
-		allow_movement = false
+		can_move = false
 		can_double_jump = false
 		velocity.x = 0
 		velocity.y = 0

@@ -25,6 +25,6 @@ func _on_animation_finished() -> void:
 			sprite_controller.play_animation("idle")
 
 		"hurt":
-			allow_movement = true
+			can_move = true
 			can_shoot = true
 			state = STATES.GROUND
