@@ -23,13 +23,16 @@ var _debug_mute: bool = false
 func _ready() -> void:
 	Globals.main = self
 	# Mute everything so I can listen to music while debugging :D
-	#AudioServer.set_bus_volume_linear(0, 0.2)
-	AudioServer.set_bus_volume_linear(0, 0.0)
+	AudioServer.set_bus_volume_linear(0, 0.2)
+	#AudioServer.set_bus_volume_linear(0, 0.0)
 	# Set windowed mode
 	toggle_fullscreen()
 	# Check if there's starting scene and instantiate it
 	if first_scene:
 		goto_scene(load_fade_speed, first_scene, true)
+
+	#Engine.time_scale = 0.1
+	#Engine.physics_ticks_per_second = 0.1
 #endregion
 
 #region Pause related code

@@ -79,23 +79,15 @@ func _process(_delta) -> void:
 	if state_machine.current_state.call_move_and_slide:
 		move_and_slide()
 
-	### Ignore horizontal input if hurt or climbing ###
-	move_vector = Input.get_axis("left", "right")
+	if state_machine.current_state.can_move:
+		move_vector = Input.get_axis("left", "right")
+		### Set direction ###
+		if move_vector == 1: direction = 1
+		elif move_vector == -1: direction = -1
 
 	flip_sprite()
 
 #####################################################
-
-#	if state_machine.current_state.can_move:
-#		if move_vector != 0:
-#			move_player()
-
-#func move_player() -> void:
-	#velocity.x = move_vector * x_vel
-
-	### Set direction ###
-#	if move_vector == 1: direction = 1
-#	elif move_vector == -1: direction = -1
 
 		#else:
 			#### Apply velocity regardless of input if sliding ###
@@ -105,24 +97,7 @@ func _process(_delta) -> void:
 
 #region Ground State
 #			STATES.GROUND:
-				#set_collision_shapes("normal")
-#
-				#if can_step and move_vector: # stepping
-					#is_step = true
-					#can_step = false
-					#step_timer.start()
-#
-				#### Animations ###
-				#if velocity.x != 0:
-					#if is_step:
-						#sprite_controller.play_animation("step")
-					#else: 
-						#sprite_controller.play_animation("walk")
-				#else: # Idle animation ONLY if not sliding / landing / ending slide
-					#if sprite_controller.get_current_animation() != "land" and \
-					   #sprite_controller.get_current_animation() != "slide_end" and \
-					   #sprite_controller.get_current_animation() != "slide":
-						#sprite_controller.play_animation("idle")
+
 #
 				#### Ground --> Climb ###
 				#if !on_ladder_top and (on_ladder and Input.is_action_pressed("up")):
@@ -131,16 +106,7 @@ func _process(_delta) -> void:
 					#sprite_controller.play_animation("climb")
 					#state = STATES.CLIMB
 					#global_position.y = (current_ladder.global_position.y - 8)
-#
-				#### Jumping --> Air ###
-				#if Input.is_action_just_pressed("jump"):
-					#velocity.y = -stats.jump_force
-					#snd_jump.play()
-					#state = STATES.AIR
-					#sprite_controller.play_animation("jump")
-#
-				#### Not floor --> Air ###
-				#if !is_on_floor(): state = STATES.AIR
+
 #
 				#### Ground --> Slide ###
 				#if Input.is_action_just_pressed("slide"):
@@ -155,42 +121,13 @@ func _process(_delta) -> void:
 #
 ##region Air State
 			#STATES.AIR:
-				#set_collision_shapes("normal")
-#
-				#### Variable Jump Height ###
-				#if velocity.y < 0 and !Input.is_action_pressed("jump"):
-					#velocity.y += stats.gravity * 3.25 # Stronger Gravity
-					#velocity.y = 0
-#
-				#if velocity.y > 0:
-					#sprite_controller.play_animation("fall")
-#
-				#### Handle Double Jump ###
-				#if can_double_jump:
-					#if double_jump and Input.is_action_just_pressed("jump"):
-						#double_jump = false
-						#velocity.y = -stats.jump_force #-(stats.jump_force * 0.85)
-#
-				#### Air --> Ground ###
-				#if is_on_floor():
-					#state = STATES.GROUND
-					#sprite_controller.play_animation("land")
-					#snd_land.play()
-					#can_step = false
-					#if can_double_jump:
-						#double_jump = true
 #
 				#### -- > Climb ###
 				#if current_ladder != null and on_ladder:
 					#if global_position.y >= ((current_ladder.global_position.y - 8) - (collision_normal.shape.size.y * 0.5)) and (on_ladder and (Input.is_action_pressed("up"))):
 						#sprite_controller.play_animation("climb") ##
 						#state = STATES.CLIMB
-#
-				#velocity.y += 1
-#
-				#flip_sprite()
-#
-				#_terminal_Y_velocity()
+
 ##endregion
 #
 ##region Slide State

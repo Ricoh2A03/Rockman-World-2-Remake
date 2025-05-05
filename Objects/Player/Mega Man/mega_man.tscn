@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dse2a3b8xg2pb"]
+[gd_scene load_steps=33 format=3 uid="uid://dse2a3b8xg2pb"]
 
 [ext_resource type="Script" uid="uid://boj3i7rith8f8" path="res://Objects/Player/Mega Man/mega_man.gd" id="1_7awde"]
 [ext_resource type="Resource" uid="uid://c18kq1fivowwj" path="res://Objects/Player/Stat Resource/mega_man_stats.tres" id="2_c1ucl"]
@@ -8,9 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://cd2pvgx3g4mgr" path="res://Objects/Player/States/State Ground/state_ground.tscn" id="5_wifyk"]
 [ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controler/sprite_controller.tscn" id="6_7i60c"]
 [ext_resource type="PackedScene" uid="uid://yt8xb8rq26sl" path="res://Objects/Player/States/State Air/state_air.tscn" id="6_m3rru"]
+[ext_resource type="PackedScene" uid="uid://da4ty2thxmpv4" path="res://Objects/Player/States/State Inactive/state_inactive.tscn" id="7_hnnxu"]
 [ext_resource type="AudioStream" uid="uid://wwcwvudptq3b" path="res://Assets/SFX/MegaMan/sfx_mm_jump.wav" id="7_i8ann"]
+[ext_resource type="Script" uid="uid://buewnbxj37tfm" path="res://Objects/Player/States/State Inactive/state_inactive.gd" id="8_mhbwe"]
+[ext_resource type="PackedScene" uid="uid://cpcrqyyjod07p" path="res://Objects/Player/States/State Slide/state_slide.tscn" id="9_45oyj"]
 [ext_resource type="AudioStream" uid="uid://bx6k0cpl7g6qm" path="res://Assets/SFX/MegaMan/sfx_mm_slide.wav" id="9_e3ryg"]
 [ext_resource type="PackedScene" uid="uid://dgmmtaqdwnh6l" path="res://Objects/Player/Ceiling Detector/ceiling_detector.tscn" id="9_ex5gi"]
+[ext_resource type="Script" uid="uid://dfhrw2crkpxsk" path="res://Objects/Player/States/State Slide/state_slide.gd" id="10_1jfwf"]
 [ext_resource type="PackedScene" uid="uid://ctu1aeva8uqde" path="res://Objects/Effect Objects/Expolsion 1/Robot Master Explosion FX/robot_master_explosion_fx.tscn" id="10_mmksa"]
 [ext_resource type="PackedScene" uid="uid://cos64k8hjfusj" path="res://Objects/Player/Ladder Detector/ladder_detector.tscn" id="11_ricv3"]
 [ext_resource type="AudioStream" uid="uid://vxrbq7kyw86f" path="res://Assets/SFX/MegaMan/sfx_mm_damage.wav" id="12_ivuyn"]
@@ -78,10 +82,26 @@ snd_death = NodePath("Sounds/snd_death")
 [node name="PlayerStateMachine" parent="." node_paths=PackedStringArray("current_state") instance=ExtResource("4_q66og")]
 current_state = NodePath("StateGround")
 
-[node name="StateGround" parent="PlayerStateMachine" node_paths=PackedStringArray("state_air") instance=ExtResource("5_wifyk")]
-state_air = NodePath("../StateAir")
+[node name="StateInactive" parent="PlayerStateMachine" instance=ExtResource("7_hnnxu")]
+script = ExtResource("8_mhbwe")
 
-[node name="StateAir" parent="PlayerStateMachine" instance=ExtResource("6_m3rru")]
+[node name="StateGround" parent="PlayerStateMachine" node_paths=PackedStringArray("state_air", "state_slide") instance=ExtResource("5_wifyk")]
+state_air = NodePath("../StateAir")
+state_slide = NodePath("../StateSlide")
+can_open_weapon_menu = true
+
+[node name="StateAir" parent="PlayerStateMachine" node_paths=PackedStringArray("state_ground") instance=ExtResource("6_m3rru")]
+state_ground = NodePath("../StateGround")
+can_open_weapon_menu = true
+
+[node name="StateSlide" parent="PlayerStateMachine" node_paths=PackedStringArray("state_ground", "state_air") instance=ExtResource("9_45oyj")]
+script = ExtResource("10_1jfwf")
+state_ground = NodePath("../StateGround")
+state_air = NodePath("../StateAir")
+can_move = true
+apply_gravity = true
+call_move_and_slide = true
+can_open_weapon_menu = true
 
 [node name="SpriteController" parent="." node_paths=PackedStringArray("sprite_normal", "sprite_shoot") instance=ExtResource("6_7i60c")]
 sprite_normal = NodePath("SpriteNormal")
@@ -94,7 +114,7 @@ animation = &"idle"
 [node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
 visible = false
 sprite_frames = ExtResource("5_dy1p1")
-animation = &"walk"
+animation = &"jump"
 
 [node name="Normal" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3pimt")
@@ -107,7 +127,7 @@ disabled = true
 debug_color = Color(0, 0.647059, 0.203922, 0.396078)
 
 [node name="StepTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.085
 one_shot = true
 
 [node name="SlideTimer" type="Timer" parent="."]
@@ -204,5 +224,5 @@ script = ExtResource("19_fcqlu")
 _node_to_pause = NodePath("..")
 
 [connection signal="animation_finished" from="SpriteController/SpriteNormal" to="." method="_on_animation_finished"]
-[connection signal="timeout" from="StepTimer" to="." method="_on_step_timeout"]
+[connection signal="timeout" from="StepTimer" to="PlayerStateMachine/StateGround" method="_on_step_timeout"]
 [connection signal="timeout" from="SlideTimer" to="." method="_on_slide_timeout"]

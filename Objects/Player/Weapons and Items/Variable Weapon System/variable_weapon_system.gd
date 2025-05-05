@@ -12,8 +12,8 @@ var _on_screen_count: Array = []
 func _process(_delta: float) -> void:
 	# Shoot only if player is not paused and can_shoot
 	if (player.can_shoot and Input.is_action_just_pressed("shoot")):
-		if player.state == player.STATES.CLIMB:
-			player.flip_sprite()
+		#if player.state == player.STATES.CLIMB:
+		player.flip_sprite()
 		spawn_projectile()
 
 func spawn_projectile() -> void:
