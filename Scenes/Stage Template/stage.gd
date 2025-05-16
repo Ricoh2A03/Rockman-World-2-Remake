@@ -1,15 +1,11 @@
 class_name Stage extends Scene
 
-# Signals
-#signal boss_defeated()
-
 ## Reference to the [class Player] object.
 var player_ref: Player = null
 var camera_ref: StageCamera = null
 
-## Tells if player was spawned before.
-var first_spawn: bool = false
-#var is_scrolling: bool = false
+## Tells if player is spawned.
+var player_is_spawned: bool = false
 
 @export_category("Room List")
 ## First room of the stage.
@@ -24,9 +20,9 @@ var current_checkpoint: Checkpoint
 
 @export_category("Player and Camera")
 ## Path to Player node to instatiate.
-@export var player_path: PackedScene
+@export var player_scene_path: String
 ## Path to Camera node to instatiate.
-@export var camera_path: PackedScene
+@export var camera_scene_path: String
 
 @onready var stage_ui: CanvasLayer = $StageUI
 @onready var ui_anim_player: AnimationPlayer = $StageUI/AnimationPlayer
@@ -73,18 +69,19 @@ func _ready() -> void:
 
 #region Update routine
 func _process(_delta):
-	%DebugStageLabel.text = "Current room: " + var_to_str(_current_room.name) + "\n" + \
-	"Limits: \n" + "Left: " + var_to_str(_current_room_limits[0]) + "\n" + \
-	"Top: " + var_to_str(_current_room_limits[1]) + "\n" + \
-	"Right: " + var_to_str(_current_room_limits[2]) + "\n" + \
-	"Bottom: " + var_to_str(_current_room_limits[3])
+	#%DebugStageLabel.text = "Current room: " + var_to_str(_current_room.name) + "\n" + \
+	#"Limits: \n" + "Left: " + var_to_str(_current_room_limits[0]) + "\n" + \
+	#"Top: " + var_to_str(_current_room_limits[1]) + "\n" + \
+	#"Right: " + var_to_str(_current_room_limits[2]) + "\n" + \
+	#"Bottom: " + var_to_str(_current_room_limits[3])
+	pass
 #endregion
 
 #region Player related routines
 ## Instantiates [param Player] object, saves a reference to it 
 func create_player() -> void:
-	if !player_path or player_ref: return
-	var p_instance = player_path.instantiate()
+	if !player_scene_path or player_ref: return
+	var p_instance = load(player_scene_path).instantiate()
 	call_deferred("add_child", p_instance)
 	player_ref = p_instance
 	player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
@@ -99,8 +96,8 @@ func respawn_player() -> void:
 
 #region Camera related routines
 func create_camera() -> void:
-	if !camera_path or camera_ref: return
-	var cam_instance = camera_path.instantiate()
+	if !camera_scene_path or camera_ref: return
+	var cam_instance = load(camera_scene_path).instantiate()
 	call_deferred("add_child", cam_instance)
 	self.camera_ref = cam_instance
 #endregion
@@ -123,17 +120,20 @@ func _player_died() -> void: # EventBus event: stage_event_player_died()
 func check_scrolling_criterias(dir: int):
 	match dir:
 		0:
-			if self._current_room.exit_left: EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_left)
+			if !self._current_room.exit_left: return
+			EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_left)
 			_current_room.despawn_objects()
 			_current_room.deactivate_spawners()
 			return
 		1:
-			if self._current_room.exit_top: EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_top)
+			if !self._current_room.exit_top: return
+			EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_top)
 			_current_room.despawn_objects()
 			_current_room.deactivate_spawners()
 			return
 		2:
-			if self._current_room.exit_right: EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_right)
+			if !self._current_room.exit_right: return
+			EventBus.stage_event_scroll_start.emit(dir, _current_room.exit_right)
 			_current_room.despawn_objects()
 			_current_room.deactivate_spawners()
 			return
@@ -175,12 +175,12 @@ func _on_animation_player_finished(anim_name) -> void:
 		"ready_appear":
 			ui_anim_player.play("ready_flash")
 		"ready_flash":
-			if !first_spawn:
+			if !player_is_spawned:
 				self.create_player() # spawn player
 				self.camera_ref.set_target(player_ref)
 				if self.player_ref: self.player_ref.room_limits = self._current_room_limits
 				self.camera_ref._follow_target = true # TODO: maybe? move to dedicated player_spawned handler
-				self.first_spawn = true
+				self.player_is_spawned = true
 			else:
 				self.player_ref.room_limits = self._current_room_limits
 				self.respawn_player()

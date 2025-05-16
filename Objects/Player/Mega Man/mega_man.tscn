@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://c18kq1fivowwj" path="res://Objects/Player/Stat Resource/mega_man_stats.tres" id="2_c1ucl"]
 [ext_resource type="SpriteFrames" uid="uid://br3u5goxp8nie" path="res://Objects/Player/Mega Man/mega_man_anim_normal.tres" id="4_mhlwb"]
 [ext_resource type="SpriteFrames" uid="uid://2p0a3cd70r0l" path="res://Objects/Player/Mega Man/mega_man_anim_shoot.tres" id="5_dy1p1"]
-[ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controler/sprite_controller.tscn" id="6_7i60c"]
+[ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controller/sprite_controller.tscn" id="6_7i60c"]
 [ext_resource type="AudioStream" uid="uid://wwcwvudptq3b" path="res://Assets/SFX/MegaMan/sfx_mm_jump.wav" id="7_i8ann"]
 [ext_resource type="AudioStream" uid="uid://bx6k0cpl7g6qm" path="res://Assets/SFX/MegaMan/sfx_mm_slide.wav" id="9_e3ryg"]
 [ext_resource type="PackedScene" uid="uid://dgmmtaqdwnh6l" path="res://Objects/Player/Ceiling Detector/ceiling_detector.tscn" id="9_ex5gi"]

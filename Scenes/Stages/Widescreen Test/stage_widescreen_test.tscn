@@ -1,9 +1,7 @@
-[gd_scene load_steps=13 format=4 uid="uid://u5fg0e8u3v0v"]
+[gd_scene load_steps=11 format=4 uid="uid://u5fg0e8u3v0v"]
 
 [ext_resource type="PackedScene" uid="uid://d3dcuxijsdqq" path="res://Scenes/Stage Template/stage.tscn" id="1_v88j7"]
 [ext_resource type="Texture2D" uid="uid://cp7p3weex6tfs" path="res://Assets/Tilesets/Test/Cyber/cyber_tileset.png" id="2_kwoto"]
-[ext_resource type="PackedScene" uid="uid://dse2a3b8xg2pb" path="res://Objects/Player/Mega Man/mega_man.tscn" id="2_u36e2"]
-[ext_resource type="PackedScene" uid="uid://b0ssm2j4fnsaf" path="res://Objects/Level Objects/Camera/camera.tscn" id="3_j4s0n"]
 [ext_resource type="AudioStream" uid="uid://duiay1h5hx8wk" path="res://Assets/Music/Rushjet1/Woodman.ogg" id="4_hxldl"]
 [ext_resource type="PackedScene" uid="uid://dd3j3gx5a7wkg" path="res://Objects/Level Objects/Room/room.tscn" id="5_hxldl"]
 [ext_resource type="PackedScene" uid="uid://cckmj8632s1ks" path="res://Objects/Level Objects/Checkpoint/checkpoint.tscn" id="6_j4s0n"]
@@ -58,8 +56,8 @@ sources/0 = SubResource("TileSetAtlasSource_lbixf")
 
 [node name="Stage" node_paths=PackedStringArray("_start_room") instance=ExtResource("1_v88j7")]
 _start_room = NodePath("RoomContainer/Room1")
-player_path = ExtResource("2_u36e2")
-camera_path = ExtResource("3_j4s0n")
+player_scene_path = "uid://dse2a3b8xg2pb"
+camera_scene_path = "uid://b0ssm2j4fnsaf"
 music_to_play = ExtResource("4_hxldl")
 play_music_at_start = true
 
