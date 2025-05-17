@@ -9,7 +9,7 @@ var player_is_spawned: bool = false
 
 @export_category("Room List")
 ## First room of the stage.
-@export var _start_room: Room
+@export var _starting_room: Room
 ## Currently active room.
 var _current_room: Room
 ## Left - [0], top - [1], right - [2], bottom - [3]
@@ -42,7 +42,7 @@ func _ready() -> void:
 	super._ready()
 
 	# Set current room and set limits
-	_current_room = _start_room
+	_current_room = _starting_room
 	self.set_room_limits()
 
 	# Set current checkpoint
