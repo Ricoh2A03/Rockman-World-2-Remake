@@ -93,7 +93,7 @@ enum STATES{
 ## The last state that the player was in.
 var last_state = null
 ## Current player state.
-var state = STATES.TELEPORT_IN
+var _current_state = STATES.TELEPORT_IN
 
 ## Left, top, right, bottom.
 var room_limits: Array[int] = [0, 0, 0, 0]
@@ -108,9 +108,8 @@ func _ready() -> void:
 #region Input handler
 func _input(event):
 	if event.is_action_pressed("debug_damage_player"):
-		state = STATES.HURT
+		_current_state = STATES.HURT
 		snd_damage.play()
-		sprite_controller.set_anim_frame(0)
 		sprite_controller.play_animation("hurt")
 #endregion
 
@@ -118,41 +117,39 @@ func _input(event):
 func _process(_delta) -> void:
 
 	if apply_gravity:
-		if state != STATES.SCROLL:
-			velocity.y += stats.gravity
+		if _current_state != STATES.SCROLL: velocity.y += stats.gravity
 
 	if call_move_and_slide: move_and_slide()
 
 	var move_vector
 
 	### Ignore horizontal input if hurt or climbing ###
-	if state != STATES.CLIMB or STATES.HURT or STATES.SCROLL: move_vector = Input.get_axis("left", "right")
+	if _current_state != STATES.CLIMB or STATES.HURT or STATES.SCROLL: move_vector = Input.get_axis("left", "right")
 
 	if can_move:
 
 		### Horizontal Movement ###
 		if move_vector:
-			if state == STATES.GROUND and is_step: ### Step Velocity ###
+			if _current_state == STATES.GROUND and is_step: ### Step Velocity ###
 				velocity.x = move_vector * stats.step_speed
-			elif state == STATES.GROUND or state == STATES.AIR: ### Ground Velocity ###
+			elif _current_state == STATES.GROUND or _current_state == STATES.AIR: ### Ground Velocity ###
 				velocity.x = move_vector * stats.horizontal_speed
 
 			### Set direction ###
-			if state != STATES.SCROLL or STATES.HURT:
+			if _current_state != STATES.SCROLL or STATES.HURT:
 				if move_vector == 1: direction = 1
 				elif move_vector == -1: direction = -1
 
 		else:
 			### Apply velocity regardless of input if sliding ###
-			if state != STATES.SLIDE: velocity.x = move_toward(velocity.x, 0, stats.horizontal_speed)
+			if _current_state != STATES.SLIDE: velocity.x = move_toward(velocity.x, 0, stats.horizontal_speed)
 			### Allow stepping if stopped ###
-			if state == STATES.GROUND: can_step = true
+			if _current_state == STATES.GROUND: can_step = true
 
-		match state:
+		match _current_state:
 
 #region Ground State
 			STATES.GROUND:
-				set_collision_shapes("normal")
 
 				if can_step and move_vector: # stepping
 					is_step = true
@@ -173,29 +170,27 @@ func _process(_delta) -> void:
 
 				### Ground --> Climb ###
 				if !on_ladder_top and (on_ladder and Input.is_action_pressed("up")):
-					state = STATES.CLIMB
+					_change_state(STATES.CLIMB)
 				if on_ladder_top and (on_ladder and Input.is_action_pressed("down")):
 					sprite_controller.play_animation("climb")
-					state = STATES.CLIMB
+					_change_state(STATES.CLIMB)
 					global_position.y = (current_ladder.global_position.y - 8)
 
 				### Jumping --> Air ###
 				if Input.is_action_just_pressed("jump"):
 					velocity.y = -stats.jump_force
 					snd_jump.play()
-					state = STATES.AIR
+					_change_state(STATES.AIR)
 					sprite_controller.play_animation("jump")
 
 				### Not floor --> Air ###
-				if !is_on_floor(): state = STATES.AIR
+				if !is_on_floor(): _change_state(STATES.AIR)
 
 				### Ground --> Slide ###
 				if Input.is_action_just_pressed("slide"):
-					can_shoot = false
-					slide_timer.start()
 					sprite_controller.play_animation("slide")
 					snd_slide.play()
-					state = STATES.SLIDE
+					_change_state(STATES.SLIDE)
 
 				flip_sprite()
 #endregion
@@ -218,9 +213,9 @@ func _process(_delta) -> void:
 						double_jump = false
 						velocity.y = -stats.jump_force #-(stats.jump_force * 0.85)
 
-				### Air --> Ground ###
+				### --> Ground ###
 				if is_on_floor():
-					state = STATES.GROUND
+					_change_state(STATES.GROUND)
 					sprite_controller.play_animation("land")
 					snd_land.play()
 					can_step = false
@@ -229,9 +224,10 @@ func _process(_delta) -> void:
 
 				### -- > Climb ###
 				if current_ladder != null and on_ladder:
-					if global_position.y >= ((current_ladder.global_position.y - 8) - (collision_normal.shape.size.y * 0.5)) and (on_ladder and (Input.is_action_pressed("up"))):
-						sprite_controller.play_animation("climb") ##
-						state = STATES.CLIMB
+					if global_position.y >= ((current_ladder.global_position.y - 8) - \
+					(collision_normal.shape.size.y * 0.5)) and (on_ladder and (Input.is_action_pressed("up"))):
+						sprite_controller.play_animation("climb")
+						_change_state(STATES.CLIMB)
 
 				velocity.y += 1
 
@@ -242,35 +238,31 @@ func _process(_delta) -> void:
 
 #region Slide State
 			STATES.SLIDE:
-				set_collision_shapes("slide")
 
 				if !ceiling and ((velocity.x > 0 and Input.is_action_pressed("left")) or \
 								(velocity.x < 0 and Input.is_action_pressed("right"))):
-					can_shoot = true
-					slide_timer.stop()
-					state = STATES.GROUND
+					slide_timer.stop() # TODO ???
+					_change_state(STATES.GROUND)
 
 				### Slide --> Air ###
 				if !is_on_floor():
-					can_shoot = true
 					slide_timer.stop()
-					sprite_controller.play_animation("fall") ##
-					state = STATES.AIR
+					sprite_controller.play_animation("fall")
+					_change_state(STATES.AIR)
 
-				### Slide --> Ground ###
-				if slide_timer.time_left == 0 and !ceiling: # !!!
-					# BUG !!!!!!!!
-					# Fall animation in the air
-					can_shoot = true
+				#### Slide --> Ground ###
+				#if slide_timer.time_left == 0 and !ceiling: # !!!
+					## BUG !!!!!!!!
+					## Fall animation in the air
+					#can_shoot = true
 
 				### Jumping --> Air ###
 				if !ceiling and Input.is_action_just_pressed("jump"):
-					sprite_controller.play_animation("jump") ##
-					can_shoot = true
+					sprite_controller.play_animation("jump")
 					slide_timer.stop()
 					velocity.y = -stats.jump_force
 					snd_jump.play()
-					state = STATES.AIR
+					_change_state(STATES.AIR)
 
 				velocity.x = direction * stats.slide_speed
 
@@ -278,21 +270,13 @@ func _process(_delta) -> void:
 #endregion
 
 #region Hurt State
-			STATES.HURT:
-				velocity.x = 0
-				can_shoot = false
-				can_move = false
+			STATES.HURT: pass
 #endregion
 
 #region Climb State
 			STATES.CLIMB:
-				apply_gravity = false
-				if !on_ladder_top:
-					sprite_controller.play_animation("climb") ##
-					pass
-				else:
-					sprite_controller.play_animation("climb_end") ##
-					pass
+				if !on_ladder_top: sprite_controller.play_animation("climb")
+				else: sprite_controller.play_animation("climb_end")
 
 				var climb_vector = Input.get_axis("up", "down")
 
@@ -300,70 +284,57 @@ func _process(_delta) -> void:
 
 				if climb_vector != 0 and !is_shooting:
 					if climb_vector < 0:
-						sprite_controller.set_speed_scale(1.0) ##
+						sprite_controller.set_speed_scale(1.0)
 						velocity.y = -(stats.climb_speed)
 					elif climb_vector > 0:
-						sprite_controller.set_speed_scale(-1.0) ##
+						sprite_controller.set_speed_scale(-1.0)
 						velocity.y = stats.climb_speed
 				else:
-					sprite_controller.set_speed_scale(0.0) ##
+					sprite_controller.set_speed_scale(0.0)
 					velocity.y = 0
 
 				### Ground if at the top of a ladder ###
 				if (global_position.y) + 6 <= (current_ladder.global_position.y - 8) and Input.is_action_pressed("up"):
-					state = STATES.GROUND
+					_change_state(STATES.GROUND)
 					velocity.y = 0
 					global_position.y = (current_ladder.global_position.y - 8) - (collision_normal.shape.size.y * 0.5)
-					sprite_controller.set_speed_scale(1.0) ##
-					apply_gravity = true
+					sprite_controller.set_speed_scale(1.0)
 
 				### Ground if on floor ###
 				if is_on_floor() and velocity.y > 0:
 					velocity.y = 0
-					state = STATES.GROUND
-					sprite_controller.set_speed_scale(1.0) ##
-					apply_gravity = true
+					_change_state(STATES.GROUND)
+					sprite_controller.set_speed_scale(1.0)
 
 				### Air if jump off ladder ###
 				if Input.is_action_just_pressed("jump") and velocity.y == 0:
 					velocity.y = 0
-					state = STATES.AIR
-					sprite_controller.set_speed_scale(1.0) ##
-					apply_gravity = true
+					_change_state(STATES.AIR)
+					sprite_controller.set_speed_scale(1.0)
 
 				if !on_ladder:
-					state = STATES.AIR
-					sprite_controller.set_speed_scale(1.0) ##
-					apply_gravity = true
+					_change_state(STATES.AIR)
+					sprite_controller.set_speed_scale(1.0)
 #endregion
 
 #region Teleport State
-			STATES.TELEPORT_IN:
-				velocity.y = 0
-				apply_gravity = false
-				can_shoot = false
+			STATES.TELEPORT_IN: pass
 #endregion
 
 #region Dead State
-			STATES.DEAD:
-				sprite_controller.enable_sprite(false) ##
-				can_shoot = false
-				apply_gravity = false
-				can_move = false
-				can_double_jump = false
+			STATES.DEAD: pass
 #endregion
 
 	_check_room_transition()
 	_stop_at_room_limits()
 
 	if Input.is_action_just_pressed("debug_kill_player"): death_proccessing(false)
-
 #endregion
 
 #region Setters and Getters
 # STATE
-func get_player_state() -> int: return state
-func set_player_state(to_state: int) -> void: state = to_state
+func get_player_state() -> int: return _current_state
+func set_player_state(to_state: int) -> void: _current_state
 
 # SHOOT
 func get_shoot_state() -> bool: return is_shooting
@@ -388,6 +359,55 @@ func set_colliders(can_collide: bool) -> void:
 	self.set_collision_layer_value(3, can_collide)
 	self.set_collision_mask_value(1, can_collide)
 #endregion
+
+#region Functions
+func _change_state(to_state: int) -> void:
+	STATES # remove this later
+	if to_state == _current_state: return
+	match to_state:
+		0: # Ground
+			set_collision_shapes("normal")
+			can_shoot = true
+			apply_gravity = true
+			can_move = true
+			call_move_and_slide = true
+		1: # Air
+			set_collision_shapes("normal")
+			can_shoot = true
+			apply_gravity = true
+			can_move = true
+			call_move_and_slide = true
+		2: # Climb
+			set_collision_shapes("normal")
+			can_shoot = true
+			apply_gravity = false
+			can_move = true
+			call_move_and_slide = true
+		3: # Slide
+			set_collision_shapes("slide")
+			can_shoot = false
+			apply_gravity = false
+			can_move = true
+			call_move_and_slide = true
+			slide_timer.start()
+		5: # Hurt
+			velocity.x = 0
+			can_shoot = false
+			can_move = false
+		7: # Teleport in
+			set_collision_shapes("normal")
+			velocity.y = 0
+			can_shoot = false
+			apply_gravity = false
+			can_move = false
+		9: # Dead
+			sprite_controller.enable_sprite(false)
+			can_shoot = false
+			apply_gravity = false
+			can_move = false
+			can_double_jump = false
+
+	_current_state = to_state
 
 func teleport_to(destination: Vector2) -> void:
 	sprite_controller.enable_sprite(true) ##
@@ -415,7 +435,7 @@ func flip_sprite() -> void:
 func _terminal_Y_velocity() -> void: if velocity.y > 448: velocity.y = 448
 
 func death_proccessing(pit_death: bool = false) -> void:
-	if state != STATES.DEAD:
+	if _current_state != STATES.DEAD:
 		apply_gravity = false
 		can_shoot = false
 		can_move = false
@@ -429,28 +449,30 @@ func death_proccessing(pit_death: bool = false) -> void:
 			get_parent().add_sibling(exp_inst)
 			exp_inst.global_position = global_position
 			exp_inst.trigger_explosion.emit()
-		state = STATES.DEAD
+		_change_state(STATES.DEAD)
 		EventBus.stage_event_player_died.emit()
 
 func _check_room_transition() -> void:
 	if room_limits == [0, 0, 0, 0]: return
-	if state != STATES.SCROLL and state != STATES.TELEPORT_IN:
+	# TODO make this a flag
+	if _current_state != STATES.SCROLL and _current_state != STATES.TELEPORT_IN:
 		if global_position.x - 16 < room_limits[0]:
 			EventBus.stage_event_player_at_border.emit(0) # at the left border
 
 		elif global_position.x + 16 > room_limits[2]:
 			EventBus.stage_event_player_at_border.emit(2) # at the right border
 
-		elif (global_position.y >= (room_limits[3]) and state == 1 and velocity.y > 0) or \
-				(global_position.y >= (room_limits[3]) and state == 2 and velocity.y > 0): # at the bottom border
+		elif (global_position.y >= (room_limits[3]) and _current_state == 1 and velocity.y > 0) or \
+				(global_position.y >= (room_limits[3]) and _current_state == 2 and velocity.y > 0): # at the bottom border
 			EventBus.stage_event_player_at_border.emit(3)
 
-		elif (global_position.y <= room_limits[1] and state == 2 and velocity.y < 0): # at the top border
+		elif (global_position.y <= room_limits[1] and _current_state == 2 and velocity.y < 0): # at the top border
 			EventBus.stage_event_player_at_border.emit(1)
 
 func _stop_at_room_limits() -> void:
 	if room_limits == [0, 0, 0, 0]: return
-	if state != STATES.SCROLL and state != STATES.TELEPORT_IN:
+	# TODO flag maybe??
+	if _current_state != STATES.SCROLL and _current_state != STATES.TELEPORT_IN:
 		if global_position.x - 16 < room_limits[0]:
 			global_position.x = room_limits[0] + 16
 		elif global_position.x + 16 > room_limits[2]:
@@ -461,6 +483,7 @@ func _stop_at_room_limits() -> void:
 			#sprite_controller.enable_sprite(false)
 		#else:
 			#sprite_controller.enable_sprite(true)
+#endregion
 
 #region Event Handlers
 func _scroll_handler(scroll_direction: int, room: Room) -> void:
@@ -471,11 +494,11 @@ func _scroll_handler(scroll_direction: int, room: Room) -> void:
 	velocity.x = 0
 	velocity.y = 0
 	apply_gravity = false
-	last_state = state
+	last_state = _current_state
 	#var last_anim = sprite.animation ##
 	var could_shoot = can_shoot
 	can_shoot = false
-	state = STATES.SCROLL
+	_change_state(STATES.SCROLL)
 
 	var tween = get_tree().create_tween()
 	tween.set_parallel(true)
@@ -500,10 +523,10 @@ func _scroll_handler(scroll_direction: int, room: Room) -> void:
 
 	await tween.finished
 
-	if state != STATES.SLIDE and !ceiling: # Ignore unpausing slide_timer if sliding and under the ceiling
+	if _current_state != STATES.SLIDE and !ceiling: # Ignore unpausing slide_timer if sliding and under the ceiling
 		slide_timer.paused = false
 	apply_gravity = true
-	state = last_state
+	_current_state = last_state
 	can_shoot = could_shoot
 	if last_state == STATES.AIR and scroll_direction == 3:
 		velocity.y = last_y_velocity
@@ -514,21 +537,5 @@ func _scroll_handler(scroll_direction: int, room: Room) -> void:
 
 	weapon_system.pause_cooldown_timer(false)
 
-func _scrolling_finished(room: Room) -> void:
-	pass
+func _scrolling_finished(room: Room) -> void: pass
 #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
