@@ -44,7 +44,7 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed(\"debug_show\"):
 		label.visible = !label.visible
 		label2.visible = !label2.visible
-	label.text = \"State: \" + var_to_str(mega_man.state)
+	label.text = \"State: \" + var_to_str(mega_man._current_state)
 	label2.text = \"Slide Tmr: \" + var_to_str(mega_man.slide_timer.time_left)
 "
 
@@ -77,7 +77,7 @@ sprite_shoot = NodePath("SpriteShoot")
 
 [node name="SpriteNormal" type="AnimatedSprite2D" parent="SpriteController"]
 sprite_frames = ExtResource("4_mhlwb")
-animation = &"hurt"
+animation = &"teleport"
 
 [node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
 visible = false
@@ -160,7 +160,6 @@ player = NodePath("..")
 current_item = ExtResource("17_5ls8o")
 
 [node name="Debug" type="Node2D" parent="."]
-visible = false
 script = SubResource("GDScript_a3voq")
 
 [node name="Label" type="Label" parent="Debug"]

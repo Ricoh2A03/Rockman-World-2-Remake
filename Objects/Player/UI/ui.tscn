@@ -27,7 +27,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if player:
 		if !_is_animating \\
-			and (player.state != player.STATES.SCROLL and player.state != player.STATES.DEAD and player.state != player.STATES.HURT and player.state != player.STATES.TELEPORT_IN) \\
+			and (player._current_state != player.STATES.SCROLL and player._current_state != player.STATES.DEAD and \\
+			player._current_state != player.STATES.HURT and player._current_state != player.STATES.TELEPORT_IN) \\
 			and Input.is_action_just_pressed(\"weapon_menu\"):
 			if !_is_opened:
 				open_weapon_menu(true)
