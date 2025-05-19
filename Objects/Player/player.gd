@@ -51,6 +51,8 @@ var weapon_inventory
 ## Whether or not physics should be processed.
 @export var call_move_and_slide: bool = true
 
+var _can_open_inventory: bool = false
+
 var can_step: bool = true
 var is_step: bool = false
 var ceiling: bool = false
@@ -120,6 +122,8 @@ func _process(_delta) -> void:
 		if _current_state != STATES.SCROLL: velocity.y += stats.gravity
 
 	if call_move_and_slide: move_and_slide()
+
+	if can_shoot: _use_weapon()
 
 	var move_vector
 
@@ -315,6 +319,9 @@ func _process(_delta) -> void:
 				if !on_ladder:
 					_change_state(STATES.AIR)
 					sprite_controller.set_speed_scale(1.0)
+
+				if is_shooting: flip_sprite()
+
 #endregion
 
 #region Teleport State
@@ -367,24 +374,28 @@ func _change_state(to_state: int) -> void:
 	match to_state:
 		0: # Ground
 			set_collision_shapes("normal")
+			_can_open_inventory = true
 			can_shoot = true
 			apply_gravity = true
 			can_move = true
 			call_move_and_slide = true
 		1: # Air
 			set_collision_shapes("normal")
+			_can_open_inventory = true
 			can_shoot = true
 			apply_gravity = true
 			can_move = true
 			call_move_and_slide = true
 		2: # Climb
 			set_collision_shapes("normal")
+			_can_open_inventory = true
 			can_shoot = true
 			apply_gravity = false
 			can_move = true
 			call_move_and_slide = true
 		3: # Slide
 			set_collision_shapes("slide")
+			_can_open_inventory = true
 			can_shoot = false
 			apply_gravity = false
 			can_move = true
@@ -392,22 +403,33 @@ func _change_state(to_state: int) -> void:
 			slide_timer.start()
 		5: # Hurt
 			velocity.x = 0
+			_can_open_inventory = false
 			can_shoot = false
 			can_move = false
 		7: # Teleport in
 			set_collision_shapes("normal")
 			velocity.y = 0
+			_can_open_inventory = false
 			can_shoot = false
 			apply_gravity = false
 			can_move = false
 		9: # Dead
 			sprite_controller.enable_sprite(false)
+			_can_open_inventory = false
 			can_shoot = false
 			apply_gravity = false
 			can_move = false
 			can_double_jump = false
 
 	_current_state = to_state
+
+
+func _open_inventory() -> void:
+	pass
+
+func _use_weapon() -> void:
+	if weapon_system:
+		if Input.is_action_just_pressed("shoot"): weapon_system.spawn_projectile()
 
 func teleport_to(destination: Vector2) -> void:
 	sprite_controller.enable_sprite(true) ##

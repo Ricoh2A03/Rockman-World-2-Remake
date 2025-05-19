@@ -54,7 +54,8 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_lbixf")
 
-[node name="Stage" instance=ExtResource("1_v88j7")]
+[node name="Stage" node_paths=PackedStringArray("_starting_room") instance=ExtResource("1_v88j7")]
+_starting_room = NodePath("RoomContainer/Room1")
 player_scene_path = "uid://dse2a3b8xg2pb"
 camera_scene_path = "uid://b0ssm2j4fnsaf"
 music_to_play = ExtResource("4_hxldl")

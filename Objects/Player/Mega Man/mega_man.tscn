@@ -152,8 +152,7 @@ stream = ExtResource("14_5xry6")
 volume_db = -2.0
 bus = &"SFX"
 
-[node name="UI" parent="." node_paths=PackedStringArray("player") instance=ExtResource("17_08btc")]
-player = NodePath("..")
+[node name="UI" parent="." instance=ExtResource("17_08btc")]
 
 [node name="VariableWeaponSystem" parent="." node_paths=PackedStringArray("player") instance=ExtResource("16_0h5ps")]
 player = NodePath("..")

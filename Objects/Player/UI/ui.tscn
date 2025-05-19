@@ -19,36 +19,24 @@ script/source = "extends CanvasLayer
 
 @export var _current_page: int = 0
 
-@export var player: Player
-
-func _ready() -> void:
-	menu_player.play(\"health_fill\")
+func _ready() -> void: menu_player.play(\"health_fill\")
 
 func _process(_delta: float) -> void:
-	if player:
-		if !_is_animating \\
-			and (player._current_state != player.STATES.SCROLL and player._current_state != player.STATES.DEAD and \\
-			player._current_state != player.STATES.HURT and player._current_state != player.STATES.TELEPORT_IN) \\
-			and Input.is_action_just_pressed(\"weapon_menu\"):
-			if !_is_opened:
-				open_weapon_menu(true)
-			else:
-				open_weapon_menu(false)
-		if _active:
-			if _current_page == 0 and !_is_paging and Input.is_action_just_pressed(\"shoulder_r\"):
-				menu_player.play(\"page_right\")
-			elif _current_page == 1 and !_is_paging and Input.is_action_just_pressed(\"shoulder_l\"):
-				menu_player.play(\"page_left\")
+	if _active:
+		if _current_page == 0 and !_is_paging and Input.is_action_just_pressed(\"shoulder_r\"):
+			menu_player.play(\"page_right\")
+		elif _current_page == 1 and !_is_paging and Input.is_action_just_pressed(\"shoulder_l\"):
+			menu_player.play(\"page_left\")
 
 ##########################################
 
-func open_weapon_menu(open: bool) -> void:
-	if open:
-		Globals.main.pauseGame([\"Player\"], [\"WeaponMenu\"])
-
-		menu_player.play(\"fade_in\")
-	elif !open:
-		menu_player.play(\"fade_out\")
+func open_weapon_menu() -> void:
+	if !_is_animating:
+		if !_is_opened:
+			Globals.main.pauseGame([\"Player\"], [\"WeaponMenu\"])
+			menu_player.play(\"fade_in\")
+		else:
+			menu_player.play(\"fade_out\")
 
 ##########################################
 
@@ -59,9 +47,7 @@ func toggle_energy_bars(on: bool) -> void:
 ##########################################
 
 func _on_animation_finished(anim_name: StringName) -> void:
-	if anim_name == \"fade_out\":
-		#player.menu_opened(false)
-		Globals.main.unpauseGame([\"Player\"])
+	if anim_name == \"fade_out\": Globals.main.unpauseGame([\"Player\"])
 
 ##########################################
 

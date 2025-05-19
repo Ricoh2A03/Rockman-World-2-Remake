@@ -9,14 +9,8 @@ class_name VariableWeaponSystem extends Node2D
 
 var _on_screen_count: Array = []
 
-func _process(_delta: float) -> void:
-	# Shoot only if player is not paused and can_shoot
-	if (player.can_shoot and Input.is_action_just_pressed("shoot")):
-		if player._current_state == player.STATES.CLIMB:
-			player.flip_sprite()
-		spawn_projectile()
-
 func spawn_projectile() -> void:
+	if !player: return
 
 	if _on_screen_count.size() == current_item.max_on_screen: return
 
