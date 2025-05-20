@@ -35,13 +35,12 @@ func _enter_tree() -> void:
 ###########################################
 
 func _on_ladder_top_entered(body):
-	body.on_ladder_top = true
+	body._on_ladder_top = true
 	on_top = true
 
 func _on_ladder_top_exited(body):
-	body.on_ladder_top = false
+	body._on_ladder_top = false
 	on_top = false
-	#rotate_top(false)
 
 ###########################################
 

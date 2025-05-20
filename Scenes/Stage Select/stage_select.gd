@@ -107,6 +107,7 @@ func _on_selected_sfx_finished() -> void:
 		%AnimationPlayer.play("transition_start")
 	else: Globals.main.goto_scene(0.35, scene_transitor.scenes[selection])
 
+
 func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "transition_start":
 		$%ScreenFlash.visible = true
@@ -121,6 +122,7 @@ func _on_animation_finished(anim_name: StringName) -> void:
 		tween.set_parallel(true)
 		tween.tween_property(%ScreenFlash, "self_modulate", Color(255, 255, 255, 0), 1)
 		%SceneTransitionDelay.start()
+
 
 func _on_scene_transition_delay_timeout() -> void:
 	Globals.main.goto_scene(0.35, scene_transitor.scenes[selection])

@@ -1,5 +1,4 @@
 @tool
-## Class description.
 class_name Room extends ReferenceRect
 
 var screen_width: int = ProjectSettings.get_setting("display/window/size/viewport_width")

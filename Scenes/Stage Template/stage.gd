@@ -20,7 +20,7 @@ var player_ref: Player = null
 var camera_ref: StageCamera = null
 
 ## Tells if player is spawned.
-var player_is_spawned: bool = false
+var _is_player_spawned: bool = false
 
 ## Currently active checkpoint.
 var current_checkpoint: Checkpoint
@@ -29,10 +29,6 @@ var current_checkpoint: Checkpoint
 var _current_room: Room
 ## Left - [0], top - [1], right - [2], bottom - [3]
 var _current_room_limits: Array[int] = [0, 0, 0, 0]
-
-###########################################
-
-# add support for views and checkpoints (+ -)
 
 ###########################################
 
@@ -87,7 +83,8 @@ func create_player() -> void:
 	player_ref = p_instance
 	call_deferred("add_child", p_instance)
 	player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
-	player_ref.teleport_to(current_checkpoint.global_position) # TODO: move teleportation sound activation to player init
+	player_ref.teleport_to(current_checkpoint.global_position)
+
 
 func respawn_player() -> void:
 	if self.current_checkpoint:
@@ -119,6 +116,7 @@ func _player_died() -> void: # EventBus event: stage_event_player_died()
 	self.camera_ref._follow_target = false
 	fade_timer.start()
 
+
 func check_scrolling_criterias(dir: int):
 	match dir:
 		0:
@@ -147,12 +145,14 @@ func check_scrolling_criterias(dir: int):
 			else: player_ref.death_proccessing(true)
 			return
 
+
 func _scrolling_finished(room: Room) -> void: # EventBus event: stage_event_scroll_finished()
 	self._current_room = room
 	self.set_room_limits()
-	player_ref.room_limits = _current_room_limits # TODO: move this to the player script
+	player_ref._room_limits = _current_room_limits # TODO: move this to the player script
 	if room.get_checkpoint() is Checkpoint: self.current_checkpoint = room.get_checkpoint()
 	room.activate_spawners()
+
 
 func _respawn_handler() -> void:
 	var tween = get_tree().create_tween()
@@ -167,7 +167,9 @@ func _respawn_handler() -> void:
 	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 0), 1)
 #endregion
 
+
 func flash_ready_text() -> void: self.ui_anim_player.play("ready_appear")
+
 
 ###########################################
 
@@ -177,15 +179,16 @@ func _on_animation_player_finished(anim_name) -> void:
 		"ready_appear":
 			ui_anim_player.play("ready_flash")
 		"ready_flash":
-			if !player_is_spawned:
+			if !_is_player_spawned:
 				self.create_player() # spawn player
 				self.camera_ref.set_target(player_ref)
-				if self.player_ref: self.player_ref.room_limits = self._current_room_limits
+				if self.player_ref: self.player_ref._room_limits = self._current_room_limits
 				self.camera_ref._follow_target = true # TODO: maybe? move to dedicated player_spawned handler
-				self.player_is_spawned = true
+				self._is_player_spawned = true
 			else:
-				self.player_ref.room_limits = self._current_room_limits
+				self.player_ref._room_limits = self._current_room_limits
 				self.respawn_player()
+
 
 func _on_fade_timeout() -> void:
 	var tween = get_tree().create_tween()

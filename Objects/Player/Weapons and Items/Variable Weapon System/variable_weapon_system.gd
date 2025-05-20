@@ -25,9 +25,9 @@ func spawn_projectile() -> void:
 	_on_screen_count.append(instance) # add to the on screen list
 
 	player.get_parent().call_deferred("add_child", instance) # add as a sibling of the Player
-	instance.global_position.x = player.global_position.x + current_item.XSpawnOffset * player.direction # set position to the Player position
+	instance.global_position.x = player.global_position.x + current_item.XSpawnOffset * player._direction # set position to the Player position
 	instance.global_position.y = player.global_position.y + current_item.YSpawnOffset
-	instance.set_direction(player.direction) # set direction to the Player direction
+	instance.set_direction(player._direction) # set direction to the Player direction
 
 	for anim in current_item.animate_state:
 		if player.sprite_controller.get_current_animation() == anim:
@@ -41,7 +41,8 @@ func spawn_projectile() -> void:
 	sfx_player.play() # play sound
 
 func projectile_despawned():
-	if _on_screen_count.size() > 0: _on_screen_count.erase(_on_screen_count.front())
+	if _on_screen_count.size() > 0:
+		_on_screen_count.erase(_on_screen_count.front())
 
 func pause_cooldown_timer(pause: bool):
 	animation_cooldown_timer.paused = pause

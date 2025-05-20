@@ -1,19 +1,19 @@
 extends Player
 
 func _on_step_timeout():
-	is_step = false
+	_is_stepping = false
 
 func _on_slide_timeout() -> void:
-	if is_on_floor() and !ceiling:
+	if is_on_floor() and !_is_under_ceiling:
 		sprite_controller.play_animation("slide_end")
 		velocity.x = 0
-		_change_state(STATES.GROUND)
+		set_player_state(STATES.GROUND)
 
 func _on_animation_finished() -> void:
 	match sprite_controller.get_current_animation():
 
 		"teleport":
-			_change_state(STATES.GROUND)
+			set_player_state(STATES.GROUND)
 
 		"land":
 			sprite_controller.play_animation("idle")
@@ -22,5 +22,5 @@ func _on_animation_finished() -> void:
 			sprite_controller.play_animation("idle")
 
 		"hurt":
-			if is_on_floor(): _change_state(STATES.GROUND)
-			else: _change_state(STATES.AIR)
+			if is_on_floor(): set_player_state(STATES.GROUND)
+			else: set_player_state(STATES.AIR)
