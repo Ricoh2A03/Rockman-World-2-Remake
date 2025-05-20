@@ -1,5 +1,29 @@
 class_name Player extends CharacterBody2D
 
+## Player states enumerator.[br]
+## 0 - Ground[br]
+## 1 - Air[br]
+## 2 - Climb[br]
+## 3 - Slide[br]
+## 4 - Dash[br]
+## 5 - Hurt[br]
+## 6 - Scroll[br]
+## 7 - Teleport in[br]
+## 8 - Teleport out[br]
+## 9 - Dead[br]
+enum STATES{
+	GROUND,
+	AIR,
+	CLIMB,
+	SLIDE,
+	DASH,
+	HURT,
+	SCROLL,
+	TELEPORT_IN,
+	TELEPORT_OUT,
+	DEAD
+}
+
 @export_category("Player Stats")
 ## [param Resource] that contains all of the values that are relevant to physics.
 @export var stats: PlayerStats # player stat resource
@@ -27,7 +51,6 @@ class_name Player extends CharacterBody2D
 # - reference to projectiles/utilities to spawn (and customizable amount);
 # - inventory icon
 
-var weapon_inventory
 
 @export_group("Explosion")
 @export var death_explosion_fx: PackedScene
@@ -51,6 +74,8 @@ var weapon_inventory
 ## Whether or not physics should be processed.
 @export var call_move_and_slide: bool = true
 
+var weapon_inventory
+
 var _can_open_inventory: bool = false
 
 var can_step: bool = true
@@ -68,29 +93,6 @@ var current_ladder: Ladder
 var double_jump: bool = true
 var direction: int = 1
 
-## Player states enumerator.[br]
-## 0 - Ground[br]
-## 1 - Air[br]
-## 2 - Climb[br]
-## 3 - Slide[br]
-## 4 - Dash[br]
-## 5 - Hurt[br]
-## 6 - Scroll[br]
-## 7 - Teleport in[br]
-## 8 - Teleport out[br]
-## 9 - Dead[br]
-enum STATES{
-	GROUND,
-	AIR,
-	CLIMB,
-	SLIDE,
-	DASH,
-	HURT,
-	SCROLL,
-	TELEPORT_IN,
-	TELEPORT_OUT,
-	DEAD
-}
 
 ## The last state that the player was in.
 var last_state = null
@@ -124,6 +126,7 @@ func _process(_delta) -> void:
 	if call_move_and_slide: move_and_slide()
 
 	if can_shoot: _use_weapon()
+	if _can_open_inventory: pass
 
 	var move_vector
 
@@ -427,9 +430,11 @@ func _change_state(to_state: int) -> void:
 func _open_inventory() -> void:
 	pass
 
+
 func _use_weapon() -> void:
 	if weapon_system:
 		if Input.is_action_just_pressed("shoot"): weapon_system.spawn_projectile()
+
 
 func teleport_to(destination: Vector2) -> void:
 	sprite_controller.enable_sprite(true) ##
@@ -450,11 +455,14 @@ func teleport_to(destination: Vector2) -> void:
 	sprite_controller.set_speed_scale(1.0)
 	sprite_controller.play_animation("teleport")
 
+
 func flip_sprite() -> void:
 	if direction > 0: sprite_controller.flip_sprite_h(true)
 	elif direction < 0: sprite_controller.flip_sprite_h(false)
 
+
 func _terminal_Y_velocity() -> void: if velocity.y > 448: velocity.y = 448
+
 
 func death_proccessing(pit_death: bool = false) -> void:
 	if _current_state != STATES.DEAD:

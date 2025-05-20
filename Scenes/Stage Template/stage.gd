@@ -1,22 +1,8 @@
 class_name Stage extends Scene
 
-## Reference to the [class Player] object.
-var player_ref: Player = null
-var camera_ref: StageCamera = null
-
-## Tells if player is spawned.
-var player_is_spawned: bool = false
-
 @export_category("Room List")
 ## First room of the stage.
 @export var _starting_room: Room
-## Currently active room.
-var _current_room: Room
-## Left - [0], top - [1], right - [2], bottom - [3]
-var _current_room_limits: Array[int] = [0, 0, 0, 0]
-
-## Currently active checkpoint.
-var current_checkpoint: Checkpoint
 
 @export_category("Player and Camera")
 ## Path to Player node to instatiate.
@@ -28,6 +14,21 @@ var current_checkpoint: Checkpoint
 @onready var ui_anim_player: AnimationPlayer = $StageUI/AnimationPlayer
 @onready var fade_overlay: ColorRect = $StageUI/Fade
 @onready var fade_timer: Timer = $FadeTimer
+
+## Reference to the [class Player] object.
+var player_ref: Player = null
+var camera_ref: StageCamera = null
+
+## Tells if player is spawned.
+var player_is_spawned: bool = false
+
+## Currently active checkpoint.
+var current_checkpoint: Checkpoint
+
+## Currently active room.
+var _current_room: Room
+## Left - [0], top - [1], right - [2], bottom - [3]
+var _current_room_limits: Array[int] = [0, 0, 0, 0]
 
 ###########################################
 
@@ -46,7 +47,8 @@ func _ready() -> void:
 	self.set_room_limits()
 
 	# Set current checkpoint
-	if _current_room.get_checkpoint() == null: push_error("\n" + "First room doesn't have a checkpoint!" + "\n" + "Please, set one in the editor.")
+	if _current_room.get_checkpoint() == null:
+		push_error("\n" + "First room doesn't have a checkpoint!" + "\n" + "Please, set one in the editor.")
 	else: current_checkpoint = _current_room.get_checkpoint()
 
 	_current_room.activate_spawners()
@@ -78,12 +80,12 @@ func _process(_delta):
 #endregion
 
 #region Player related routines
-## Instantiates [param Player] object, saves a reference to it 
+## Instantiates [param Player] object and saves a reference to it 
 func create_player() -> void:
 	if !player_scene_path or player_ref: return
 	var p_instance = load(player_scene_path).instantiate()
-	call_deferred("add_child", p_instance)
 	player_ref = p_instance
+	call_deferred("add_child", p_instance)
 	player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
 	player_ref.teleport_to(current_checkpoint.global_position) # TODO: move teleportation sound activation to player init
 
@@ -98,8 +100,8 @@ func respawn_player() -> void:
 func create_camera() -> void:
 	if !camera_scene_path or camera_ref: return
 	var cam_instance = load(camera_scene_path).instantiate()
-	call_deferred("add_child", cam_instance)
 	self.camera_ref = cam_instance
+	call_deferred("add_child", cam_instance)
 #endregion
 
 #region Room related routines
