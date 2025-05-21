@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody2D
 
+#region Enumerators
 ## Player states enumerator.[br]
 ## 0 - Ground[br]
 ## 1 - Air[br]
@@ -23,7 +24,9 @@ enum STATES{
 	TELEPORT_OUT,
 	DEAD
 }
+#endregion
 
+#region Exported Properties
 @export_category("Player Stats")
 ## [param Resource] that contains all of the values that are relevant to physics.
 @export var stats: PlayerStats # player stat resource
@@ -60,10 +63,9 @@ enum STATES{
 @export var apply_gravity: bool = true
 ## Set to true to ignore control from the player.
 @export var can_move: bool = true
-## Self-explanatory.
-@export var can_double_jump: bool = false
 ## Whether or not physics should be processed.
 @export var call_move_and_slide: bool = true
+#endregion
 
 var weapon_inventory
 
@@ -82,13 +84,12 @@ var _current_ladder: Ladder
 
 var _can_open_inventory: bool = false
 
-var double_jump: bool = true
 var _direction: int = 1
 
 ## The last state that the player was in.
 var _last_state = null
 ## Current player state.
-var _current_state = STATES.TELEPORT_IN
+var _current_state = null
 
 ## Left, top, right, bottom.
 var _room_limits: Array[int] = [0, 0, 0, 0]
@@ -97,6 +98,7 @@ var _room_limits: Array[int] = [0, 0, 0, 0]
 func _ready() -> void:
 	EventBus.stage_event_scroll_start.connect(_scroll_handler)
 	EventBus.stage_event_scroll_finished.connect(_scrolling_finished)
+	set_player_state(STATES.TELEPORT_IN)
 	flip_sprite()
 #endregion
 
@@ -205,20 +207,12 @@ func _process(_delta) -> void:
 				if velocity.y > 0:
 					sprite_controller.play_animation("fall")
 
-				### Handle Double Jump ###
-				if can_double_jump:
-					if double_jump and Input.is_action_just_pressed("jump"):
-						double_jump = false
-						velocity.y = -stats.jump_force #-(stats.jump_force * 0.85)
-
 				### --> Ground ###
 				if is_on_floor():
 					set_player_state(STATES.GROUND)
 					sprite_controller.play_animation("land")
 					snd_land.play()
 					_can_step = false
-					if can_double_jump:
-						double_jump = true
 
 				### -- > Climb ###
 				if _current_ladder != null and _on_ladder:
@@ -392,7 +386,6 @@ func set_player_state(to_state: int) -> void:
 			_can_shoot = false
 			apply_gravity = false
 			can_move = false
-			can_double_jump = false
 			_can_change_direction = false
 
 	_current_state = to_state
@@ -437,17 +430,20 @@ func teleport_to(destination: Vector2) -> void:
 	sprite_controller.enable_sprite(true) ##
 	self.visible = true
 	can_move = true
-	#can_double_jump = false
 
 	# snd_teleport_in.play() # TODO: MOVE TO INITIALIZATION
 	set_player_state(STATES.TELEPORT_IN)
 	set_colliders(false)
 	sprite_controller.play_animation("teleport")
 	sprite_controller.set_speed_scale(0.0)
-	self.global_position = Vector2(destination.x, _room_limits[1])
+
+	self.global_position = \
+	Vector2(destination.x, _room_limits[1] - (collision_normal.shape.size.y / 2))
+
 	var tween: Tween = create_tween()
 	tween.tween_property(self, "global_position:y", destination.y, 0.32)
 	await tween.finished
+
 	set_colliders(true)
 	sprite_controller.set_speed_scale(1.0)
 	sprite_controller.play_animation("teleport")
@@ -466,7 +462,6 @@ func death_proccessing(pit_death: bool = false) -> void:
 		apply_gravity = false
 		_can_shoot = false
 		can_move = false
-		can_double_jump = false
 		velocity.x = 0
 		velocity.y = 0
 		self.visible = false
@@ -478,6 +473,7 @@ func death_proccessing(pit_death: bool = false) -> void:
 			exp_inst.trigger_explosion.emit()
 		set_player_state(STATES.DEAD)
 		EventBus.stage_event_player_died.emit()
+
 
 func _check_room_transition() -> void:
 	if _room_limits == [0, 0, 0, 0]: return
@@ -496,6 +492,7 @@ func _check_room_transition() -> void:
 		elif (global_position.y <= _room_limits[1] and _current_state == 2 and velocity.y < 0): # at the top border
 			EventBus.stage_event_player_at_border.emit(1)
 
+
 func _stop_at_room_limits() -> void:
 	if _room_limits == [0, 0, 0, 0]: return
 	# TODO flag maybe??
@@ -505,7 +502,7 @@ func _stop_at_room_limits() -> void:
 		elif global_position.x + 16 > _room_limits[2]:
 			global_position.x = _room_limits[2] - 16
 
-		if global_position.y + (collision_normal.shape.size.y / 2 ) < _room_limits[1]:
+		if global_position.y + (collision_normal.shape.size.y / 2) < _room_limits[1]:
 			global_position.y = _room_limits[1] - (collision_normal.shape.size.y / 2 )
 			#sprite_controller.enable_sprite(false)
 		#else:
@@ -544,17 +541,17 @@ func _scroll_handler(scroll_direction: int, room: Room) -> void:
 		3: # down
 			tarY = global_position.y + 20
 
-	if _last_state == STATES.AIR and (scroll_direction != 1): sprite_controller.pause_playback(true)
+	if _last_state == STATES.AIR and (scroll_direction != 1):
+		sprite_controller.pause_playback(true)
 
 	if tarX: tween.tween_property(self, "global_position:x", tarX, 0.68)
 	if tarY: tween.tween_property(self, "global_position:y", tarY, 0.68)
 
 	await tween.finished
 
-	if _current_state != STATES.SLIDE and !_is_under_ceiling: # Ignore unpausing slide_timer if sliding and under the _is_under_ceiling
+	# Ignore unpausing slide_timer if sliding and under the _is_under_ceiling
+	if _current_state != STATES.SLIDE and !_is_under_ceiling: 
 		slide_timer.paused = false
-	apply_gravity = true
-	_can_shoot = could_shoot
 	if _last_state == STATES.AIR and scroll_direction == 3:
 		velocity.y = last_y_velocity
 		velocity.x = 0

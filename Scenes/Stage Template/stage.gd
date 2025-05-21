@@ -82,7 +82,7 @@ func create_player() -> void:
 	var p_instance = load(player_scene_path).instantiate()
 	player_ref = p_instance
 	call_deferred("add_child", p_instance)
-	player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
+	player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y))
 	player_ref.teleport_to(current_checkpoint.global_position)
 
 

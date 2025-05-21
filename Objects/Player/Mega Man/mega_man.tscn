@@ -52,7 +52,6 @@ func _process(_delta: float) -> void:
 z_index = 99
 collision_layer = 4
 slide_on_ceiling = false
-floor_stop_on_slope = false
 platform_floor_layers = 0
 script = ExtResource("1_7awde")
 stats = ExtResource("2_c1ucl")
