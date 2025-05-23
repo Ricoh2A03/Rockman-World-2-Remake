@@ -5,7 +5,7 @@
 [node name="Main" type="Node"]
 process_mode = 3
 script = ExtResource("1_wt6wc")
-first_scene = "res://Scenes/Stages/Widescreen Test/stage_widescreen_test.tscn"
+first_scene = "uid://dsx8yqc6k43cn"
 
 [node name="SceneTransition" type="CanvasLayer" parent="."]
 layer = 10
