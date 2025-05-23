@@ -1,10 +1,8 @@
-[gd_scene load_steps=12 format=4 uid="uid://dsx8yqc6k43cn"]
+[gd_scene load_steps=10 format=4 uid="uid://dsx8yqc6k43cn"]
 
 [ext_resource type="PackedScene" uid="uid://d3dcuxijsdqq" path="res://Scenes/Stage Template/stage.tscn" id="1_ba7k7"]
-[ext_resource type="PackedScene" uid="uid://dse2a3b8xg2pb" path="res://Objects/Player/Mega Man/mega_man.tscn" id="2_1tc0v"]
 [ext_resource type="Texture2D" uid="uid://dwwcoe7n56418" path="res://Assets/Tilesets/air_man_tileset.png" id="2_4oqsr"]
 [ext_resource type="PackedScene" uid="uid://dd3j3gx5a7wkg" path="res://Objects/Level Objects/Room/room.tscn" id="3_fedaa"]
-[ext_resource type="PackedScene" uid="uid://b0ssm2j4fnsaf" path="res://Objects/Level Objects/Camera/camera.tscn" id="3_s47bt"]
 [ext_resource type="AudioStream" uid="uid://duwsrp6atn8xy" path="res://Assets/Music/Rushjet1/Airman.ogg" id="4_ksiqo"]
 [ext_resource type="PackedScene" uid="uid://bqe31iv01goqm" path="res://Objects/Enemies/Pipi/pipi.tscn" id="6_s47bt"]
 [ext_resource type="PackedScene" uid="uid://bdsd5s4cuy55y" path="res://Objects/Level Objects/RoomLoader/room_loader.tscn" id="7_7orqa"]
@@ -152,10 +150,7 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_fedaa")
 
-[node name="Stage" node_paths=PackedStringArray("_start_room") instance=ExtResource("1_ba7k7")]
-_start_room = NodePath("RoomContainer/Room1")
-player_path = ExtResource("2_1tc0v")
-camera_path = ExtResource("3_s47bt")
+[node name="Stage" instance=ExtResource("1_ba7k7")]
 music_to_play = ExtResource("4_ksiqo")
 play_music_at_start = true
 
