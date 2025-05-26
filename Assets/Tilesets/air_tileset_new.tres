@@ -83,6 +83,8 @@ texture = ExtResource("1_jldv6")
 0:2/animation_frame_4/duration = 1.0
 0:2/0 = 0
 0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:1/0 = 0
+6:1/0 = 0
 
 [resource]
 physics_layer_0/collision_layer = 1
