@@ -191,7 +191,7 @@ play_music_at_start = true
 scene_transitor = NodePath("SceneTransitor")
 
 [node name="SceneTransitor" parent="." instance=ExtResource("3_3kunf")]
-scenes = Array[String](["", "res://Scenes/Stages/Air Man/air_man_stage.tscn", "", "", "", "res://Scenes/Stages/Widescreen Test/stage_widescreen_test.tscn", "", "", ""])
+scenes = Array[String](["", "res://Scenes/Stages/Air Man/air_man_stage.tscn", "", "", "", "uid://u5fg0e8u3v0v", "", "", ""])
 
 [node name="BGContainer" type="Node" parent="."]
 
