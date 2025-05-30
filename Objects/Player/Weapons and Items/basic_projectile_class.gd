@@ -28,3 +28,7 @@ func set_direction(dir: int) -> void: _direction = dir
 
 ## Returns projectiles ID.
 func get_id() -> int: return id
+
+## Deflects projectile in a specified direction.
+func deflect() -> void:
+	pass

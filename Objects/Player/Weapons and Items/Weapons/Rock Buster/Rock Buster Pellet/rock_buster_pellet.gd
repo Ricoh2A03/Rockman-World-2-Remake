@@ -16,10 +16,15 @@ func _on_screen_exited() -> void:
 	screen_exited.emit()
 	queue_free()
 
-func _on_collision_box_entered(_area: Area2D) -> void:
-	_collided = true
-	screen_exited.emit()
-	sprite.play("diffuse")
+func _on_collision_box_entered(area: Area2D) -> void:
+	var obj = area.get_parent()
+	if obj is HealthDamageComponent:
+		if obj.get_deflect_state() == false:
+			_collided = true
+			screen_exited.emit()
+			sprite.play("diffuse")
+		else:
+			_collided = true
 
 func _on_animation_finished() -> void:
 	if destroy_on_impact: queue_free()

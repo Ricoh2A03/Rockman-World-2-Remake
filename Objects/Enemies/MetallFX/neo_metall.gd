@@ -14,11 +14,9 @@ func _on_no_health():
 
 func _on_animation_finished():
 	if sprite_controller.get_current_animation() == "explode":
-		enemy_died.emit(self)
-		call_deferred("queue_free")
+		destroy_enemy()
 		# NOTE: make so that when enemy dies, it emits a signal that tells
 		# the spawner that it's dead and it should be erased from it's object list.
 
 func _on_screen_exited() -> void:
-	enemy_died.emit(self)
-	call_deferred("queue_free")
+	destroy_enemy()

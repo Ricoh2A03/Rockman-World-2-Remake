@@ -51,7 +51,8 @@ func set_state(to_state: int) -> void:
 	if to_state == _current_state: return
 	match to_state:
 		0: # Hiding
-			pass
+			health_component.set_deflect_state(true)
+			vision_area.set_deferred("monitoring", true)
 		1: # Revealing
 			pass
 		2: # Chasing
@@ -77,5 +78,8 @@ func _on_sprite_animation_finished() -> void:
 
 
 func _on_screen_exited() -> void:
-	enemy_died.emit(self)
-	call_deferred("queue_free")
+	destroy_enemy()
+
+
+func _on_health():
+	destroy_enemy()

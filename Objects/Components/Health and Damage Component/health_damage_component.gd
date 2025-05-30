@@ -9,6 +9,7 @@ signal no_health
 @export_range(0, 280) var max_health: int = 0
 var _current_health: int
 var _is_dead: bool = false
+var _can_deflect: bool = false
 
 @export_category("Damage Table")
 @export var damage_table: DamageTable
@@ -21,25 +22,32 @@ var _is_dead: bool = false
 @onready var snd_damage: AudioStreamPlayer2D = $snd_damage
 @onready var snd_destroyed: AudioStreamPlayer2D = $snd_destroyed
 
+
 func _ready() -> void:
 	_current_health = max_health
 	snd_damage.stream = damage_sound
 	snd_destroyed.stream = destroyed_sound
 
+
 ## Sets health to a passed value.
 func set_health(value: int) -> void: _current_health = value
+
 
 ## Returns current health.
 func get_health() -> int: return _current_health
 
+
 ## Returns if dead or not.
 func is_dead() -> bool: return _is_dead
+
 
 func _on_hitbox_entered(area: Area2D) -> void:
 	if _is_dead: return
 	var obj = area.get_parent()
 	if obj is BasicProjectile:
-		_get_damage(damage_table.table[obj.get_id()])
+		if _can_deflect == false:
+			_get_damage(damage_table.table[obj.get_id()])
+
 
 func _get_damage(value: int):
 	_current_health -= value
@@ -51,3 +59,11 @@ func _get_damage(value: int):
 		print("dead")
 	if value > _current_health: snd_destroyed.play()
 	else: snd_damage.play()
+
+
+func set_deflect_state(deflect: bool) -> void:
+	_can_deflect = deflect
+
+
+func get_deflect_state() -> bool:
+	return _can_deflect
