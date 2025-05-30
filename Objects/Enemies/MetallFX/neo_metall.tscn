@@ -6,8 +6,8 @@
 [ext_resource type="Script" uid="uid://ngjpin4ivjo" path="res://Objects/Enemies/damage_table.gd" id="4_ftkoi"]
 [ext_resource type="AudioStream" uid="uid://dbr58sf54kve8" path="res://Assets/SFX/Enemies/sfx_enemy_damage.wav" id="5_o0cs5"]
 [ext_resource type="AudioStream" uid="uid://ct8ijxcypclee" path="res://Assets/SFX/Enemies/sfx_enemy_destroyed.wav" id="6_aqfqf"]
-[ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controler/sprite_controller.tscn" id="7_wlkqg"]
-[ext_resource type="Texture2D" uid="uid://bp2ujb4djl4cq" path="res://Assets/Enemies/Metall EX/metall_fx.png" id="8_h12fd"]
+[ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controller/sprite_controller.tscn" id="7_wlkqg"]
+[ext_resource type="Texture2D" uid="uid://bp2ujb4djl4cq" path="res://Assets/Enemies/metall_fx.png" id="8_h12fd"]
 [ext_resource type="Texture2D" uid="uid://7shtvgb7k02x" path="res://Assets/Effects/Enemy Explosion/enemy_explosion.png" id="9_w0aho"]
 
 [sub_resource type="Resource" id="Resource_4c5ue"]

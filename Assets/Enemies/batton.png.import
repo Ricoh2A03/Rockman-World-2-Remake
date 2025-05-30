@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://duyjs1j4eydaq"
-path="res://.godot/imported/pipi_beta.png-03be3c6c59c00cc0dad9c904897d1293.ctex"
+uid="uid://b3tprbu0w5wrr"
+path="res://.godot/imported/batton.png-99abff0f4632976e3fd247b1fb3feeee.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Enemies/Pipi/pipi_beta.png"
-dest_files=["res://.godot/imported/pipi_beta.png-03be3c6c59c00cc0dad9c904897d1293.ctex"]
+source_file="res://Assets/Enemies/batton.png"
+dest_files=["res://.godot/imported/batton.png-99abff0f4632976e3fd247b1fb3feeee.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c34po0v36u5so"
-path="res://.godot/imported/Metall EX.png-b7c2632fc4e74a9bf58eb00509e41f32.ctex"
+uid="uid://bvsdpvktsxgtw"
+path="res://.godot/imported/gabyoall.png-65d55c649aa513a3cbb2279d60420ae3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Enemies/Metall EX/Metall EX.png"
-dest_files=["res://.godot/imported/Metall EX.png-b7c2632fc4e74a9bf58eb00509e41f32.ctex"]
+source_file="res://Assets/Enemies/gabyoall.png"
+dest_files=["res://.godot/imported/gabyoall.png-65d55c649aa513a3cbb2279d60420ae3.ctex"]
 
 [params]
 
