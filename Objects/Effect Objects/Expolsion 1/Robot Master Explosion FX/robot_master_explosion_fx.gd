@@ -2,18 +2,21 @@ class_name RobotMasterExplosion extends Node2D
 
 signal trigger_explosion()
 
+@onready var timer = $Timer
+
 @export var particle: PackedScene
+
 var particle_count: int = 8
 var secondary_particles: bool = false
-
 var part_speed: float = 3.2
 var part_speed_diag: float = 4.8
 
 func explode() -> void:
 	for i in particle_count:
-		var particle_instance = particle.instantiate()
+		var particle_instance: ExplosionParticle = particle.instantiate()
+
 		add_child(particle_instance)
-		particle_instance.top_level = true
+
 		particle_instance.global_position.x = global_position.x
 		particle_instance.global_position.y = global_position.y
 
@@ -34,3 +37,9 @@ func explode() -> void:
 				particle_instance.tween_move(particle_instance.global_position.x - 256, particle_instance.global_position.y, part_speed)
 			7: # diagonal top left
 				particle_instance.tween_move(particle_instance.global_position.x - 256, particle_instance.global_position.y -256, part_speed_diag)
+
+	timer.start()
+
+
+func _on_timer_timeout():
+	queue_free()

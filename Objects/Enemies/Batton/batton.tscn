@@ -140,7 +140,7 @@ metadata/_custom_type_script = "uid://ngjpin4ivjo"
 size = Vector2(22, 22)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lsdc1"]
-size = Vector2(128, 320)
+size = Vector2(144, 480)
 
 [sub_resource type="Animation" id="Animation_yee5t"]
 length = 0.001

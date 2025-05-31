@@ -47,6 +47,7 @@ animations = [{
 }]
 
 [node name="BossExplosionParticle" type="AnimatedSprite2D"]
+top_level = true
 sprite_frames = SubResource("SpriteFrames_psov1")
 autoplay = "default"
 script = ExtResource("2_vgumj")

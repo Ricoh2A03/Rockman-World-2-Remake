@@ -2,6 +2,7 @@ extends Enemy
 
 # SIGNALS
 
+
 # ENUMS
 enum STATES{
 	HIDING,
@@ -32,7 +33,7 @@ const PATH_CALCULATION_RATE = 5
 
 # BUILT-IN METHODS
 func _enter_tree() -> void:
-	_current_state = 1
+	_current_state = 99
 
 
 func _ready() -> void:
