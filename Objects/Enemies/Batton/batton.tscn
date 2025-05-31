@@ -8,23 +8,23 @@
 [ext_resource type="AudioStream" uid="uid://dbr58sf54kve8" path="res://Assets/SFX/Enemies/sfx_enemy_damage.wav" id="6_yee5t"]
 [ext_resource type="AudioStream" uid="uid://ct8ijxcypclee" path="res://Assets/SFX/Enemies/sfx_enemy_destroyed.wav" id="7_j6hcq"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vg2bs"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fwt5d"]
 atlas = ExtResource("2_82kfl")
 region = Rect2(0, 28, 45, 28)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tl0pc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yee5t"]
 atlas = ExtResource("2_82kfl")
 region = Rect2(45, 28, 45, 28)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wqmx1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gtqk7"]
 atlas = ExtResource("2_82kfl")
 region = Rect2(90, 28, 45, 28)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fwt5d"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vs1dc"]
 atlas = ExtResource("2_82kfl")
 region = Rect2(135, 28, 45, 28)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yee5t"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6cyr3"]
 atlas = ExtResource("2_82kfl")
 region = Rect2(180, 28, 45, 28)
 
@@ -72,34 +72,19 @@ region = Rect2(405, 0, 45, 28)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vg2bs")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tl0pc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wqmx1")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_fwt5d")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yee5t")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vg2bs")
+"texture": SubResource("AtlasTexture_gtqk7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tl0pc")
+"texture": SubResource("AtlasTexture_vs1dc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wqmx1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fwt5d")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yee5t")
+"texture": SubResource("AtlasTexture_6cyr3")
 }],
 "loop": true,
 "name": &"fly",
@@ -155,7 +140,7 @@ metadata/_custom_type_script = "uid://ngjpin4ivjo"
 size = Vector2(22, 22)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lsdc1"]
-size = Vector2(112, 256)
+size = Vector2(128, 320)
 
 [sub_resource type="Animation" id="Animation_yee5t"]
 length = 0.001
@@ -181,7 +166,7 @@ tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("SpriteController/Anchor:position")
-tracks/0/interp = 2
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
@@ -199,6 +184,7 @@ _data = {
 [node name="Batton" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "health_component")]
 collision_layer = 64
 collision_mask = 0
+motion_mode = 1
 slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
@@ -218,7 +204,6 @@ sprite_normal = NodePath("Anchor/Sprite")
 [node name="Sprite" type="AnimatedSprite2D" parent="SpriteController/Anchor"]
 sprite_frames = SubResource("SpriteFrames_gtqk7")
 animation = &"hidden"
-frame_progress = 0.554128
 
 [node name="HealthDamageComponent" parent="." node_paths=PackedStringArray("parent_node") instance=ExtResource("4_vg2bs")]
 parent_node = NodePath("..")

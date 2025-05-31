@@ -16,18 +16,21 @@ signal screen_exited()
 @export var apply_gravity: bool = false
 @export var gravity: int = 0
 
+@export_group("Misc.")
+@export var destroy_on_impact: bool = true
+
 ## Tells whether projectile collided with something.
 var _collided: bool = false
 var _direction: int = 1
 
-@export_group("Misc.")
-@export var destroy_on_impact: bool = true
 
 ## Sets projectile direction.
 func set_direction(dir: int) -> void: _direction = dir
 
+
 ## Returns projectiles ID.
 func get_id() -> int: return id
+
 
 ## Deflects projectile in a specified direction.
 func deflect() -> void:

@@ -11,37 +11,46 @@ enum STATES{
 }
 
 # CONSTANTS
+const PATH_CALCULATION_RATE = 5
+
 
 # STATIC VARS
 
+
 # EXPORT VARS
+
 
 # ONREADY VARS
 @onready var vision_area: Area2D = $VisionArea
 
+
 # PUBLIC VARS
+
 
 # PRIVATE VARS
 
+
 # BUILT-IN METHODS
 func _enter_tree() -> void:
-	set_state(STATES.HIDING)
+	_current_state = 1
 
 
 func _ready() -> void:
-	pass
+	set_state(STATES.HIDING)
 
 
 func _process(delta: float) -> void:
+
 	match _current_state:
 
 		STATES.HIDING:
 			pass
 
 		STATES.CHASING:
-			var move_dir = distance_between_player()
+			if Engine.get_process_frames() % PATH_CALCULATION_RATE == 0:
+				var move_dir = distance_between_player()
 
-			velocity = lerp(velocity, move_dir.normalized() * 50, 0.75)
+				velocity = lerp(velocity, move_dir.normalized() * 50, 0.75)
 
 	move_and_slide()
 
@@ -56,6 +65,7 @@ func set_state(to_state: int) -> void:
 		1: # Revealing
 			pass
 		2: # Chasing
+			health_component.set_deflect_state(false)
 			sprite_controller.play_animation("fly")
 			%AnimationPlayer.play("bobbing")
 		3: # Retreating

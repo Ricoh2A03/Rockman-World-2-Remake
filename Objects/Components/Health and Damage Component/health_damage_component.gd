@@ -47,16 +47,18 @@ func _on_hitbox_entered(area: Area2D) -> void:
 	if obj is BasicProjectile:
 		if _can_deflect == false:
 			_get_damage(damage_table.table[obj.get_id()])
+		else:
+			pass
 
 
 func _get_damage(value: int):
 	_current_health -= value
-	print(_current_health)
+	#print(_current_health)
 	if _current_health <= 0:
 		hitbox_shape.set_deferred("disabled", true)
 		_is_dead = true
 		no_health.emit()
-		print("dead")
+		#print("dead")
 	if value > _current_health: snd_destroyed.play()
 	else: snd_damage.play()
 

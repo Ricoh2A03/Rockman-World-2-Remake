@@ -22,6 +22,7 @@ var _debug_mute: bool = false
 #region Initialization routine
 func _ready() -> void:
 	Globals.main = self
+	#Engine.max_fps = 30
 	# Mute everything so I can listen to music while debugging :D
 	AudioServer.set_bus_volume_linear(0, 0.2)
 	#AudioServer.set_bus_volume_linear(0, 0.0)
