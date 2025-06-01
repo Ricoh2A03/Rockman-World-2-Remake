@@ -18,7 +18,6 @@ var _deflect_vector: Vector2
 
 
 func _process(delta: float) -> void:
-	# move projectile if not collided yet
 	match _current_state:
 
 		STATES.FLYING:
