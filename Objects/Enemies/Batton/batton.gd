@@ -2,7 +2,6 @@ extends Enemy
 
 # SIGNALS
 
-
 # ENUMS
 enum STATES{
 	HIDING,
@@ -12,24 +11,19 @@ enum STATES{
 }
 
 # CONSTANTS
+const CHASE_SPEED = 65
 const PATH_CALCULATION_RATE = 5
-
 
 # STATIC VARS
 
-
 # EXPORT VARS
-
 
 # ONREADY VARS
 @onready var vision_area: Area2D = $VisionArea
 
-
 # PUBLIC VARS
 
-
 # PRIVATE VARS
-
 
 # BUILT-IN METHODS
 func _enter_tree() -> void:
@@ -51,7 +45,7 @@ func _process(delta: float) -> void:
 			if Engine.get_process_frames() % PATH_CALCULATION_RATE == 0:
 				var move_dir = distance_between_player()
 
-				velocity = lerp(velocity, move_dir.normalized() * 50, 0.75)
+				velocity = lerp(velocity, move_dir.normalized() * CHASE_SPEED, 0.75)
 
 	move_and_slide()
 
@@ -92,5 +86,5 @@ func _on_screen_exited() -> void:
 	destroy_enemy()
 
 
-func _on_health():
-	destroy_enemy()
+func _on_no_health():
+	pass # replace with particle spawning

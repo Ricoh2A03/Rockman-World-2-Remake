@@ -181,7 +181,7 @@ _data = {
 &"bobbing": SubResource("Animation_fwt5d")
 }
 
-[node name="Batton" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "health_component")]
+[node name="Batton" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "health_component") groups=["Enemy"]]
 collision_layer = 64
 collision_mask = 0
 motion_mode = 1
@@ -236,7 +236,7 @@ libraries = {
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]
 [connection signal="animation_finished" from="SpriteController/Anchor/Sprite" to="." method="_on_sprite_animation_finished"]
-[connection signal="no_health" from="HealthDamageComponent" to="." method="_on_health"]
+[connection signal="no_health" from="HealthDamageComponent" to="." method="_on_no_health"]
 [connection signal="body_entered" from="VisionArea" to="." method="_on_vision_area_entered"]
 
 [editable path="HealthDamageComponent"]

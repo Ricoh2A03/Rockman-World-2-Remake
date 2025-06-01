@@ -10,11 +10,6 @@ class_name Stage extends Scene
 ## Path to Camera node to instatiate.
 @export var camera_scene_path: String
 
-@onready var stage_ui: CanvasLayer = $StageUI
-@onready var ui_anim_player: AnimationPlayer = $StageUI/AnimationPlayer
-@onready var fade_overlay: ColorRect = $StageUI/Fade
-@onready var fade_timer: Timer = $FadeTimer
-
 ## Reference to the [class Player] object.
 var player_ref: Player = null
 var camera_ref: StageCamera = null
@@ -23,12 +18,16 @@ var camera_ref: StageCamera = null
 var _is_player_spawned: bool = false
 
 ## Currently active checkpoint.
-var current_checkpoint: Checkpoint
-
+var _current_checkpoint: Checkpoint
 ## Currently active room.
 var _current_room: Room
 ## Left - [0], top - [1], right - [2], bottom - [3]
 var _current_room_limits: Array[int] = [0, 0, 0, 0]
+
+@onready var stage_ui: CanvasLayer = $StageUI
+@onready var ui_anim_player: AnimationPlayer = $StageUI/AnimationPlayer
+@onready var fade_overlay: ColorRect = $StageUI/Fade
+@onready var fade_timer: Timer = $FadeTimer
 
 ###########################################
 
@@ -45,7 +44,7 @@ func _ready() -> void:
 	# Set current checkpoint
 	if _current_room.get_checkpoint() == null:
 		push_error("\n" + "First room doesn't have a checkpoint!" + "\n" + "Please, set one in the editor.")
-	else: current_checkpoint = _current_room.get_checkpoint()
+	else: _current_checkpoint = _current_room.get_checkpoint()
 
 	_current_room.activate_spawners()
 
@@ -54,7 +53,7 @@ func _ready() -> void:
 	camera_ref.set_limits(_current_room)
 
 	# Set camera position to checkpoint
-	camera_ref.global_position = current_checkpoint.global_position
+	camera_ref.global_position = _current_checkpoint.global_position
 
 	# Connect signals
 	EventBus.stage_event_player_died.connect(_player_died)
@@ -82,14 +81,14 @@ func create_player() -> void:
 	var p_instance = load(player_scene_path).instantiate()
 	player_ref = p_instance
 	call_deferred("add_child", p_instance)
-	player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y))
-	player_ref.teleport_to(current_checkpoint.global_position)
+	player_ref.global_position = Vector2(_current_checkpoint.global_position.x, (_current_room.global_position.y))
+	player_ref.teleport_to(_current_checkpoint.global_position)
 
 
 func respawn_player() -> void:
-	if self.current_checkpoint:
-		self.player_ref.global_position = Vector2(current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
-		self.player_ref.teleport_to(current_checkpoint.global_position)
+	if self._current_checkpoint:
+		self.player_ref.global_position = Vector2(_current_checkpoint.global_position.x, (_current_room.global_position.y - 16))
+		self.player_ref.teleport_to(_current_checkpoint.global_position)
 		self.camera_ref._follow_target = true
 #endregion
 
@@ -146,20 +145,20 @@ func check_scrolling_criterias(dir: int):
 			return
 
 
-func _scrolling_finished(room: Room) -> void: # EventBus event: stage_event_scroll_finished()
+func _scrolling_finished(room: Room) -> void:
 	self._current_room = room
 	self.set_room_limits()
 	player_ref._room_limits = _current_room_limits # TODO: move this to the player script
-	if room.get_checkpoint() is Checkpoint: self.current_checkpoint = room.get_checkpoint()
+	if room.get_checkpoint() is Checkpoint: self._current_checkpoint = room.get_checkpoint()
 	room.activate_spawners()
 
 
 func _respawn_handler() -> void:
 	var tween = get_tree().create_tween()
-	self._current_room = current_checkpoint.associated_room
+	self._current_room = _current_checkpoint.associated_room
 	self.set_room_limits()
 	self.camera_ref.set_limits(_current_room)
-	self.camera_ref.global_position = current_checkpoint.global_position
+	self.camera_ref.global_position = _current_checkpoint.global_position
 	if self.play_music_at_start:
 		Globals.main.play_music(music_to_play)
 

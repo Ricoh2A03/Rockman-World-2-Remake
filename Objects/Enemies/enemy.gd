@@ -11,11 +11,13 @@ signal enemy_died
 var _current_state: int
 var _player_reference: Player
 
+## Compares own position with [param Player]'s and sets
+## [member platform_components]' direction accordingly.
 func look_at_player() -> void:
 	if self.global_position.x > _player_reference.global_position.x: platform_component.set_direction(-1)
 	else: platform_component.set_direction(1)
 
-
+## 
 func distance_between_player() -> Vector2:
 	var vec2: Vector2
 
@@ -31,6 +33,7 @@ func distance_between_player() -> Vector2:
 
 	return vec2
 
+##
 func destroy_enemy() -> void:
 	enemy_died.emit(self)
 	call_deferred("queue_free")

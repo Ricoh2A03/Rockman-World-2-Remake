@@ -2,14 +2,14 @@ class_name RobotMasterExplosion extends Node2D
 
 signal trigger_explosion()
 
-@onready var timer = $Timer
-
 @export var particle: PackedScene
 
 var particle_count: int = 8
 var secondary_particles: bool = false
 var part_speed: float = 3.2
 var part_speed_diag: float = 4.8
+
+@onready var timer = $Timer
 
 func explode() -> void:
 	for i in particle_count:
