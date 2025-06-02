@@ -81,7 +81,7 @@ animation = &"teleport"
 [node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
 visible = false
 sprite_frames = ExtResource("5_dy1p1")
-animation = &"walk"
+animation = &"teleport"
 
 [node name="Normal" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3pimt")

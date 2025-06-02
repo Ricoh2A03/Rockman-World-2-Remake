@@ -1,20 +1,22 @@
 extends BasicProjectile
 
+
 enum STATES{
 	FLYING,
 	COLLIDED,
 	DEFLECTED
 }
 
+
+var _current_state: int = STATES.FLYING
+var _deflect_vector: Vector2
+
+
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var timer: Timer = $Timer
 @onready var vis_notif: VisibleOnScreenNotifier2D = $Visibility
 @onready var snd_deflect: AudioStreamPlayer2D = $snd_deflect
 @onready var collision_box: Area2D = $CollisionBox
-
-
-var _current_state: int = STATES.FLYING
-var _deflect_vector: Vector2
 
 
 func _process(delta: float) -> void:
@@ -28,7 +30,7 @@ func _process(delta: float) -> void:
 
 
 func _on_timeout() -> void:
-	# if timer is stopped and not on screen, destroy projectile
+	# If timer is stopped and not on screen, destroy projectile
 	if !vis_notif.is_on_screen(): _on_screen_exited()
 
 
