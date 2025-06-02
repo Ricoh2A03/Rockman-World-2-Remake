@@ -1,9 +1,11 @@
 extends Scene
 
+
 func _ready() -> void:
 	super._ready()
 	var tween = get_tree().create_tween()
 	tween.tween_property(%FadeIn, "self_modulate", Color(1, 1, 1, 0), 1.4)
+
 
 func _on_fade_timeout() -> void:
 	%LogoSprite.play("default")

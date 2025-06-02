@@ -1,7 +1,5 @@
 class_name StageCamera extends Camera2D
 
-#signal finished_scrolling(room: Room)
-
 const SCREEN_WIDTH: int = 384
 const SCREEN_HEIGHT: int = 224
 
@@ -10,11 +8,13 @@ var player_instance: Player
 var _follow_target: bool = false
 var _current_target: Node2D
 
+
 func _ready() -> void:
 	EventBus.stage_event_scroll_start.connect(camera_start_scroll)
 
 func _process(delta):
 	if _follow_target: _look_at_target()
+
 
 func camera_start_scroll(scroll_direction: int, room: Room) -> void:
 	# If no reference to the player exists, find it and set.
@@ -70,11 +70,11 @@ func camera_start_scroll(scroll_direction: int, room: Room) -> void:
 	# Follow player again.
 	_follow_target = true
 
+
 ## Sets camera position to the [member _current_target]'s position.
 func _look_at_target() -> void:
 	self.global_position = _current_target.global_position
 
-##########################################
 
 ## Sets limits.
 func set_limits(room: Room) -> void:
@@ -84,7 +84,6 @@ func set_limits(room: Room) -> void:
 	limit_right = limit_left + room.size.x
 	limit_bottom = limit_top + room.size.y
 
+
 ## Sets target which camera would follow.
 func set_target(target: Node2D) -> void: _current_target = target
-
-##########################################

@@ -7,7 +7,8 @@ enum STATES{
 	HIDING,
 	REVEALING,
 	CHASING,
-	RETREATING
+	RETREATING,
+	DEAD
 }
 
 # CONSTANTS
@@ -47,7 +48,7 @@ func _process(delta: float) -> void:
 
 				velocity = lerp(velocity, move_dir.normalized() * CHASE_SPEED, 0.75)
 
-	move_and_slide()
+			move_and_slide()
 
 
 # METHODS
@@ -65,6 +66,9 @@ func set_state(to_state: int) -> void:
 			%AnimationPlayer.play("bobbing")
 		3: # Retreating
 			pass
+		4:
+			velocity = Vector2(0, 0)
+			sprite_controller.visible = false
 
 	_current_state = to_state
 
@@ -87,4 +91,5 @@ func _on_screen_exited() -> void:
 
 
 func _on_no_health():
-	pass # replace with particle spawning
+	set_state(STATES.DEAD)
+	explosion_particle.explode()

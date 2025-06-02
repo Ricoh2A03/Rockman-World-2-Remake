@@ -1,7 +1,9 @@
 class_name HealthDamageComponent extends Node2D
 
+
 ## Emits when there's no health left.
 signal no_health
+
 
 @export var parent_node: Node
 
@@ -17,6 +19,7 @@ var _can_deflect: bool = false
 @export_category("Sounds")
 @export var damage_sound: AudioStreamWAV
 @export var destroyed_sound: AudioStreamWAV
+
 
 @onready var hitbox_shape: CollisionShape2D = $Hitbox/Shape
 @onready var snd_damage: AudioStreamPlayer2D = $snd_damage

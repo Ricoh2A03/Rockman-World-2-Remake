@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://mxo8b32ofnqc"]
+[gd_scene load_steps=31 format=3 uid="uid://mxo8b32ofnqc"]
 
 [ext_resource type="Script" uid="uid://c63xsa6yx63nl" path="res://Objects/Enemies/Batton/batton.gd" id="1_82kfl"]
 [ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controller/sprite_controller.tscn" id="1_lsdc1"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ngjpin4ivjo" path="res://Objects/Enemies/damage_table.gd" id="5_fwt5d"]
 [ext_resource type="AudioStream" uid="uid://dbr58sf54kve8" path="res://Assets/SFX/Enemies/sfx_enemy_damage.wav" id="6_yee5t"]
 [ext_resource type="AudioStream" uid="uid://ct8ijxcypclee" path="res://Assets/SFX/Enemies/sfx_enemy_destroyed.wav" id="7_j6hcq"]
+[ext_resource type="PackedScene" uid="uid://cpnadgykqini0" path="res://Objects/Effect Objects/enemy_explosion.tscn" id="8_yee5t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fwt5d"]
 atlas = ExtResource("2_82kfl")
@@ -181,7 +182,7 @@ _data = {
 &"bobbing": SubResource("Animation_fwt5d")
 }
 
-[node name="Batton" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "health_component") groups=["Enemy"]]
+[node name="Batton" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "health_component", "explosion_particle") groups=["Enemy"]]
 collision_layer = 64
 collision_mask = 0
 motion_mode = 1
@@ -192,6 +193,7 @@ platform_floor_layers = 0
 script = ExtResource("1_82kfl")
 sprite_controller = NodePath("SpriteController")
 health_component = NodePath("HealthDamageComponent")
+explosion_particle = NodePath("EnemyExplosion")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 rect = Rect2(-23, -10, 47, 21)
@@ -233,6 +235,8 @@ unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_j6hcq")
 }
+
+[node name="EnemyExplosion" parent="." instance=ExtResource("8_yee5t")]
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]
 [connection signal="animation_finished" from="SpriteController/Anchor/Sprite" to="." method="_on_sprite_animation_finished"]

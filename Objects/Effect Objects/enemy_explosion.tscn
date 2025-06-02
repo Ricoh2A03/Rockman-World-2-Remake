@@ -1,0 +1,96 @@
+[gd_scene load_steps=11 format=3 uid="uid://cpnadgykqini0"]
+
+[ext_resource type="Texture2D" uid="uid://7shtvgb7k02x" path="res://Assets/Effects/Enemy Explosion/enemy_explosion.png" id="1_gteql"]
+[ext_resource type="AudioStream" uid="uid://ct8ijxcypclee" path="res://Assets/SFX/Enemies/sfx_enemy_destroyed.wav" id="2_jaynp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iovox"]
+atlas = ExtResource("1_gteql")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_57nbl"]
+atlas = ExtResource("1_gteql")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xp7v"]
+atlas = ExtResource("1_gteql")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ym8dt"]
+atlas = ExtResource("1_gteql")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdmua"]
+atlas = ExtResource("1_gteql")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0q57x"]
+atlas = ExtResource("1_gteql")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_leawi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iovox")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_57nbl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xp7v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ym8dt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdmua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0q57x")
+}],
+"loop": false,
+"name": &"default",
+"speed": 16.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_gteql"]
+resource_name = "enemy_explosion"
+script/source = "extends AnimatedSprite2D
+
+
+# @ONREADY VARS
+@onready var snd_explosion: AudioStreamPlayer2D = $snd_explosion
+
+
+# FUNCTIONS
+func explode() -> void:
+	visible = true
+	play(\"default\")
+	snd_explosion.play()
+
+
+# SIGNAL HANDLERS
+func _on_explosion_finished() -> void:
+	var parent = get_parent()
+	if parent is Enemy:
+		parent.destroy_enemy()
+
+
+func _on_animation_finished() -> void:
+	visible = false
+"
+
+[node name="EnemyExplosion" type="AnimatedSprite2D"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_leawi")
+frame = 5
+frame_progress = 1.0
+script = SubResource("GDScript_gteql")
+
+[node name="snd_explosion" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_jaynp")
+panning_strength = 2.0
+bus = &"SFX"
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
+[connection signal="finished" from="snd_explosion" to="." method="_on_explosion_finished"]

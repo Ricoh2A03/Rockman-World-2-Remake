@@ -23,7 +23,7 @@ class_name InventoryItem extends Resource
 
 @export_group("Scene")
 ## What will be created when using this item.
-@export var scene_to_spawn: PackedScene
+@export var scene_to_spawn: String
 
 @export_group("Sound")
 ## Sound that will be used.
