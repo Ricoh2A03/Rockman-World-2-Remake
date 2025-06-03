@@ -1,7 +1,9 @@
 class_name StageCamera extends Camera2D
 
+
 const SCREEN_WIDTH: int = 384
 const SCREEN_HEIGHT: int = 224
+
 
 var player_instance: Player
 
@@ -11,6 +13,7 @@ var _current_target: Node2D
 
 func _ready() -> void:
 	EventBus.stage_event_scroll_start.connect(camera_start_scroll)
+
 
 func _process(delta):
 	if _follow_target: _look_at_target()

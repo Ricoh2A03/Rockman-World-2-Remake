@@ -9,8 +9,6 @@
 [sub_resource type="GDScript" id="GDScript_sr7th"]
 script/source = "extends CanvasLayer
 
-@onready var menu_player := $AnimationPlayer
-@onready var energy_bars := $EnergyBars
 
 @export var _is_animating: bool = false
 @export var _is_opened: bool = false
@@ -19,7 +17,14 @@ script/source = "extends CanvasLayer
 
 @export var _current_page: int = 0
 
-func _ready() -> void: menu_player.play(\"health_fill\")
+
+@onready var menu_player := $AnimationPlayer
+@onready var energy_bars := $EnergyBars
+
+
+func _ready() -> void:
+	menu_player.play(\"health_fill\")
+
 
 func _process(_delta: float) -> void:
 	if _active:
@@ -28,7 +33,6 @@ func _process(_delta: float) -> void:
 		elif _current_page == 1 and !_is_paging and Input.is_action_just_pressed(\"shoulder_l\"):
 			menu_player.play(\"page_left\")
 
-##########################################
 
 func open_weapon_menu() -> void:
 	if !_is_animating:
@@ -38,21 +42,18 @@ func open_weapon_menu() -> void:
 		else:
 			menu_player.play(\"fade_out\")
 
-##########################################
+
+func add_item(item: InventoryItem):
+	pass
+
 
 func toggle_energy_bars(on: bool) -> void:
 	if on: energy_bars.visible = true
 	else: energy_bars.visible = false
 
-##########################################
 
 func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == \"fade_out\": Globals.main.unpauseGame([\"Player\"])
-
-##########################################
-
-func add_item(item: InventoryItem):
-	pass
 "
 
 [sub_resource type="Animation" id="Animation_cus35"]
@@ -579,14 +580,10 @@ grow_vertical = 2
 [node name="HealthBar" type="TextureProgressBar" parent="EnergyBars"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.015625
-anchor_top = -0.0401786
-anchor_right = 0.00390625
-anchor_bottom = -0.0357143
-offset_left = 16.0
-offset_top = 24.0
-offset_right = 24.0
-offset_bottom = 80.0
+offset_left = 10.0
+offset_top = 15.0
+offset_right = 25.5
+offset_bottom = 72.0
 max_value = 28.0
 rounded = true
 fill_mode = 3
@@ -595,7 +592,8 @@ texture_progress = ExtResource("3_8lp2g")
 metadata/_edit_use_anchors_ = true
 
 [node name="HealthBarBorder" type="TextureRect" parent="EnergyBars"]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 offset_left = 10.0
 offset_top = 9.0
 offset_right = 23.0

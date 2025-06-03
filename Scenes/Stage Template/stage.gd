@@ -1,5 +1,6 @@
 class_name Stage extends Scene
 
+
 @export_category("Room List")
 ## First room of the stage.
 @export var _starting_room: Room
@@ -10,9 +11,11 @@ class_name Stage extends Scene
 ## Path to Camera node to instatiate.
 @export var camera_scene_path: String
 
+
 ## Reference to the [class Player] object.
 var player_ref: Player = null
 var camera_ref: StageCamera = null
+
 
 ## Tells if player is spawned.
 var _is_player_spawned: bool = false
@@ -24,12 +27,12 @@ var _current_room: Room
 ## Left - [0], top - [1], right - [2], bottom - [3]
 var _current_room_limits: Array[int] = [0, 0, 0, 0]
 
+
 @onready var stage_ui: CanvasLayer = $StageUI
 @onready var ui_anim_player: AnimationPlayer = $StageUI/AnimationPlayer
 @onready var fade_overlay: ColorRect = $StageUI/Fade
 @onready var fade_timer: Timer = $FadeTimer
 
-###########################################
 
 #region Initialization routine
 func _ready() -> void:
@@ -64,6 +67,7 @@ func _ready() -> void:
 	flash_ready_text()
 #endregion
 
+
 #region Update routine
 func _process(_delta):
 	#%DebugStageLabel.text = "Current room: " + var_to_str(_current_room.name) + "\n" + \
@@ -73,6 +77,7 @@ func _process(_delta):
 	#"Bottom: " + var_to_str(_current_room_limits[3])
 	pass
 #endregion
+
 
 #region Player related routines
 ## Instantiates [param Player] object and saves a reference to it 
@@ -92,6 +97,7 @@ func respawn_player() -> void:
 		self.camera_ref._follow_target = true
 #endregion
 
+
 #region Camera related routines
 func create_camera() -> void:
 	if !camera_scene_path or camera_ref: return
@@ -99,6 +105,7 @@ func create_camera() -> void:
 	self.camera_ref = cam_instance
 	call_deferred("add_child", cam_instance)
 #endregion
+
 
 #region Room related routines
 func set_room_limits() -> void:
@@ -159,6 +166,7 @@ func _respawn_handler() -> void:
 	self.set_room_limits()
 	self.camera_ref.set_limits(_current_room)
 	self.camera_ref.global_position = _current_checkpoint.global_position
+	self._current_room.activate_spawners()
 	if self.play_music_at_start:
 		Globals.main.play_music(music_to_play)
 
@@ -166,11 +174,6 @@ func _respawn_handler() -> void:
 	tween.tween_property(fade_overlay, "color", Color(0, 0, 0, 0), 1)
 #endregion
 
-
-func flash_ready_text() -> void: self.ui_anim_player.play("ready_appear")
-
-
-###########################################
 
 #region Signal handlers
 func _on_animation_player_finished(anim_name) -> void:
@@ -187,6 +190,9 @@ func _on_animation_player_finished(anim_name) -> void:
 			else:
 				self.player_ref._room_limits = self._current_room_limits
 				self.respawn_player()
+
+
+func flash_ready_text() -> void: self.ui_anim_player.play("ready_appear")
 
 
 func _on_fade_timeout() -> void:

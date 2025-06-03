@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://boj3i7rith8f8" path="res://Objects/Player/Mega Man/mega_man.gd" id="1_7awde"]
 [ext_resource type="Resource" uid="uid://c18kq1fivowwj" path="res://Objects/Player/Stat Resource/mega_man_stats.tres" id="2_c1ucl"]
 [ext_resource type="SpriteFrames" uid="uid://br3u5goxp8nie" path="res://Objects/Player/Mega Man/mega_man_anim_normal.tres" id="4_mhlwb"]
-[ext_resource type="SpriteFrames" uid="uid://2p0a3cd70r0l" path="res://Objects/Player/Mega Man/mega_man_anim_shoot.tres" id="5_dy1p1"]
 [ext_resource type="PackedScene" uid="uid://breposjg3abpx" path="res://Objects/Components/Sprite Controller/sprite_controller.tscn" id="6_7i60c"]
+[ext_resource type="SpriteFrames" uid="uid://2p0a3cd70r0l" path="res://Objects/Player/Mega Man/mega_man_anim_shoot.tres" id="6_ivuyn"]
 [ext_resource type="AudioStream" uid="uid://wwcwvudptq3b" path="res://Assets/SFX/MegaMan/sfx_mm_jump.wav" id="7_i8ann"]
 [ext_resource type="AudioStream" uid="uid://bx6k0cpl7g6qm" path="res://Assets/SFX/MegaMan/sfx_mm_slide.wav" id="9_e3ryg"]
 [ext_resource type="PackedScene" uid="uid://dgmmtaqdwnh6l" path="res://Objects/Player/Ceiling Detector/ceiling_detector.tscn" id="9_ex5gi"]
@@ -38,14 +38,21 @@ script/source = "extends Node2D
 
 @onready var mega_man: Player = $\"..\"
 @onready var label: Label = $Label
-@onready var label2: Label = $Label2
+
+var _turned_on: bool = false
 
 func _process(_delta: float) -> void:
+
 	if Input.is_action_just_pressed(\"debug_show\"):
-		label.visible = !label.visible
-		label2.visible = !label2.visible
-	label.text = \"State: \" + var_to_str(mega_man._current_state)
-	label2.text = \"Slide Tmr: \" + var_to_str(mega_man.slide_timer.time_left)
+		if _turned_on:
+			_turned_on = false
+		else:
+			_turned_on = true
+		label.visible = _turned_on
+
+	if mega_man and _turned_on:
+		label.text = \"State: \" + var_to_str(mega_man._current_state) + \"\\n\" \\
+		+ \"Slide Tmr: \" + var_to_str(mega_man.slide_timer.time_left)
 "
 
 [node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "snd_jump", "snd_land", "snd_slide", "snd_damage", "snd_teleport_in", "snd_teleport_out", "snd_death") groups=["Player"]]
@@ -80,7 +87,7 @@ animation = &"teleport"
 
 [node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
 visible = false
-sprite_frames = ExtResource("5_dy1p1")
+sprite_frames = ExtResource("6_ivuyn")
 animation = &"teleport"
 
 [node name="Normal" type="CollisionShape2D" parent="."]
@@ -161,6 +168,7 @@ current_item = ExtResource("17_5ls8o")
 script = SubResource("GDScript_a3voq")
 
 [node name="Label" type="Label" parent="Debug"]
+visible = false
 offset_left = -32.0
 offset_top = -64.0
 offset_right = 32.0
@@ -168,19 +176,6 @@ offset_bottom = -48.0
 theme_override_fonts/font = ExtResource("18_dlxiw")
 theme_override_font_sizes/font_size = 8
 text = "test"
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Label2" type="Label" parent="Debug"]
-offset_left = -32.0
-offset_top = -48.0
-offset_right = 32.0
-offset_bottom = -32.0
-theme_override_fonts/font = ExtResource("18_dlxiw")
-theme_override_font_sizes/font_size = 8
-text = "test"
-horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
