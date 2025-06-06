@@ -10,7 +10,7 @@ const screenshot_path: String = "screenshots"
 @export var load_fade_speed: float = 0.0
 
 
-var current_scene
+var current_scene: Node
 
 var _fullscreen: bool = true
 var _debug_mute: bool = false

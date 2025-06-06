@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=4 uid="uid://u5fg0e8u3v0v"]
+[gd_scene load_steps=11 format=4 uid="uid://u5fg0e8u3v0v"]
 
 [ext_resource type="PackedScene" uid="uid://d3dcuxijsdqq" path="res://Scenes/Stage Template/stage.tscn" id="1_gewmq"]
 [ext_resource type="AudioStream" uid="uid://duiay1h5hx8wk" path="res://Assets/Music/Rushjet1/Woodman.ogg" id="2_yfrxr"]
 [ext_resource type="Texture2D" uid="uid://cp7p3weex6tfs" path="res://Assets/Tilesets/Test/Cyber/cyber_tileset.png" id="3_01g8t"]
 [ext_resource type="PackedScene" uid="uid://dd3j3gx5a7wkg" path="res://Objects/Level Objects/Room/room.tscn" id="4_v4lof"]
 [ext_resource type="PackedScene" uid="uid://lggpunqgabkb" path="res://Objects/Level Objects/Spawner/spawner.tscn" id="5_r3x58"]
-[ext_resource type="PackedScene" uid="uid://mxo8b32ofnqc" path="res://Objects/Enemies/Batton/batton.tscn" id="6_yfrxr"]
 [ext_resource type="PackedScene" uid="uid://bwt1mrdejuoid" path="res://Objects/Level Objects/Ladder/ladder.tscn" id="7_e5r6k"]
 [ext_resource type="PackedScene" uid="uid://cckmj8632s1ks" path="res://Objects/Level Objects/Checkpoint/checkpoint.tscn" id="8_ifngh"]
 [ext_resource type="PackedScene" uid="uid://bdsd5s4cuy55y" path="res://Objects/Level Objects/RoomLoader/room_loader.tscn" id="8_yfrxr"]
@@ -188,67 +187,67 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Spawner1" parent="SpawnerContainer" index="0" instance=ExtResource("5_r3x58")]
 position = Vector2(408, 56)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner2" parent="SpawnerContainer" index="1" instance=ExtResource("5_r3x58")]
 position = Vector2(504, 88)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner3" parent="SpawnerContainer" index="2" instance=ExtResource("5_r3x58")]
 position = Vector2(632, 56)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner4" parent="SpawnerContainer" index="3" instance=ExtResource("5_r3x58")]
 position = Vector2(760, 24)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner5" parent="SpawnerContainer" index="4" instance=ExtResource("5_r3x58")]
 position = Vector2(856, 24)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner6" parent="SpawnerContainer" index="5" instance=ExtResource("5_r3x58")]
 position = Vector2(952, 32)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner7" parent="SpawnerContainer" index="6" instance=ExtResource("5_r3x58")]
 position = Vector2(1272, 88)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner8" parent="SpawnerContainer" index="7" instance=ExtResource("5_r3x58")]
 position = Vector2(1448, 56)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner9" parent="SpawnerContainer" index="8" instance=ExtResource("5_r3x58")]
 position = Vector2(1560, 56)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner10" parent="SpawnerContainer" index="9" instance=ExtResource("5_r3x58")]
 position = Vector2(1784, 56)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner11" parent="SpawnerContainer" index="10" instance=ExtResource("5_r3x58")]
 position = Vector2(1744, 299)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner12" parent="SpawnerContainer" index="11" instance=ExtResource("5_r3x58")]
 position = Vector2(1688, 331)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Spawner13" parent="SpawnerContainer" index="12" instance=ExtResource("5_r3x58")]
 position = Vector2(1616, 315)
-object_to_spawn = ExtResource("6_yfrxr")
+object_to_spawn = "uid://mxo8b32ofnqc"
 object_limit = 1
 
 [node name="Ladder1" parent="LadderContainer" index="0" instance=ExtResource("7_e5r6k")]

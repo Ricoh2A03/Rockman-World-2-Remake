@@ -11,6 +11,7 @@ var part_speed_diag: float = 4.8
 
 @onready var timer = $Timer
 
+
 func explode() -> void:
 	for i in particle_count:
 		var particle_instance: ExplosionParticle = particle.instantiate()

@@ -85,7 +85,7 @@ func create_player() -> void:
 	if !player_scene_path or player_ref: return
 	var p_instance = load(player_scene_path).instantiate()
 	player_ref = p_instance
-	call_deferred("add_child", p_instance)
+	Globals.main.call_deferred("add_child", p_instance)
 	player_ref.global_position = Vector2(_current_checkpoint.global_position.x, (_current_room.global_position.y))
 	player_ref.teleport_to(_current_checkpoint.global_position)
 
@@ -103,7 +103,7 @@ func create_camera() -> void:
 	if !camera_scene_path or camera_ref: return
 	var cam_instance = load(camera_scene_path).instantiate()
 	self.camera_ref = cam_instance
-	call_deferred("add_child", cam_instance)
+	Globals.main.call_deferred("add_child", cam_instance)
 #endregion
 
 
@@ -115,6 +115,7 @@ func set_room_limits() -> void:
 	(_current_room.global_position.x + _current_room.size.x),
 	(_current_room.global_position.y + _current_room.size.y)]
 #endregion
+
 
 #region Event handlers
 func _player_died() -> void: # EventBus event: stage_event_player_died()
