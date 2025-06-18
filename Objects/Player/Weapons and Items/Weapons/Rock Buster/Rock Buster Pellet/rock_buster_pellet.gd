@@ -19,6 +19,10 @@ var _deflect_vector: Vector2
 @onready var collision_box: Area2D = $CollisionBox
 
 
+func _ready() -> void:
+	EventBus.stage_event_scroll_start.connect(_scrolling_started)
+
+
 func _process(delta: float) -> void:
 	match _current_state:
 
@@ -27,6 +31,10 @@ func _process(delta: float) -> void:
 
 		STATES.DEFLECTED:
 			global_position += (_deflect_vector * xSpeed) * delta
+
+
+func _scrolling_started(dir, room) -> void:
+	_on_screen_exited()
 
 
 func _on_timeout() -> void:

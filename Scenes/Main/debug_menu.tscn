@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://btqm7mvuic84v"]
+
+[ext_resource type="Script" uid="uid://dgb8yj3m62syg" path="res://Scenes/Main/debug_menu.gd" id="1_vdm8v"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1r6ip"]
+line_spacing = 4.0
+font_size = 8
+
+[node name="DebugMenu" type="CanvasLayer"]
+layer = 128
+script = ExtResource("1_vdm8v")
+
+[node name="BG" type="Panel" parent="."]
+self_modulate = Color(1, 1, 1, 0.784314)
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 128.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 14.0
+offset_right = 89.0
+offset_bottom = 26.0
+text = "ESC - pause tree
+30 FPS - 
+"
+label_settings = SubResource("LabelSettings_1r6ip")
+
+[node name="Buttons" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 128.0
+
+[node name="Button" type="Button" parent="Buttons"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 92.0
+offset_right = 64.0
+offset_bottom = 113.0
+theme_override_font_sizes/font_size = 9
+text = "Screenshot"
+
+[node name="FPSToggle" type="CheckBox" parent="Buttons"]
+layout_mode = 0
+offset_left = 34.6988
+offset_top = 16.4137
+offset_right = 58.6988
+offset_bottom = 40.4137
+
+[connection signal="button_down" from="Buttons/FPSToggle" to="." method="_on_fps_button_down"]

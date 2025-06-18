@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0do50xqapt1n"]
+[gd_scene load_steps=11 format=3 uid="uid://b0do50xqapt1n"]
 
 [ext_resource type="Script" uid="uid://dvumk7p3wxghl" path="res://Objects/Player/Weapons and Items/Weapons/Rock Buster/Rock Buster Pellet/rock_buster_pellet.gd" id="1_oajlh"]
 [ext_resource type="AudioStream" uid="uid://br7s01xplwi1k" path="res://Assets/SFX/Weapons/sfx_projectile_deflected.wav" id="2_iw6vn"]
 [ext_resource type="Texture2D" uid="uid://cnmhkb4b1bfph" path="res://Assets/Weapons and Items/Rock Buster/buster_pellet.png" id="2_x3esh"]
 [ext_resource type="Texture2D" uid="uid://bdlwnkx16gdoq" path="res://Assets/Weapons and Items/Rock Buster/buster_diffuse.png" id="3_o2t2j"]
+[ext_resource type="PackedScene" uid="uid://2lfd53glrykx" path="res://Objects/Components/Pause Component/pause_component.tscn" id="5_weua4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iw6vn"]
 atlas = ExtResource("3_o2t2j")
@@ -75,6 +76,9 @@ shape = SubResource("RectangleShape2D_a3lwa")
 stream = ExtResource("2_iw6vn")
 panning_strength = 2.0
 bus = &"SFX"
+
+[node name="PauseComponent" parent="." node_paths=PackedStringArray("_node_to_pause") groups=["PlayerProjectile"] instance=ExtResource("5_weua4")]
+_node_to_pause = NodePath("..")
 
 [connection signal="animation_finished" from="Sprite" to="." method="_on_animation_finished"]
 [connection signal="screen_exited" from="Visibility" to="." method="_on_screen_exited"]

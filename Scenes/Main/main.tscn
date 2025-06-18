@@ -1,10 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://mjdfaonk3tq2"]
 
 [ext_resource type="Script" uid="uid://dwx2ii0tuwmi3" path="res://Scenes/Main/main.gd" id="1_wt6wc"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_1r6ip"]
-line_spacing = 4.0
-font_size = 8
+[ext_resource type="PackedScene" uid="uid://btqm7mvuic84v" path="res://Scenes/Main/debug_menu.tscn" id="2_qw60k"]
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -23,40 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="DebugMenu" type="CanvasLayer" parent="."]
-layer = 128
+[node name="DebugMenu" parent="." instance=ExtResource("2_qw60k")]
 visible = false
-
-[node name="BG" type="Panel" parent="DebugMenu"]
-self_modulate = Color(1, 1, 1, 0.784314)
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 104.0
-offset_bottom = 128.0
-
-[node name="Label" type="Label" parent="DebugMenu"]
-offset_left = 16.0
-offset_top = 14.0
-offset_right = 89.0
-offset_bottom = 26.0
-text = "ESC - pause tree"
-label_settings = SubResource("LabelSettings_1r6ip")
-
-[node name="Buttons" type="Control" parent="DebugMenu"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 96.0
-offset_bottom = 128.0
-
-[node name="Button" type="Button" parent="DebugMenu/Buttons"]
-layout_mode = 0
-offset_left = 7.0
-offset_top = 92.0
-offset_right = 64.0
-offset_bottom = 113.0
-theme_override_font_sizes/font_size = 9
-text = "Screenshot"
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]

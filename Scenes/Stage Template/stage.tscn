@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d3dcuxijsdqq"]
+[gd_scene load_steps=8 format=3 uid="uid://d3dcuxijsdqq"]
 
 [ext_resource type="Script" uid="uid://c051yv525inmt" path="res://Scenes/Stage Template/stage.gd" id="1_dl1j8"]
 [ext_resource type="Texture2D" uid="uid://ci7n321c38lkv" path="res://Assets/UI/Ready/ready.png" id="2_4gqfj"]
+[ext_resource type="PackedScene" uid="uid://bp8cmh6i2wwg7" path="res://Scenes/Stage Template/debug_stage_screenshoter.tscn" id="3_m4yp7"]
 
 [sub_resource type="Animation" id="Animation_k6nu6"]
 length = 0.001
@@ -159,6 +160,9 @@ metadata/_edit_lock_ = true
 [node name="FadeTimer" type="Timer" parent="."]
 wait_time = 2.35
 one_shot = true
+
+[node name="DebugStageScreenshoter" parent="." node_paths=PackedStringArray("room_container") instance=ExtResource("3_m4yp7")]
+room_container = NodePath("../RoomContainer")
 
 [connection signal="animation_finished" from="StageUI/AnimationPlayer" to="." method="_on_animation_player_finished"]
 [connection signal="timeout" from="FadeTimer" to="." method="_on_fade_timeout"]

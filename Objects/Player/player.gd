@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody2D
 
+
 #region Enumerators
 ## Player states enumerator.[br]
 ## 0 - Ground[br]
@@ -26,6 +27,7 @@ enum STATES{
 }
 #endregion
 
+
 #region Exported Properties
 @export_category("Player Stats")
 ## [param Resource] that contains all of the values that are relevant to physics.
@@ -45,6 +47,8 @@ enum STATES{
 
 ## Contains and manages weapons and utilities.
 @export var weapon_system: VariableWeaponSystem
+
+@export var weapon_ui: WeaponUI
 
 @export_group("Explosion")
 @export var death_explosion_fx: PackedScene
@@ -67,7 +71,9 @@ enum STATES{
 @export var call_move_and_slide: bool = true
 #endregion
 
+
 var weapon_inventory
+
 
 var _can_change_direction: bool = true
 var _can_step: bool = true
@@ -94,6 +100,7 @@ var _current_state = null
 ## Left, top, right, bottom.
 var _room_limits: Array[int] = [0, 0, 0, 0]
 
+
 #region Initialization routine
 func _ready() -> void:
 	EventBus.stage_event_scroll_start.connect(_scroll_handler)
@@ -102,19 +109,24 @@ func _ready() -> void:
 	flip_sprite()
 #endregion
 
+
 #region Input handler
 func _input(event):
 	if event.is_action_pressed("debug_damage_player"):
 		_current_state = STATES.HURT
 		snd_damage.play()
 		sprite_controller.play_animation("hurt")
+
+	if _can_open_inventory and event.is_action_pressed("START"):
+		weapon_ui.open_weapon_menu()
 #endregion
 
+
 #region Update routine
-func _process(_delta) -> void:
+func _process(delta) -> void:
 
 	if apply_gravity:
-		if _current_state != STATES.SCROLL: velocity.y += stats.gravity
+		if _current_state != STATES.SCROLL: velocity.y += stats.gravity * delta
 
 	if call_move_and_slide: move_and_slide()
 
@@ -124,7 +136,7 @@ func _process(_delta) -> void:
 	var move_vector
 
 	### Ignore horizontal input if hurt or climbing ###
-	if _current_state != STATES.CLIMB or STATES.HURT or STATES.SCROLL: move_vector = Input.get_axis("left", "right")
+	if _current_state != STATES.CLIMB or STATES.HURT or STATES.SCROLL: move_vector = Input.get_axis("LEFT", "RIGHT")
 
 	if can_move:
 
@@ -169,15 +181,15 @@ func _process(_delta) -> void:
 						sprite_controller.play_animation("idle")
 
 				### Ground --> Climb ###
-				if !_on_ladder_top and (_on_ladder and Input.is_action_pressed("up")):
+				if !_on_ladder_top and (_on_ladder and Input.is_action_pressed("UP")):
 					set_player_state(STATES.CLIMB)
-				if _on_ladder_top and (_on_ladder and Input.is_action_pressed("down")):
+				if _on_ladder_top and (_on_ladder and Input.is_action_pressed("DOWN")):
 					sprite_controller.play_animation("climb")
 					set_player_state(STATES.CLIMB)
 					global_position.y = (_current_ladder.global_position.y - 8)
 
 				### Jumping --> Air ###
-				if Input.is_action_just_pressed("jump"):
+				if Input.is_action_just_pressed("B"):
 					velocity.y = -stats.jump_force
 					snd_jump.play()
 					set_player_state(STATES.AIR)
@@ -187,7 +199,7 @@ func _process(_delta) -> void:
 				if !is_on_floor(): set_player_state(STATES.AIR)
 
 				### Ground --> Slide ###
-				if Input.is_action_just_pressed("slide"):
+				if Input.is_action_just_pressed("A"):
 					sprite_controller.play_animation("slide")
 					snd_slide.play()
 					set_player_state(STATES.SLIDE)
@@ -200,7 +212,7 @@ func _process(_delta) -> void:
 				set_collision_shapes("normal")
 
 				### Variable Jump Height ###
-				if velocity.y < 0 and !Input.is_action_pressed("jump"):
+				if velocity.y < 0 and !Input.is_action_pressed("B"):
 					velocity.y += stats.gravity * 3.25 # Stronger Gravity
 					velocity.y = 0
 
@@ -217,7 +229,7 @@ func _process(_delta) -> void:
 				### -- > Climb ###
 				if _current_ladder != null and _on_ladder:
 					if global_position.y >= ((_current_ladder.global_position.y - 8) - \
-					(collision_normal.shape.size.y * 0.5)) and (_on_ladder and (Input.is_action_pressed("up"))):
+					(collision_normal.shape.size.y * 0.5)) and (_on_ladder and (Input.is_action_pressed("UP"))):
 						sprite_controller.play_animation("climb")
 						set_player_state(STATES.CLIMB)
 
@@ -231,8 +243,8 @@ func _process(_delta) -> void:
 #region Slide State
 			STATES.SLIDE:
 
-				if !_is_under_ceiling and ((velocity.x > 0 and Input.is_action_pressed("left")) or \
-								(velocity.x < 0 and Input.is_action_pressed("right"))):
+				if !_is_under_ceiling and ((velocity.x > 0 and Input.is_action_pressed("LEFT")) or \
+								(velocity.x < 0 and Input.is_action_pressed("RIGHT"))):
 					slide_timer.stop() # TODO ???
 					set_player_state(STATES.GROUND)
 
@@ -249,7 +261,7 @@ func _process(_delta) -> void:
 					#_can_shoot = true
 
 				### Jumping --> Air ###
-				if !_is_under_ceiling and Input.is_action_just_pressed("jump"):
+				if !_is_under_ceiling and Input.is_action_just_pressed("B"):
 					sprite_controller.play_animation("jump")
 					slide_timer.stop()
 					velocity.y = -stats.jump_force
@@ -270,7 +282,7 @@ func _process(_delta) -> void:
 				if _on_ladder_top: sprite_controller.play_animation("climb_end")
 				else: sprite_controller.play_animation("climb")
 
-				var climb_vector = Input.get_axis("up", "down")
+				var climb_vector = Input.get_axis("UP", "DOWN")
 
 				global_position.x = _current_ladder.global_position.x
 
@@ -286,7 +298,7 @@ func _process(_delta) -> void:
 					velocity.y = 0
 
 				### Ground if at the top of a ladder ###
-				if (global_position.y) + 6 <= (_current_ladder.global_position.y - 8) and Input.is_action_pressed("up"):
+				if (global_position.y) + 6 <= (_current_ladder.global_position.y - 8) and Input.is_action_pressed("UP"):
 					set_player_state(STATES.GROUND)
 					velocity.y = 0
 					global_position.y = (_current_ladder.global_position.y - 8) - (collision_normal.shape.size.y * 0.5)
@@ -299,7 +311,7 @@ func _process(_delta) -> void:
 					sprite_controller.set_speed_scale(1.0)
 
 				### Air if jump off ladder ###
-				if Input.is_action_just_pressed("jump") and velocity.y == 0:
+				if Input.is_action_just_pressed("B") and velocity.y == 0:
 					velocity.y = 0
 					set_player_state(STATES.AIR)
 					sprite_controller.set_speed_scale(1.0)
@@ -423,7 +435,7 @@ func _open_inventory() -> void:
 
 func _use_weapon() -> void:
 	if weapon_system:
-		if Input.is_action_just_pressed("shoot"): weapon_system.spawn_projectile()
+		if Input.is_action_just_pressed("Y"): weapon_system.spawn_projectile()
 
 
 func teleport_to(destination: Vector2) -> void:
@@ -459,6 +471,7 @@ func _terminal_Y_velocity() -> void: if velocity.y > 448: velocity.y = 448
 
 func death_proccessing(pit_death: bool = false) -> void:
 	if _current_state != STATES.DEAD:
+		_can_open_inventory = false
 		apply_gravity = false
 		_can_shoot = false
 		can_move = false
@@ -509,8 +522,10 @@ func _stop_at_room_limits() -> void:
 			#sprite_controller.enable_sprite(true)
 #endregion
 
+
 #region Event Handlers
 func _scroll_handler(scroll_direction: int, room: Room) -> void:
+	_can_open_inventory = false
 	can_move = false
 	slide_timer.paused = true
 	weapon_system.pause_cooldown_timer(true)
@@ -559,6 +574,8 @@ func _scroll_handler(scroll_direction: int, room: Room) -> void:
 		velocity.x = last_x_velocity
 		velocity.y = 0
 	set_player_state(_last_state)
+
+	_can_open_inventory = true
 
 	weapon_system.pause_cooldown_timer(false)
 

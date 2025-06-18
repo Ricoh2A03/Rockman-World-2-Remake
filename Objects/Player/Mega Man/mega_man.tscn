@@ -17,8 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://b3syn4jy34f3v" path="res://Objects/Player/UI/ui.tscn" id="17_08btc"]
 [ext_resource type="AudioStream" uid="uid://drmdx6slnlar8" path="res://Assets/SFX/MegaMan/sfx_mm_land.wav" id="18_2laaq"]
 [ext_resource type="FontFile" uid="uid://d3mvhty73n05n" path="res://Assets/Fonts/Rightot7.ttf" id="18_dlxiw"]
-[ext_resource type="Script" uid="uid://d2643r7g3d148" path="res://Objects/Components/Pause Component/pause_component.gd" id="19_fcqlu"]
 [ext_resource type="AudioStream" uid="uid://dbil5j36jniqx" path="res://Assets/SFX/MegaMan/sfx_teleport_in.wav" id="19_ggfsd"]
+[ext_resource type="PackedScene" uid="uid://2lfd53glrykx" path="res://Objects/Components/Pause Component/pause_component.tscn" id="20_ivuyn"]
 [ext_resource type="AudioStream" uid="uid://bkr860a3quvb4" path="res://Assets/SFX/MegaMan/sfx_teleport_out.wav" id="20_pksg3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3pimt"]
@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 		+ \"Slide Tmr: \" + var_to_str(mega_man.slide_timer.time_left)
 "
 
-[node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "snd_jump", "snd_land", "snd_slide", "snd_damage", "snd_teleport_in", "snd_teleport_out", "snd_death") groups=["Player"]]
+[node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "weapon_ui", "snd_jump", "snd_land", "snd_slide", "snd_damage", "snd_teleport_in", "snd_teleport_out", "snd_death") groups=["Player"]]
 z_index = 99
 collision_layer = 4
 slide_on_ceiling = false
@@ -68,6 +68,7 @@ slide_timer = NodePath("SlideTimer")
 collision_normal = NodePath("Normal")
 collision_slide = NodePath("Slide")
 weapon_system = NodePath("VariableWeaponSystem")
+weapon_ui = NodePath("UI")
 death_explosion_fx = ExtResource("10_mmksa")
 snd_jump = NodePath("Sounds/snd_jump")
 snd_land = NodePath("Sounds/snd_land")
@@ -179,8 +180,7 @@ text = "test"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="PauseComponent" type="Node" parent="." node_paths=PackedStringArray("_node_to_pause") groups=["Player"]]
-script = ExtResource("19_fcqlu")
+[node name="PauseComponent" parent="." node_paths=PackedStringArray("_node_to_pause") groups=["Player"] instance=ExtResource("20_ivuyn")]
 _node_to_pause = NodePath("..")
 
 [connection signal="animation_finished" from="SpriteController/SpriteNormal" to="." method="_on_animation_finished"]

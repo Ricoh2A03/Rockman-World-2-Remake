@@ -39,7 +39,7 @@ func spawn() -> void:
 		obj_instance._player_reference = _player
 		obj_instance.connect("enemy_died", remove_object_from_list)
 		# Add obj_instance as child
-		get_tree().root.add_child(obj_instance)
+		Globals.main.add_child(obj_instance)
 		# Add object to _object_list array
 		_object_list.append(obj_instance)
 		# Assign it's position to spawners' position

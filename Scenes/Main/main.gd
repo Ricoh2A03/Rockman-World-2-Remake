@@ -21,6 +21,8 @@ var _is_scene_transition: bool = false
 @onready var fade_color: ColorRect = $SceneTransition/FadeColor
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
 
+@onready var debug_menu: CanvasLayer = $DebugMenu
+
 
 #region Initialization routine
 func _ready() -> void:
@@ -69,8 +71,12 @@ func unpauseGame(groups: Array[StringName]) -> void:
 func _input(event):
 	if event.is_action_pressed("toggle_fullscreen"):
 		toggle_fullscreen()
-	if event.is_action_pressed("debug_screenshot"):
-		_debug_take_screenshot()
+
+	if event.is_action_pressed("debug_menu"):
+		if debug_menu.visible:
+			debug_menu.hide()
+		else:
+			debug_menu.show()
 #endregion
 
 

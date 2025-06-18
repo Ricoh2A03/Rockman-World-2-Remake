@@ -8,3 +8,4 @@ func _on_area_entered(area):
 func _on_area_exited(_area):
 	if get_parent() is Player:
 		get_parent()._on_ladder = false
+		get_parent()._current_ladder = null

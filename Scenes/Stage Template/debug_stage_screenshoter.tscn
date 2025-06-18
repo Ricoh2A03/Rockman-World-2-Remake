@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp8cmh6i2wwg7"]
+
+[ext_resource type="Script" uid="uid://c3css4mrchywp" path="res://Scenes/Stage Template/debug_stage_screenshoter.gd" id="1_j77uq"]
+
+[node name="DebugStageScreenshoter" type="CanvasLayer"]
+layer = 128
+script = ExtResource("1_j77uq")
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(192, 112)
+enabled = false
+
+[node name="ScreenshotButton" type="Button" parent="."]
+offset_left = 284.0
+offset_top = 9.0
+offset_right = 367.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 9
+text = "Screenshot stage"
+
+[connection signal="button_down" from="ScreenshotButton" to="." method="_on_screenshot_button_down"]
