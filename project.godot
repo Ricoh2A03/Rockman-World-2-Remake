@@ -46,6 +46,7 @@ gdscript/warnings/unused_parameter=0
 
 window/size/viewport_width=384
 window/size/viewport_height=224
+window/size/resizable=false
 window/size/window_width_override=1536
 window/size/window_height_override=896
 window/stretch/mode="viewport"

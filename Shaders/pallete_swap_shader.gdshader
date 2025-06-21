@@ -8,6 +8,6 @@ uniform int palette_row = 0;
 
 void fragment() {
 	for (int i = 0; i < color_count; i++){
-		
+
 	}
 }
