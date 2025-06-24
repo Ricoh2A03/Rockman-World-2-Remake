@@ -347,9 +347,6 @@ animations = [{
 }, {
 "duration": 0.5,
 "texture": SubResource("AtlasTexture_fi72h")
-}, {
-"duration": 25.0,
-"texture": SubResource("AtlasTexture_w2kwq")
 }],
 "loop": true,
 "name": &"idle",
