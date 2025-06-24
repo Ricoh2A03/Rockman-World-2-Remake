@@ -52,7 +52,9 @@ func _process(_delta: float) -> void:
 
 	if mega_man and _turned_on:
 		label.text = \"State: \" + var_to_str(mega_man._current_state) + \"\\n\" \\
-		+ \"Slide Tmr: \" + var_to_str(mega_man.slide_timer.time_left)
+		+ \"SldTmr: \" + var_to_str(mega_man.slide_timer.time_left) + \"\\n\" \\
+		+ \"ScrX: \" +var_to_str(mega_man.get_global_transform_with_canvas().get_origin().x) + \"\\n\" \\
+		+ \"ScrY: \" +var_to_str(mega_man.get_global_transform_with_canvas().get_origin().y)
 "
 
 [node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "weapon_ui", "snd_jump", "snd_land", "snd_slide", "snd_damage", "snd_teleport_in", "snd_teleport_out", "snd_death") groups=["Player"]]
