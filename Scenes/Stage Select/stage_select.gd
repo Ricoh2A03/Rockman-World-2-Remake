@@ -57,27 +57,27 @@ func _process(_delta: float) -> void:
 	selection = cur_Ypos * 3 + cur_Xpos
 
 	if can_select:
-		if Input.is_action_just_pressed("left"):
+		if Input.is_action_just_pressed("LEFT"):
 			if cur_Xpos != 0: cur_Xpos -= 1
 			else: cur_Xpos = X_TABLE.size() - 1
 			%CursorSFX.play()
 
-		if Input.is_action_just_pressed("right"):
+		if Input.is_action_just_pressed("RIGHT"):
 			if cur_Xpos != X_TABLE.size() - 1: cur_Xpos += 1
 			else: cur_Xpos = 0
 			%CursorSFX.play()
 
-		if Input.is_action_just_pressed("up"):
+		if Input.is_action_just_pressed("UP"):
 			if cur_Ypos != 0: cur_Ypos -= 1
 			else: cur_Ypos = Y_TABLE.size() - 1
 			%CursorSFX.play()
 
-		if Input.is_action_just_pressed("down"):
+		if Input.is_action_just_pressed("DOWN"):
 			if cur_Ypos != Y_TABLE.size() - 1: cur_Ypos += 1
 			else: cur_Ypos = 0
 			%CursorSFX.play()
 
-		if Input.is_action_just_pressed("weapon_menu") and !Globals.main.get_scene_transition_state():
+		if Input.is_action_just_pressed("START") and !Globals.main.get_scene_transition_state():
 			if scene_transitor.scenes[selection]:
 				can_select = false
 				%Cursor.visible = false
