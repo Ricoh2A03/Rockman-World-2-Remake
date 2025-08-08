@@ -284,6 +284,10 @@ func _process(delta) -> void:
 
 				var climb_vector = Input.get_axis("UP", "DOWN")
 
+				if !_on_ladder:
+					set_player_state(STATES.AIR)
+					sprite_controller.set_speed_scale(1.0)
+
 				global_position.x = _current_ladder.global_position.x
 
 				if climb_vector != 0 and !_is_shooting:
@@ -313,10 +317,6 @@ func _process(delta) -> void:
 				### Air if jump off ladder ###
 				if Input.is_action_just_pressed("B") and velocity.y == 0:
 					velocity.y = 0
-					set_player_state(STATES.AIR)
-					sprite_controller.set_speed_scale(1.0)
-
-				if !_on_ladder:
 					set_player_state(STATES.AIR)
 					sprite_controller.set_speed_scale(1.0)
 

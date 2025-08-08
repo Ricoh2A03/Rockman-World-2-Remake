@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://xmo08katsae5"]
+[gd_scene load_steps=6 format=3 uid="uid://xmo08katsae5"]
 
 [ext_resource type="PackedScene" uid="uid://b64ts823vknoo" path="res://Objects/Components/Scene Transitor/scene_transitor.tscn" id="1_70m67"]
 [ext_resource type="PackedScene" uid="uid://dvbqo5o3b64ux" path="res://Shared/Color Label/color_label.tscn" id="3_lplij"]
 [ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="4_7g67i"]
+[ext_resource type="Theme" uid="uid://dcjmac6ihfnj4" path="res://Themes/theme_text0.tres" id="4_fyr7w"]
 
 [sub_resource type="GDScript" id="GDScript_m3fxx"]
 script/source = "extends Scene
@@ -121,3 +122,10 @@ offset_top = 108.0
 offset_right = 276.0
 offset_bottom = 116.0
 horizontal_alignment = 2
+
+[node name="Label" type="Label" parent="."]
+offset_top = 232.0
+offset_right = 117.0
+offset_bottom = 240.0
+theme = ExtResource("4_fyr7w")
+text = "BACK TO TITLE"

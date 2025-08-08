@@ -54,62 +54,62 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("StageIconsContainer/Row1:position")
+tracks/0/path = NodePath("StageIconsContainer/BossPedestal:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(128, 40)]
+"values": [Vector2(-152, 112)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("StageIconsContainer/Row2:position")
+tracks/1/path = NodePath("BGContainer/BGTiles:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(128, 112)]
+"update": 1,
+"values": [true]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("StageIconsContainer/Row3:position")
+tracks/2/path = NodePath("StageIconsContainer/Row1:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(128, 184)]
+"values": [Vector2(192, 40)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("StageIconsContainer/BossPedestal:position")
+tracks/3/path = NodePath("StageIconsContainer/Row2:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-152, 112)]
+"values": [Vector2(192, 112)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("BGContainer/BGTiles:visible")
+tracks/4/path = NodePath("StageIconsContainer/Row3:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"update": 0,
+"values": [Vector2(192, 184)]
 }
 
 [sub_resource type="Animation" id="Animation_w2ct4"]
@@ -119,62 +119,62 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("StageIconsContainer/Row1:position")
+tracks/0/path = NodePath("StageIconsContainer/BossPedestal:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(128, 40), Vector2(-128, 40)]
+"values": [Vector2(-152, 112), Vector2(256, 112)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("StageIconsContainer/Row2:position")
-tracks/1/interp = 2
+tracks/1/path = NodePath("BGContainer/BGTiles:visible")
+tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.8),
+"times": PackedFloat32Array(0, 0.9),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(128, 112), Vector2(384, 112)]
+"update": 1,
+"values": [true, false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("StageIconsContainer/Row3:position")
+tracks/2/path = NodePath("StageIconsContainer/Row1:position")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(128, 184), Vector2(-128, 184)]
+"values": [Vector2(192, 40), Vector2(-256, 40)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("StageIconsContainer/BossPedestal:position")
+tracks/3/path = NodePath("StageIconsContainer/Row2:position")
 tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-152, 112), Vector2(128, 112)]
+"values": [Vector2(192, 112), Vector2(640, 112)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("BGContainer/BGTiles:visible")
-tracks/4/interp = 1
+tracks/4/path = NodePath("StageIconsContainer/Row3:position")
+tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.9),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
+"update": 0,
+"values": [Vector2(192, 184), Vector2(-256, 184)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xbuua"]
@@ -191,12 +191,14 @@ play_music_at_start = true
 scene_transitor = NodePath("SceneTransitor")
 
 [node name="SceneTransitor" parent="." instance=ExtResource("3_3kunf")]
-scenes = Array[String](["", "res://Scenes/Stages/Air Man/air_man_stage.tscn", "", "", "", "uid://u5fg0e8u3v0v", "", "", ""])
+scenes = Array[String](["", "res://Scenes/Stages/Air Man/air_man_stage.tscn", "", "", "", "uid://u5fg0e8u3v0v", "uid://urr3vdt6wvsb", "", ""])
 
 [node name="BGContainer" type="Node" parent="."]
 
 [node name="BGStreaks1" type="TextureRect" parent="BGContainer"]
 z_index = -1
+anchors_preset = -1
+anchor_right = 0.666667
 offset_right = 512.0
 offset_bottom = 256.0
 texture = ExtResource("11_lo8wf")
@@ -205,6 +207,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="BGStreaks2" type="TextureRect" parent="BGContainer"]
 z_index = -1
+anchors_preset = -1
+anchor_right = 0.666667
 offset_right = 512.0
 offset_bottom = 256.0
 texture = ExtResource("7_o2u7y")
@@ -213,6 +217,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="BGStreaks3" type="TextureRect" parent="BGContainer"]
 z_index = -1
+anchors_preset = -1
+anchor_right = 0.666667
 offset_right = 512.0
 offset_bottom = 256.0
 texture = ExtResource("6_7so4t")
@@ -221,19 +227,24 @@ metadata/_edit_use_anchors_ = true
 
 [node name="BGTiles" type="TextureRect" parent="BGContainer"]
 z_index = -1
+anchors_preset = -1
+anchor_right = 0.333333
 offset_right = 256.0
 offset_bottom = 224.0
 texture = ExtResource("9_o2u7y")
+stretch_mode = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="ScreenFlash" type="ColorRect" parent="BGContainer"]
 unique_name_in_owner = true
 visible = false
-offset_right = 256.0
+offset_right = 384.0
 offset_bottom = 224.0
 
 [node name="Black" type="ColorRect" parent="BGContainer"]
 z_index = -10
+anchors_preset = -1
+anchor_right = 0.333333
 offset_right = 256.0
 offset_bottom = 224.0
 color = Color(0, 0, 0, 1)
@@ -242,19 +253,23 @@ metadata/_edit_use_anchors_ = true
 [node name="StageIconsContainer" type="Node" parent="."]
 
 [node name="Row1" type="Sprite2D" parent="StageIconsContainer"]
-position = Vector2(128, 40)
+position = Vector2(192, 40)
 texture = ExtResource("10_7so4t")
 
 [node name="Row2" type="Sprite2D" parent="StageIconsContainer"]
-position = Vector2(128, 112)
+position = Vector2(192, 112)
 texture = ExtResource("11_o2u7y")
 
 [node name="Row3" type="Sprite2D" parent="StageIconsContainer"]
-position = Vector2(128, 184)
+position = Vector2(192, 184)
 texture = ExtResource("12_w2ct4")
 
 [node name="BossPedestal" type="Sprite2D" parent="StageIconsContainer"]
 position = Vector2(-152, 112)
+texture = ExtResource("13_xbuua")
+
+[node name="Pedestal2" type="Sprite2D" parent="StageIconsContainer/BossPedestal"]
+position = Vector2(-256, 0)
 texture = ExtResource("13_xbuua")
 
 [node name="SceneTransitionDelay" type="Timer" parent="."]
@@ -275,7 +290,7 @@ bus = &"SFX"
 [node name="Cursor" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 z_index = 1
-position = Vector2(128, 112)
+position = Vector2(192, 112)
 sprite_frames = SubResource("SpriteFrames_04d56")
 autoplay = "default"
 
@@ -293,9 +308,9 @@ libraries = {
 [node name="BossNameLabel" parent="." instance=ExtResource("19_m0myh")]
 unique_name_in_owner = true
 z_index = 1
-offset_left = 48.0
+offset_left = 88.0
 offset_top = 104.0
-offset_right = 176.0
+offset_right = 216.0
 offset_bottom = 112.0
 metadata/_edit_use_anchors_ = true
 

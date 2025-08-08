@@ -1,14 +1,11 @@
-[gd_scene load_steps=15 format=4 uid="uid://ciqs0sqagcg73"]
+[gd_scene load_steps=12 format=4 uid="uid://ciqs0sqagcg73"]
 
 [ext_resource type="PackedScene" uid="uid://d3dcuxijsdqq" path="res://Scenes/Stage Template/stage.tscn" id="1_5bc5n"]
 [ext_resource type="Texture2D" uid="uid://cp7p3weex6tfs" path="res://Assets/Tilesets/Test/Cyber/cyber_tileset.png" id="2_cv1ti"]
-[ext_resource type="PackedScene" uid="uid://dse2a3b8xg2pb" path="res://Objects/Player/Mega Man/mega_man.tscn" id="2_ym7sp"]
-[ext_resource type="PackedScene" uid="uid://b0ssm2j4fnsaf" path="res://Objects/Level Objects/Camera/camera.tscn" id="3_hvtrl"]
 [ext_resource type="PackedScene" uid="uid://dd3j3gx5a7wkg" path="res://Objects/Level Objects/Room/room.tscn" id="3_p0a6h"]
 [ext_resource type="AudioStream" uid="uid://7vhvokt7qyj" path="res://Assets/Music/PLACEHOLDER/mus_mm7_wily_stage3.wav" id="4_tn604"]
 [ext_resource type="PackedScene" uid="uid://bwt1mrdejuoid" path="res://Objects/Level Objects/Ladder/ladder.tscn" id="6_1afp7"]
 [ext_resource type="PackedScene" uid="uid://lggpunqgabkb" path="res://Objects/Level Objects/Spawner/spawner.tscn" id="6_6rfgj"]
-[ext_resource type="PackedScene" uid="uid://b0difdwv403r0" path="res://Objects/Enemies/MetallFX/neo_metall.tscn" id="7_lbhmk"]
 [ext_resource type="PackedScene" uid="uid://cckmj8632s1ks" path="res://Objects/Level Objects/Checkpoint/checkpoint.tscn" id="10_avvjb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qe2oe"]
@@ -190,11 +187,7 @@ terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.501961, 0.886275, 0.25098, 1)
 sources/0 = SubResource("TileSetAtlasSource_l5gvf")
 
-[node name="CyberTestStage" node_paths=PackedStringArray("start_room", "checkpoints") instance=ExtResource("1_5bc5n")]
-start_room = NodePath("RoomContainer/Room1")
-checkpoints = [NodePath("CheckpointContainer/Checkpoint1"), NodePath("CheckpointContainer/Checkpoint2")]
-player_path = ExtResource("2_ym7sp")
-camera_path = ExtResource("3_hvtrl")
+[node name="CyberTestStage" instance=ExtResource("1_5bc5n")]
 music_to_play = ExtResource("4_tn604")
 play_music_at_start = true
 
@@ -209,7 +202,6 @@ tile_set = SubResource("TileSet_aufer")
 
 [node name="Room1" parent="RoomContainer" index="0" node_paths=PackedStringArray("exit_top", "exit_right", "room_checkpoint") instance=ExtResource("3_p0a6h")]
 offset_right = 768.0
-offset_bottom = 224.0
 room_width_x = 2
 exit_top = NodePath("../Room2")
 exit_right = NodePath("../Room3")
@@ -219,6 +211,7 @@ metadata/_edit_use_anchors_ = true
 [node name="Room2" parent="RoomContainer" index="1" node_paths=PackedStringArray("exit_right", "exit_bottom", "spawners") instance=ExtResource("3_p0a6h")]
 offset_top = -224.0
 offset_right = 768.0
+offset_bottom = 0.0
 room_width_x = 2
 exit_right = NodePath("../Room4")
 exit_bottom = NodePath("../Room1")
@@ -228,7 +221,6 @@ metadata/_edit_use_anchors_ = true
 [node name="Room3" parent="RoomContainer" index="2" node_paths=PackedStringArray("exit_left", "exit_top", "exit_right", "room_checkpoint") instance=ExtResource("3_p0a6h")]
 offset_left = 512.0
 offset_right = 896.0
-offset_bottom = 224.0
 exit_left = NodePath("../Room1")
 exit_top = NodePath("../Room4")
 exit_right = NodePath("../Room6")
@@ -254,7 +246,6 @@ metadata/_edit_use_anchors_ = true
 [node name="Room6" parent="RoomContainer" index="5" node_paths=PackedStringArray("exit_left", "exit_bottom") instance=ExtResource("3_p0a6h")]
 offset_left = 768.0
 offset_right = 1152.0
-offset_bottom = 224.0
 exit_left = NodePath("../Room3")
 exit_bottom = NodePath("../Room7")
 metadata/_edit_use_anchors_ = true
@@ -269,7 +260,6 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Spawner1" parent="SpawnerContainer" index="0" instance=ExtResource("6_6rfgj")]
 position = Vector2(224, -32)
-object_to_spawn = ExtResource("7_lbhmk")
 object_limit = 1
 
 [node name="Ladder1" parent="LadderContainer" index="0" instance=ExtResource("6_1afp7")]
@@ -288,12 +278,10 @@ ladder_size = 14
 position = Vector2(896, 200)
 ladder_size = 15
 
-[node name="Checkpoint1" parent="CheckpointContainer" index="0" node_paths=PackedStringArray("stage_reference", "associated_room") instance=ExtResource("10_avvjb")]
+[node name="Checkpoint1" parent="CheckpointContainer" index="0" node_paths=PackedStringArray("associated_room") instance=ExtResource("10_avvjb")]
 position = Vector2(128, 173)
-stage_reference = NodePath("../..")
 associated_room = NodePath("../../RoomContainer/Room1")
 
-[node name="Checkpoint2" parent="CheckpointContainer" index="1" node_paths=PackedStringArray("stage_reference", "associated_room") instance=ExtResource("10_avvjb")]
+[node name="Checkpoint2" parent="CheckpointContainer" index="1" node_paths=PackedStringArray("associated_room") instance=ExtResource("10_avvjb")]
 position = Vector2(640, 109)
-stage_reference = NodePath("../..")
 associated_room = NodePath("../../RoomContainer/Room3")

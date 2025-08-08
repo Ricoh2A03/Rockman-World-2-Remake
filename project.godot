@@ -50,7 +50,6 @@ window/size/resizable=false
 window/size/window_width_override=1536
 window/size/window_height_override=896
 window/stretch/mode="viewport"
-window/stretch/scale_mode="integer"
 
 [editor_plugins]
 

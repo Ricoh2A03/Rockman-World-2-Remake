@@ -1,0 +1,19 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dcjmac6ihfnj4"]
+
+[ext_resource type="FontFile" uid="uid://cwf0uhm7cxqtv" path="res://Assets/Fonts/ROCK7SFC-MainColorVer.ttf" id="1_xvljq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xvljq"]
+
+[resource]
+default_font_size = 12
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0.352941, 0.352941, 0.388235, 1)
+Label/constants/line_spacing = -8
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 0
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 0
+Label/font_sizes/font_size = 8
+Label/fonts/font = ExtResource("1_xvljq")
+Label/styles/normal = SubResource("StyleBoxEmpty_xvljq")

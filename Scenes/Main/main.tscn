@@ -1,12 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://mjdfaonk3tq2"]
+[gd_scene load_steps=6 format=3 uid="uid://mjdfaonk3tq2"]
 
 [ext_resource type="Script" uid="uid://dwx2ii0tuwmi3" path="res://Scenes/Main/main.gd" id="1_wt6wc"]
+[ext_resource type="Shader" uid="uid://cliv8lmfljr5t" path="res://Shaders/crt_shader.gdshader" id="2_5yls4"]
 [ext_resource type="PackedScene" uid="uid://btqm7mvuic84v" path="res://Scenes/Main/debug_menu.tscn" id="2_qw60k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p6jpk"]
+shader = ExtResource("2_5yls4")
+
+[sub_resource type="QuadMesh" id="QuadMesh_lixft"]
+size = Vector2(384, 224)
+center_offset = Vector3(192, 112, 0)
 
 [node name="Main" type="Node"]
 process_mode = 3
 script = ExtResource("1_wt6wc")
-first_scene = "uid://u5fg0e8u3v0v"
+first_scene = "uid://br5ihmapn44vc"
 
 [node name="SceneTransition" type="CanvasLayer" parent="."]
 layer = 10
@@ -19,6 +27,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="SceneTransition"]
+visible = false
+material = SubResource("ShaderMaterial_p6jpk")
+mesh = SubResource("QuadMesh_lixft")
 
 [node name="DebugMenu" parent="." instance=ExtResource("2_qw60k")]
 visible = false
