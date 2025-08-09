@@ -25,9 +25,21 @@ offset_right = 384.0
 offset_bottom = 224.0
 color = Color(0.490196, 0.627451, 0.803922, 1)
 
-[node name="TextureRect" type="TextureRect" parent="ParallaxBackground1/ParallaxLayer" index="1"]
+[node name="ColorRect2" type="ColorRect" parent="ParallaxBackground1/ParallaxLayer" index="1"]
+offset_top = 896.0
+offset_right = 384.0
+offset_bottom = 1120.0
+color = Color(0.490196, 0.627451, 0.803922, 1)
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxBackground1/ParallaxLayer" index="2"]
 offset_right = 384.0
 offset_bottom = 224.0
+texture = ExtResource("3_yfrxr")
+
+[node name="TextureRect2" type="TextureRect" parent="ParallaxBackground1/ParallaxLayer" index="3"]
+offset_top = 896.0
+offset_right = 384.0
+offset_bottom = 1120.0
 texture = ExtResource("3_yfrxr")
 
 [node name="TileMapMiddle" type="TileMapLayer" parent="." index="2"]
