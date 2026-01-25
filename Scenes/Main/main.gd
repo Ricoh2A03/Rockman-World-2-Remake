@@ -29,8 +29,8 @@ func _ready() -> void:
 	Globals.main = self
 	#Engine.max_fps = 30
 	# Mute everything so I can listen to music while debugging :D
-	#AudioServer.set_bus_volume_linear(0, 0.35)
-	AudioServer.set_bus_volume_linear(0, 0.0)
+	AudioServer.set_bus_volume_linear(0, 0.35)
+	#AudioServer.set_bus_volume_linear(0, 0.0)
 	# Set windowed mode
 	toggle_fullscreen()
 	# Check if there's starting scene and instantiate it
@@ -85,7 +85,7 @@ func _input(event):
 func get_scene_transition_state() -> bool: return _is_scene_transition
 
 
-## Initiaizes a scene transition to a specified file.[br]
+## Initializes a scene transition to a specified file.[br]
 ## Parameter [param duration] determines the speed of the transition.[br]
 ## If [param fade_in] is [code]true[/code], if transition should start with the fade in effect.
 func goto_scene(duration: float, scene_path: String = "", fade_in: bool = false, music_fade_out: bool = true) -> void:

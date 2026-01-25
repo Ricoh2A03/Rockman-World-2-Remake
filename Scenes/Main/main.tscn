@@ -14,7 +14,7 @@ center_offset = Vector3(192, 112, 0)
 [node name="Main" type="Node"]
 process_mode = 3
 script = ExtResource("1_wt6wc")
-first_scene = "uid://u5fg0e8u3v0v"
+first_scene = "uid://br5ihmapn44vc"
 
 [node name="SceneTransition" type="CanvasLayer" parent="."]
 layer = 10
