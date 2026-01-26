@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=46 format=3 uid="uid://br3u5goxp8nie"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://br3u5goxp8nie"]
 
 [ext_resource type="Texture2D" uid="uid://cpkt4pnj2rbhv" path="res://Assets/Playable Characters/Megaman/Sprites/mm_sprites_sheet.png" id="1_dhlf1"]
 

@@ -29,8 +29,8 @@ func _ready() -> void:
 	Globals.main = self
 	#Engine.max_fps = 30
 	# Mute everything so I can listen to music while debugging :D
-	AudioServer.set_bus_volume_linear(0, 0.35)
-	#AudioServer.set_bus_volume_linear(0, 0.0)
+	#AudioServer.set_bus_volume_linear(0, 0.35)
+	AudioServer.set_bus_volume_linear(0, 0.0)
 	# Set windowed mode
 	toggle_fullscreen()
 	# Check if there's starting scene and instantiate it
@@ -69,10 +69,10 @@ func unpauseGame(groups: Array[StringName]) -> void:
 
 #region Input handler
 func _input(event):
-	if event.is_action_pressed("toggle_fullscreen"):
+	if event.is_action_pressed("FULLSCREEN"):
 		toggle_fullscreen()
 
-	if event.is_action_pressed("debug_menu"):
+	if event.is_action_pressed("DEBUG_MENU"):
 		if debug_menu.visible:
 			debug_menu.hide()
 		else:

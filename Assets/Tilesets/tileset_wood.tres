@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dv68qqgicsj17"]
+[gd_resource type="TileSet" format=3 uid="uid://dv68qqgicsj17"]
 
 [ext_resource type="Texture2D" uid="uid://bnsx013ikgrb3" path="res://Assets/Tilesets/wood_man_tileset.png" id="1_dyi2n"]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dse2a3b8xg2pb"]
+[gd_scene format=3 uid="uid://dse2a3b8xg2pb"]
 
 [ext_resource type="Script" uid="uid://boj3i7rith8f8" path="res://Objects/Player/Mega Man/mega_man.gd" id="1_7awde"]
 [ext_resource type="Resource" uid="uid://c18kq1fivowwj" path="res://Objects/Player/Stat Resource/mega_man_stats.tres" id="2_c1ucl"]
@@ -57,7 +57,7 @@ func _process(_delta: float) -> void:
 		+ \"ScrY: \" +var_to_str(mega_man.get_global_transform_with_canvas().get_origin().y)
 "
 
-[node name="MegaMan" type="CharacterBody2D" node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "weapon_ui", "snd_jump", "snd_land", "snd_slide", "snd_damage", "snd_teleport_in", "snd_teleport_out", "snd_death") groups=["Player"]]
+[node name="MegaMan" type="CharacterBody2D" unique_id=2022871797 node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "weapon_ui", "snd_jump", "snd_land", "snd_slide", "snd_damage", "snd_teleport_in", "snd_teleport_out", "snd_death") groups=["Player"]]
 collision_layer = 4
 slide_on_ceiling = false
 platform_floor_layers = 0
@@ -79,97 +79,97 @@ snd_teleport_in = NodePath("Sounds/snd_teleport_in")
 snd_teleport_out = NodePath("Sounds/snd_teleport_out")
 snd_death = NodePath("Sounds/snd_death")
 
-[node name="SpriteController" parent="." node_paths=PackedStringArray("sprite_normal", "sprite_shoot") instance=ExtResource("6_7i60c")]
+[node name="SpriteController" parent="." unique_id=1565569353 node_paths=PackedStringArray("sprite_normal", "sprite_shoot") instance=ExtResource("6_7i60c")]
 sprite_normal = NodePath("SpriteNormal")
 sprite_shoot = NodePath("SpriteShoot")
 
-[node name="SpriteNormal" type="AnimatedSprite2D" parent="SpriteController"]
+[node name="SpriteNormal" type="AnimatedSprite2D" parent="SpriteController" unique_id=1097321058]
 sprite_frames = ExtResource("4_mhlwb")
 animation = &"teleport"
 
-[node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController"]
+[node name="SpriteShoot" type="AnimatedSprite2D" parent="SpriteController" unique_id=1119509020]
 visible = false
 sprite_frames = ExtResource("6_ivuyn")
 animation = &"teleport"
 
-[node name="Normal" type="CollisionShape2D" parent="."]
+[node name="Normal" type="CollisionShape2D" parent="." unique_id=755096557]
 shape = SubResource("RectangleShape2D_3pimt")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
-[node name="Slide" type="CollisionShape2D" parent="."]
+[node name="Slide" type="CollisionShape2D" parent="." unique_id=1944336852]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_6gvmi")
 disabled = true
 debug_color = Color(0, 0.647059, 0.203922, 0.396078)
 
-[node name="StepTimer" type="Timer" parent="."]
+[node name="StepTimer" type="Timer" parent="." unique_id=213895825]
 wait_time = 0.1
 one_shot = true
 
-[node name="SlideTimer" type="Timer" parent="."]
+[node name="SlideTimer" type="Timer" parent="." unique_id=853847565]
 wait_time = 0.52
 one_shot = true
 
-[node name="LadderDetector" parent="." instance=ExtResource("11_ricv3")]
+[node name="LadderDetector" parent="." unique_id=198033514 instance=ExtResource("11_ricv3")]
 visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LadderDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LadderDetector" unique_id=1506255410]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_qtxg6")
 debug_color = Color(3.22476e-06, 0.645431, 0.260216, 0.42)
 
-[node name="CeilingDetector" parent="." instance=ExtResource("9_ex5gi")]
+[node name="CeilingDetector" parent="." unique_id=2120016676 instance=ExtResource("9_ex5gi")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CeilingDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CeilingDetector" unique_id=63028968]
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_ffay6")
 
-[node name="Sounds" type="Node2D" parent="."]
+[node name="Sounds" type="Node2D" parent="." unique_id=2138279703]
 process_mode = 3
 
-[node name="snd_jump" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="snd_jump" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1391829450]
 stream = ExtResource("7_i8ann")
 panning_strength = 2.0
 bus = &"SFX"
 
-[node name="snd_land" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="snd_land" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1890877244]
 stream = ExtResource("18_2laaq")
 panning_strength = 2.0
 bus = &"SFX"
 
-[node name="snd_slide" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="snd_slide" type="AudioStreamPlayer2D" parent="Sounds" unique_id=385929185]
 stream = ExtResource("9_e3ryg")
 panning_strength = 2.0
 bus = &"SFX"
 
-[node name="snd_damage" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="snd_damage" type="AudioStreamPlayer2D" parent="Sounds" unique_id=953073324]
 stream = ExtResource("12_ivuyn")
 
-[node name="snd_teleport_in" type="AudioStreamPlayer" parent="Sounds"]
+[node name="snd_teleport_in" type="AudioStreamPlayer" parent="Sounds" unique_id=1721959533]
 stream = ExtResource("19_ggfsd")
 volume_db = -2.0
 bus = &"SFX"
 
-[node name="snd_teleport_out" type="AudioStreamPlayer" parent="Sounds"]
+[node name="snd_teleport_out" type="AudioStreamPlayer" parent="Sounds" unique_id=149465149]
 stream = ExtResource("20_pksg3")
 volume_db = -4.0
 bus = &"SFX"
 
-[node name="snd_death" type="AudioStreamPlayer" parent="Sounds"]
+[node name="snd_death" type="AudioStreamPlayer" parent="Sounds" unique_id=1413696588]
 stream = ExtResource("14_5xry6")
 volume_db = -2.0
 bus = &"SFX"
 
-[node name="UI" parent="." instance=ExtResource("17_08btc")]
+[node name="UI" parent="." unique_id=336752904 instance=ExtResource("17_08btc")]
 
-[node name="VariableWeaponSystem" parent="." node_paths=PackedStringArray("player") instance=ExtResource("16_0h5ps")]
+[node name="VariableWeaponSystem" parent="." unique_id=435632650 node_paths=PackedStringArray("player") instance=ExtResource("16_0h5ps")]
 player = NodePath("..")
 current_item = ExtResource("17_5ls8o")
 
-[node name="Debug" type="Node2D" parent="."]
+[node name="Debug" type="Node2D" parent="." unique_id=370335408]
 script = SubResource("GDScript_a3voq")
 
-[node name="Label" type="Label" parent="Debug"]
+[node name="Label" type="Label" parent="Debug" unique_id=1359187298]
 visible = false
 offset_left = -32.0
 offset_top = -64.0
@@ -181,7 +181,7 @@ text = "test"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="PauseComponent" parent="." node_paths=PackedStringArray("_node_to_pause") groups=["Player"] instance=ExtResource("20_ivuyn")]
+[node name="PauseComponent" parent="." unique_id=2005721384 node_paths=PackedStringArray("_node_to_pause") groups=["Player"] instance=ExtResource("20_ivuyn")]
 _node_to_pause = NodePath("..")
 
 [connection signal="animation_finished" from="SpriteController/SpriteNormal" to="." method="_on_animation_finished"]
