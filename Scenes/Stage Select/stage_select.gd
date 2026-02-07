@@ -31,8 +31,9 @@ const BOSS_NAMES_TABLE = [
 const STAGES = 8
 
 const GRID_WIDTH = 3
-const CURSOR_SPEED = 0.5
+const CURSOR_SPEED = 20
 #endregion
+
 
 var _cur_Xpos: int = 1
 var _cur_Ypos: int = 1
@@ -44,13 +45,15 @@ var _animate_streaks: bool = false
 
 @export var mus_stage_start: AudioStream
 
+
 #region Initialization routine
 func _ready() -> void:
 	super._ready()
 #endregion
 
+
 #region Update routine
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 
 	# 2D into 1D
 	# index = j * WIDTH + i
@@ -89,16 +92,21 @@ func _process(_delta: float) -> void:
 		pass
 
 	if _animate_streaks:
-		$BGContainer/BGStreaks1.position.x -= 8
-		if $BGContainer/BGStreaks1.position.x == -256: $BGContainer/BGStreaks1.position.x = 0
-		$BGContainer/BGStreaks2.position.x -= 4
-		if $BGContainer/BGStreaks2.position.x == -256: $BGContainer/BGStreaks2.position.x = 0
-		$BGContainer/BGStreaks3.position.x -= 1
-		if $BGContainer/BGStreaks3.position.x == -256: $BGContainer/BGStreaks3.position.x = 0
+		_animate_bg_streaks()
 
-	%Cursor.global_position.x = lerpf($"%Cursor".global_position.x, X_TABLE[_cur_Xpos], CURSOR_SPEED)
-	%Cursor.global_position.y = lerpf($"%Cursor".global_position.y, Y_TABLE[_cur_Ypos], CURSOR_SPEED)
+	%Cursor.global_position.x = lerpf($"%Cursor".global_position.x, X_TABLE[_cur_Xpos], CURSOR_SPEED * delta)
+	%Cursor.global_position.y = lerpf($"%Cursor".global_position.y, Y_TABLE[_cur_Ypos], CURSOR_SPEED * delta)
 #endregion
+
+
+func _animate_bg_streaks() -> void:
+	$BGContainer/BGStreaks1.position.x -= 8
+	if $BGContainer/BGStreaks1.position.x == -256: $BGContainer/BGStreaks1.position.x = 0
+	$BGContainer/BGStreaks2.position.x -= 4
+	if $BGContainer/BGStreaks2.position.x == -256: $BGContainer/BGStreaks2.position.x = 0
+	$BGContainer/BGStreaks3.position.x -= 1
+	if $BGContainer/BGStreaks3.position.x == -256: $BGContainer/BGStreaks3.position.x = 0
+
 
 #region Signals
 func _on_selected_sfx_finished() -> void:

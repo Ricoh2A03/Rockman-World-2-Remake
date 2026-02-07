@@ -12,6 +12,11 @@ class_name Stage extends Scene
 @export var camera_scene_path: String
 
 
+@export_category("Stage enemies")
+## List of enemies which are loaded with this stage.
+@export var enemy_list: Array[String]
+
+
 ## Reference to the [class Player] object.
 var player_ref: Player = null
 var camera_ref: StageCamera = null

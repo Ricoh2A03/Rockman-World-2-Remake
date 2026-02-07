@@ -7,7 +7,9 @@ class_name Spawner extends Node2D
 ## Delay between each spawn() call in seconds. 0 means it will spawn immediately.
 @export var spawn_delay: float = 0.0
 
+
 var _player: Player
+
 
 @onready var visibility_notifier = $VisibilityNotifier
 @onready var spawn_delay_timer = $SpawnDelayTimer

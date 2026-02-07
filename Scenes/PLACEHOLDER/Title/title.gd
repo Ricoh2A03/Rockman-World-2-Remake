@@ -3,9 +3,10 @@ extends Scene
 const Y_TABLE = [144, 166]
 const CURSOR_SPEED = 0.5
 
-var cur_Ypos: int = 0
 
+var cur_Ypos: int = 0
 var _can_select: bool = true
+
 
 func _input(event):
 	if event.is_action_pressed("START"):
@@ -23,5 +24,6 @@ func _input(event):
 		else: cur_Ypos = 0
 		%CursorSFX.play()
 
-func _process(delta: float) -> void:
+
+func _process(_delta: float) -> void:
 	%Cursor.position.y = lerpf($"%Cursor".position.y, Y_TABLE[cur_Ypos], 0.5)

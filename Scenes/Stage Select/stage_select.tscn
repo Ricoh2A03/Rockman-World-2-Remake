@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://d0w3aeoj18s8f"]
+[gd_scene format=3 uid="uid://d0w3aeoj18s8f"]
 
 [ext_resource type="Script" uid="uid://bs6i8rta126bn" path="res://Scenes/Stage Select/stage_select.gd" id="1_dhu47"]
 [ext_resource type="AudioStream" uid="uid://canvp6b3nve6u" path="res://Assets/Music/Rushjet1/StageSelected.ogg" id="2_34vyr"]
@@ -183,19 +183,19 @@ _data = {
 &"transition_start": SubResource("Animation_w2ct4")
 }
 
-[node name="StageSelect" type="Node2D" node_paths=PackedStringArray("scene_transitor")]
+[node name="StageSelect" type="Node2D" unique_id=89015420 node_paths=PackedStringArray("scene_transitor")]
 script = ExtResource("1_dhu47")
 mus_stage_start = ExtResource("2_34vyr")
 music_to_play = ExtResource("2_732bc")
 play_music_at_start = true
 scene_transitor = NodePath("SceneTransitor")
 
-[node name="SceneTransitor" parent="." instance=ExtResource("3_3kunf")]
+[node name="SceneTransitor" parent="." unique_id=1325469243 instance=ExtResource("3_3kunf")]
 scenes = Array[String](["", "res://Scenes/Stages/Air Man/air_man_stage.tscn", "", "", "", "uid://u5fg0e8u3v0v", "uid://urr3vdt6wvsb", "", ""])
 
-[node name="BGContainer" type="Node" parent="."]
+[node name="BGContainer" type="Node" parent="." unique_id=81577062]
 
-[node name="BGStreaks1" type="TextureRect" parent="BGContainer"]
+[node name="BGStreaks1" type="TextureRect" parent="BGContainer" unique_id=1065625902]
 z_index = -1
 anchors_preset = -1
 anchor_right = 0.666667
@@ -205,7 +205,7 @@ texture = ExtResource("11_lo8wf")
 stretch_mode = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="BGStreaks2" type="TextureRect" parent="BGContainer"]
+[node name="BGStreaks2" type="TextureRect" parent="BGContainer" unique_id=1793461489]
 z_index = -1
 anchors_preset = -1
 anchor_right = 0.666667
@@ -215,7 +215,7 @@ texture = ExtResource("7_o2u7y")
 stretch_mode = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="BGStreaks3" type="TextureRect" parent="BGContainer"]
+[node name="BGStreaks3" type="TextureRect" parent="BGContainer" unique_id=1436781814]
 z_index = -1
 anchors_preset = -1
 anchor_right = 0.666667
@@ -225,7 +225,7 @@ texture = ExtResource("6_7so4t")
 stretch_mode = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="BGTiles" type="TextureRect" parent="BGContainer"]
+[node name="BGTiles" type="TextureRect" parent="BGContainer" unique_id=78740750]
 z_index = -1
 anchors_preset = -1
 anchor_right = 0.333333
@@ -235,13 +235,13 @@ texture = ExtResource("9_o2u7y")
 stretch_mode = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="ScreenFlash" type="ColorRect" parent="BGContainer"]
+[node name="ScreenFlash" type="ColorRect" parent="BGContainer" unique_id=1750599865]
 unique_name_in_owner = true
 visible = false
 offset_right = 384.0
 offset_bottom = 224.0
 
-[node name="Black" type="ColorRect" parent="BGContainer"]
+[node name="Black" type="ColorRect" parent="BGContainer" unique_id=1458498009]
 z_index = -10
 anchors_preset = -1
 anchor_right = 0.333333
@@ -250,62 +250,60 @@ offset_bottom = 224.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="StageIconsContainer" type="Node" parent="."]
+[node name="StageIconsContainer" type="Node" parent="." unique_id=158565316]
 
-[node name="Row1" type="Sprite2D" parent="StageIconsContainer"]
+[node name="Row1" type="Sprite2D" parent="StageIconsContainer" unique_id=1724206468]
 position = Vector2(192, 40)
 texture = ExtResource("10_7so4t")
 
-[node name="Row2" type="Sprite2D" parent="StageIconsContainer"]
+[node name="Row2" type="Sprite2D" parent="StageIconsContainer" unique_id=987724972]
 position = Vector2(192, 112)
 texture = ExtResource("11_o2u7y")
 
-[node name="Row3" type="Sprite2D" parent="StageIconsContainer"]
+[node name="Row3" type="Sprite2D" parent="StageIconsContainer" unique_id=1713933343]
 position = Vector2(192, 184)
 texture = ExtResource("12_w2ct4")
 
-[node name="BossPedestal" type="Sprite2D" parent="StageIconsContainer"]
+[node name="BossPedestal" type="Sprite2D" parent="StageIconsContainer" unique_id=1053883007]
 position = Vector2(-152, 112)
 texture = ExtResource("13_xbuua")
 
-[node name="Pedestal2" type="Sprite2D" parent="StageIconsContainer/BossPedestal"]
+[node name="Pedestal2" type="Sprite2D" parent="StageIconsContainer/BossPedestal" unique_id=1098771308]
 position = Vector2(-256, 0)
 texture = ExtResource("13_xbuua")
 
-[node name="SceneTransitionDelay" type="Timer" parent="."]
+[node name="SceneTransitionDelay" type="Timer" parent="." unique_id=45316117]
 unique_name_in_owner = true
 wait_time = 4.5
 one_shot = true
 
-[node name="CursorSFX" type="AudioStreamPlayer" parent="."]
+[node name="CursorSFX" type="AudioStreamPlayer" parent="." unique_id=1225241141]
 unique_name_in_owner = true
 stream = ExtResource("3_qiqsc")
 bus = &"SFX"
 
-[node name="StageSelectedSFX" type="AudioStreamPlayer" parent="."]
+[node name="StageSelectedSFX" type="AudioStreamPlayer" parent="." unique_id=1504332016]
 unique_name_in_owner = true
 stream = ExtResource("7_l0qwi")
 bus = &"SFX"
 
-[node name="Cursor" type="AnimatedSprite2D" parent="."]
+[node name="Cursor" type="AnimatedSprite2D" parent="." unique_id=500666007]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(192, 112)
 sprite_frames = SubResource("SpriteFrames_04d56")
 autoplay = "default"
 
-[node name="BossIntro" type="Sprite2D" parent="."]
+[node name="BossIntro" type="Sprite2D" parent="." unique_id=138123623]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(-64, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2037516749]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_xbuua")
-}
+libraries/ = SubResource("AnimationLibrary_xbuua")
 
-[node name="BossNameLabel" parent="." instance=ExtResource("19_m0myh")]
+[node name="BossNameLabel" parent="." unique_id=1162804278 instance=ExtResource("19_m0myh")]
 unique_name_in_owner = true
 z_index = 1
 offset_left = 88.0

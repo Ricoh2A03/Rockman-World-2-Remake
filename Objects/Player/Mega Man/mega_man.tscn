@@ -36,21 +36,24 @@ size = Vector2(18, 34)
 [sub_resource type="GDScript" id="GDScript_a3voq"]
 script/source = "extends Node2D
 
-@onready var mega_man: Player = $\"..\"
+@export var mega_man: Player
+
 @onready var label: Label = $Label
 
-var _turned_on: bool = false
+
+#var _turned_on: bool = false
+
 
 func _process(_delta: float) -> void:
 
-	if Input.is_action_just_pressed(\"debug_show\"):
-		if _turned_on:
-			_turned_on = false
-		else:
-			_turned_on = true
-		label.visible = _turned_on
+	#if Input.is_action_just_pressed(\"debug_show\"):
+		#if _turned_on:
+			#_turned_on = false
+		#else:
+			#_turned_on = true
+		#label.visible = _turned_on
 
-	if mega_man and _turned_on:
+	if mega_man:
 		label.text = \"State: \" + var_to_str(mega_man._current_state) + \"\\n\" \\
 		+ \"SldTmr: \" + var_to_str(mega_man.slide_timer.time_left) + \"\\n\" \\
 		+ \"ScrX: \" +var_to_str(mega_man.get_global_transform_with_canvas().get_origin().x) + \"\\n\" \\
@@ -166,11 +169,11 @@ bus = &"SFX"
 player = NodePath("..")
 current_item = ExtResource("17_5ls8o")
 
-[node name="Debug" type="Node2D" parent="." unique_id=370335408]
+[node name="Debug" type="Node2D" parent="." unique_id=370335408 node_paths=PackedStringArray("mega_man")]
 script = SubResource("GDScript_a3voq")
+mega_man = NodePath("..")
 
 [node name="Label" type="Label" parent="Debug" unique_id=1359187298]
-visible = false
 offset_left = -32.0
 offset_top = -64.0
 offset_right = 32.0

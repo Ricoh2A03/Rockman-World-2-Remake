@@ -13,12 +13,14 @@ var _loaded_projectile: PackedScene
 func _ready() -> void:
 	set_current_item(current_item)
 
+
 # TODO: separate more from player
 func spawn_projectile() -> void:
+	# skip if Player is invalid or if max projectiles
 	if !player: return
-
 	if _on_screen_count.size() == current_item.max_on_screen: return
 
+	# TODO: change to an internal var
 	player.set_shoot_state(true)
 
 	# Set animation cooldown to that of a current weapon.
@@ -50,6 +52,7 @@ func spawn_projectile() -> void:
 	sfx_player.stream = current_item.sound # load sound
 	sfx_player.play() # play sound
 
+
 ## Loads passed [param InventoryItem] and caches it in a variable.
 func set_current_item(item: InventoryItem) -> void:
 	_loaded_projectile = load(item.scene_to_spawn)
@@ -62,6 +65,7 @@ func projectile_despawned():
 
 func pause_cooldown_timer(pause: bool):
 	animation_cooldown_timer.paused = pause
+
 
 # TODO: separate more from player
 func _on_animation_cooldown() -> void:

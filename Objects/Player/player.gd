@@ -112,10 +112,10 @@ func _ready() -> void:
 
 #region Input handler
 func _input(event):
-	if event.is_action_pressed("debug_damage_player"):
-		_current_state = STATES.HURT
-		snd_damage.play()
-		sprite_controller.play_animation("hurt")
+#	if event.is_action_pressed("debug_damage_player"):
+#		_current_state = STATES.HURT
+#		snd_damage.play()
+#		sprite_controller.play_animation("hurt")
 
 	if _can_open_inventory and event.is_action_pressed("START"):
 		weapon_ui.open_weapon_menu()
@@ -244,8 +244,8 @@ func _process(delta) -> void:
 			STATES.SLIDE:
 
 				if !_is_under_ceiling and ((velocity.x > 0 and Input.is_action_pressed("LEFT")) or \
-								(velocity.x < 0 and Input.is_action_pressed("RIGHT"))):
-					slide_timer.stop() # TODO ???
+										   (velocity.x < 0 and Input.is_action_pressed("RIGHT"))):
+					#slide_timer.stop() # TODO ???
 					set_player_state(STATES.GROUND)
 
 				### Slide --> Air ###
@@ -335,14 +335,15 @@ func _process(delta) -> void:
 	_check_room_transition()
 	_stop_at_room_limits()
 
-	if Input.is_action_just_pressed("debug_kill_player"): death_proccessing(false)
+	if Input.is_action_just_pressed("DEBUG_KILL_PLAYER"): death_proccessing(false)
 #endregion
+
 
 #region Setters and Getters
 # STATE
 func get_player_state() -> int: return _current_state
 func set_player_state(to_state: int) -> void:
-	STATES # remove this later
+	# STATES # remove this later
 	if to_state == _current_state: return
 	match to_state:
 		0: # Ground
@@ -425,6 +426,7 @@ func set_colliders(can_collide: bool) -> void:
 	self.set_collision_layer_value(3, can_collide)
 	self.set_collision_mask_value(1, can_collide)
 #endregion
+
 
 #region Functions
 
@@ -510,6 +512,7 @@ func _stop_at_room_limits() -> void:
 	if _room_limits == [0, 0, 0, 0]: return
 	# TODO flag maybe??
 	if _current_state != STATES.SCROLL and _current_state != STATES.TELEPORT_IN:
+		# TODO: change magic numbers into constants
 		if global_position.x - 16 < _room_limits[0]:
 			global_position.x = _room_limits[0] + 16
 		elif global_position.x + 16 > _room_limits[2]:
@@ -543,18 +546,18 @@ func _scroll_handler(scroll_direction: int, room: Room) -> void:
 	var tween = get_tree().create_tween()
 	tween.set_parallel(true)
 
-	var tarX: int
-	var tarY: int
+	var tarX: float
+	var tarY: float
 
 	match scroll_direction:
 		0: # left
-			tarX = global_position.x - 64
+			tarX = global_position.x - 64.0
 		1: # up
-			tarY = global_position.y - 20
+			tarY = global_position.y - 20.0
 		2: # right
-			tarX = global_position.x + 64
+			tarX = global_position.x + 64.0
 		3: # down
-			tarY = global_position.y + 20
+			tarY = global_position.y + 20.0
 
 	if _last_state == STATES.AIR and (scroll_direction != 1):
 		sprite_controller.pause_playback(true)

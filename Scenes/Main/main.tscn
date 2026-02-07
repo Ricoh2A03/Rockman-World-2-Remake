@@ -1,25 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://mjdfaonk3tq2"]
+[gd_scene format=3 uid="uid://mjdfaonk3tq2"]
 
 [ext_resource type="Script" uid="uid://dwx2ii0tuwmi3" path="res://Scenes/Main/main.gd" id="1_wt6wc"]
-[ext_resource type="Shader" uid="uid://cliv8lmfljr5t" path="res://Shaders/crt_shader.gdshader" id="2_5yls4"]
 [ext_resource type="PackedScene" uid="uid://btqm7mvuic84v" path="res://Scenes/Main/debug_menu.tscn" id="2_qw60k"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p6jpk"]
-shader = ExtResource("2_5yls4")
-
-[sub_resource type="QuadMesh" id="QuadMesh_lixft"]
-size = Vector2(384, 224)
-center_offset = Vector3(192, 112, 0)
-
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=772249255]
 process_mode = 3
 script = ExtResource("1_wt6wc")
 first_scene = "uid://br5ihmapn44vc"
 
-[node name="SceneTransition" type="CanvasLayer" parent="."]
+[node name="SceneTransition" type="CanvasLayer" parent="." unique_id=777078077]
 layer = 10
 
-[node name="FadeColor" type="ColorRect" parent="SceneTransition"]
+[node name="FadeColor" type="ColorRect" parent="SceneTransition" unique_id=721186983]
 self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,12 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="SceneTransition"]
-visible = false
-material = SubResource("ShaderMaterial_p6jpk")
-mesh = SubResource("QuadMesh_lixft")
-
-[node name="DebugMenu" parent="." instance=ExtResource("2_qw60k")]
+[node name="DebugMenu" parent="." unique_id=1107740326 instance=ExtResource("2_qw60k")]
 visible = false
 
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1043588895]

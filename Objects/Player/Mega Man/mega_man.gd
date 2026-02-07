@@ -6,7 +6,7 @@ func _on_step_timeout():
 
 
 func _on_slide_timeout() -> void:
-	if is_on_floor() and !_is_under_ceiling:
+	if is_on_floor(): #and !_is_under_ceiling:
 		sprite_controller.play_animation("slide_end")
 		velocity.x = 0
 		set_player_state(STATES.GROUND)

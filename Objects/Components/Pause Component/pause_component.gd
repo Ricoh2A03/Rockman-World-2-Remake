@@ -2,6 +2,8 @@ class_name PauseComponent extends Node
 
 
 @export var _node_to_pause: Node
+
+
 var _paused: bool = false
 var _backup_process_mode: int
 

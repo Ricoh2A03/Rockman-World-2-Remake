@@ -11,7 +11,7 @@ enum SCRLDIR {Left, Right, Up, Down}
 ## If true, scrolling will be skipped and the player will die from pit
 @export var death_zone: bool = false
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(_body: Node2D) -> void:
 	if room_to_update and to_room:
 		match room_exit_to_load:
 			SCRLDIR.Left:

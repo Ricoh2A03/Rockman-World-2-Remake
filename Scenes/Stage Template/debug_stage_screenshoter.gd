@@ -2,8 +2,8 @@ extends Node
 
 # CONSTANTS
 const ROOM_WIDTH = 384
-const ROOM_HALF_WIDTH = 384 / 2
-const ROOM_HALF_HEIGHT = 224 / 2
+const ROOM_HALF_WIDTH = 192
+const ROOM_HALF_HEIGHT = 112
 
 
 # @EXPORT VARS

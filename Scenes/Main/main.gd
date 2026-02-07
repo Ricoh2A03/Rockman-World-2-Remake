@@ -80,7 +80,7 @@ func _input(event):
 #endregion
 
 
-#region Scene Transition routine
+#region Scene Transition routines
 ## Returns [code]true[/code] if [member is_scene_transition] is in process.
 func get_scene_transition_state() -> bool: return _is_scene_transition
 
@@ -89,7 +89,7 @@ func get_scene_transition_state() -> bool: return _is_scene_transition
 ## Parameter [param duration] determines the speed of the transition.[br]
 ## If [param fade_in] is [code]true[/code], if transition should start with the fade in effect.
 func goto_scene(duration: float, scene_path: String = "", fade_in: bool = false, music_fade_out: bool = true) -> void:
-	# Get out if transitioning already.
+	# Get out if transition is in progress.
 	if _is_scene_transition: return
 
 	if !fade_in:

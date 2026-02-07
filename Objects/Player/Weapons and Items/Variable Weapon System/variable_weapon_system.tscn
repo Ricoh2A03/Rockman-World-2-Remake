@@ -1,17 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxtcy0orx7i4q"]
+[gd_scene format=3 uid="uid://cxtcy0orx7i4q"]
 
 [ext_resource type="Script" uid="uid://cj8hod2nlsdhu" path="res://Objects/Player/Weapons and Items/Variable Weapon System/variable_weapon_system.gd" id="1_88v6s"]
 
-[node name="VariableWeaponSystem" type="Node2D"]
+[node name="VariableWeaponSystem" type="Node2D" unique_id=1714931489]
 script = ExtResource("1_88v6s")
 metadata/_edit_group_ = true
 
-[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1743942022]
 process_mode = 3
 panning_strength = 1.75
 bus = &"SFX"
 
-[node name="AnimationCooldown" type="Timer" parent="."]
+[node name="AnimationCooldown" type="Timer" parent="." unique_id=450026579]
 one_shot = true
 
 [connection signal="timeout" from="AnimationCooldown" to="." method="_on_animation_cooldown"]

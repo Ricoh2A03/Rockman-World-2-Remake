@@ -4,6 +4,8 @@ class_name StageCamera extends Camera2D
 const SCREEN_WIDTH: int = 384
 const SCREEN_HEIGHT: int = 224
 
+const HALF_SCREEN_WIDTH: int = 192
+
 
 var player_instance: Player
 
@@ -15,7 +17,7 @@ func _ready() -> void:
 	EventBus.stage_event_scroll_start.connect(camera_start_scroll)
 
 
-func _process(delta):
+func _process(_delta):
 	if _follow_target: _look_at_target()
 
 
@@ -29,16 +31,16 @@ func camera_start_scroll(scroll_direction: int, room: Room) -> void:
 	var tween = get_tree().create_tween()
 	tween.set_parallel(true)
 
-	var tarX: int
-	var tarY: int
+	var tarX: float
+	var tarY: float
 
 	match scroll_direction:
 
 		0: # left
 			self.limit_left = limit_left - SCREEN_WIDTH
-			global_position.x = (room.global_position.x + room.size.x) + (SCREEN_WIDTH / 2)
-			global_position.y = room.global_position.y + (SCREEN_WIDTH / 2)
-			tarX = (room.global_position.x + room.size.x) - (SCREEN_WIDTH / 2)
+			global_position.x = (room.global_position.x + room.size.x) + (HALF_SCREEN_WIDTH)
+			global_position.y = room.global_position.y + (HALF_SCREEN_WIDTH)
+			tarX = (room.global_position.x + room.size.x) - (HALF_SCREEN_WIDTH)
 			tarY = self.global_position.y
 
 		1: # up
@@ -50,9 +52,9 @@ func camera_start_scroll(scroll_direction: int, room: Room) -> void:
 
 		2: # right
 			self.limit_right = limit_right + SCREEN_WIDTH
-			global_position.x = room.global_position.x - (SCREEN_WIDTH / 2)
-			global_position.y = room.global_position.y + (SCREEN_WIDTH / 2)
-			tarX = room.global_position.x + (SCREEN_WIDTH / 2)
+			global_position.x = room.global_position.x - (HALF_SCREEN_WIDTH)
+			global_position.y = room.global_position.y + (HALF_SCREEN_WIDTH)
+			tarX = room.global_position.x + (HALF_SCREEN_WIDTH)
 			tarY = self.global_position.y
 
 		3: # down
@@ -82,10 +84,10 @@ func _look_at_target() -> void:
 ## Sets limits.
 func set_limits(room: Room) -> void:
 	if !room: return
-	limit_left = room.global_position.x
-	limit_top = room.global_position.y
-	limit_right = limit_left + room.size.x
-	limit_bottom = limit_top + room.size.y
+	limit_left = round(room.global_position.x)
+	limit_top = round(room.global_position.y)
+	limit_right = round(limit_left + room.size.x)
+	limit_bottom = round(limit_top + room.size.y)
 
 
 ## Sets target which camera would follow.
