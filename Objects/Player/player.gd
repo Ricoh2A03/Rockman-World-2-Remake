@@ -57,9 +57,10 @@ enum STATES{
 @export var snd_jump: AudioStreamPlayer2D
 @export var snd_land: AudioStreamPlayer2D
 @export var snd_slide: AudioStreamPlayer2D
-@export var snd_damage: AudioStreamPlayer2D
+@export var snd_menu_open: AudioStreamPlayer
 @export var snd_teleport_in: AudioStreamPlayer
 @export var snd_teleport_out: AudioStreamPlayer
+@export var snd_damage: AudioStreamPlayer2D
 @export var snd_death: AudioStreamPlayer
 
 @export_group("Physics Toggles")
@@ -80,9 +81,6 @@ var _can_step: bool = true
 var _is_stepping: bool = false
 var _is_under_ceiling: bool = false
 var _was_under_ceiling: bool = false
-
-var _can_shoot: bool = false
-var _is_shooting: bool = false
 
 var _on_ladder: bool = false
 var _on_ladder_top: bool = false
@@ -118,6 +116,7 @@ func _input(event):
 #		sprite_controller.play_animation("hurt")
 
 	if _can_open_inventory and event.is_action_pressed("START"):
+		snd_menu_open.play()
 		weapon_ui.open_weapon_menu()
 #endregion
 
@@ -130,7 +129,7 @@ func _process(delta) -> void:
 
 	if call_move_and_slide: move_and_slide()
 
-	if _can_shoot: _use_weapon()
+	if weapon_system.get_can_shoot(): _use_weapon()
 	if _can_open_inventory: pass
 
 	var move_vector
@@ -290,7 +289,7 @@ func _process(delta) -> void:
 
 				global_position.x = _current_ladder.global_position.x
 
-				if climb_vector != 0 and !_is_shooting:
+				if climb_vector != 0 and !weapon_system.get_shooting_state():
 					if climb_vector < 0:
 						sprite_controller.set_speed_scale(1.0)
 						velocity.y = -(stats.climb_speed)
@@ -320,7 +319,7 @@ func _process(delta) -> void:
 					set_player_state(STATES.AIR)
 					sprite_controller.set_speed_scale(1.0)
 
-				if _is_shooting: flip_sprite()
+				if weapon_system.get_shooting_state(): flip_sprite()
 
 #endregion
 
@@ -349,7 +348,8 @@ func set_player_state(to_state: int) -> void:
 		0: # Ground
 			set_collision_shapes("normal")
 			_can_open_inventory = true
-			_can_shoot = true
+			#_can_shoot = true
+			weapon_system.set_can_shoot(true)
 			apply_gravity = true
 			can_move = true
 			_can_change_direction = true
@@ -357,7 +357,8 @@ func set_player_state(to_state: int) -> void:
 		1: # Air
 			set_collision_shapes("normal")
 			_can_open_inventory = true
-			_can_shoot = true
+			#_can_shoot = true
+			weapon_system.set_can_shoot(true)
 			apply_gravity = true
 			can_move = true
 			_can_change_direction = true
@@ -365,7 +366,8 @@ func set_player_state(to_state: int) -> void:
 		2: # Climb
 			set_collision_shapes("normal")
 			_can_open_inventory = true
-			_can_shoot = true
+			#_can_shoot = true
+			weapon_system.set_can_shoot(true)
 			apply_gravity = false
 			can_move = false
 			_can_change_direction = true
@@ -373,7 +375,8 @@ func set_player_state(to_state: int) -> void:
 		3: # Slide
 			set_collision_shapes("slide")
 			_can_open_inventory = true
-			_can_shoot = false
+			#_can_shoot = false
+			weapon_system.set_can_shoot(false)
 			apply_gravity = false
 			can_move = true
 			_can_change_direction = true
@@ -382,30 +385,33 @@ func set_player_state(to_state: int) -> void:
 		5: # Hurt
 			velocity.x = 0
 			_can_open_inventory = false
-			_can_shoot = false
+			#_can_shoot = false
+			weapon_system.set_can_shoot(false)
 			can_move = false
 			_can_change_direction = false
 		7: # Teleport in
 			set_collision_shapes("normal")
 			velocity.y = 0
 			_can_open_inventory = false
-			_can_shoot = false
+			#_can_shoot = false
+			weapon_system.set_can_shoot(false)
 			apply_gravity = false
 			can_move = false
 			_can_change_direction = false
 		9: # Dead
 			sprite_controller.enable_sprite(false)
 			_can_open_inventory = false
-			_can_shoot = false
+			#_can_shoot = false
+			weapon_system.set_can_shoot(false)
 			apply_gravity = false
 			can_move = false
 			_can_change_direction = false
 
 	_current_state = to_state
 
-# SHOOT
-func get_shoot_state() -> bool: return _is_shooting
-func set_shoot_state(is_shoot: bool) -> void: _is_shooting = is_shoot
+## SHOOT
+#func get_shoot_state() -> bool: return _is_shooting
+#func set_shoot_state(is_shoot: bool) -> void: _is_shooting = is_shoot
 
 # DIRECTION
 func set_direction(dir: int) -> void: _direction = dir
@@ -475,7 +481,8 @@ func death_proccessing(pit_death: bool = false) -> void:
 	if _current_state != STATES.DEAD:
 		_can_open_inventory = false
 		apply_gravity = false
-		_can_shoot = false
+		#_can_shoot = false
+		weapon_system.set_can_shoot(false)
 		can_move = false
 		velocity.x = 0
 		velocity.y = 0
@@ -527,7 +534,7 @@ func _stop_at_room_limits() -> void:
 
 
 #region Event Handlers
-func _scroll_handler(scroll_direction: int, room: Room) -> void:
+func _scroll_handler(scroll_direction: int, _room: Room) -> void:
 	_can_open_inventory = false
 	can_move = false
 	slide_timer.paused = true
@@ -539,8 +546,8 @@ func _scroll_handler(scroll_direction: int, room: Room) -> void:
 	apply_gravity = false
 	_last_state = _current_state
 	#var last_anim = sprite.animation ##
-	var could_shoot = _can_shoot
-	_can_shoot = false
+	#var could_shoot = _can_shoot
+	#_can_shoot = false
 	set_player_state(STATES.SCROLL)
 
 	var tween = get_tree().create_tween()
@@ -583,5 +590,5 @@ func _scroll_handler(scroll_direction: int, room: Room) -> void:
 	weapon_system.pause_cooldown_timer(false)
 
 
-func _scrolling_finished(room: Room) -> void: pass
+func _scrolling_finished(_room: Room) -> void: pass
 #endregion

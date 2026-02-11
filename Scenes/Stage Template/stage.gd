@@ -13,8 +13,11 @@ class_name Stage extends Scene
 
 
 @export_category("Stage enemies")
-## List of enemies which are loaded with this stage.
+## List of enemies which are going to be loaded with this stage.
 @export var enemy_list: Array[String]
+
+## List of enemies that are currently loaded in RAM.
+var _loaded_enemies: Array[PackedScene] = []
 
 
 ## Reference to the [class Player] object.
@@ -44,6 +47,8 @@ func _ready() -> void:
 
 	# Play music
 	super._ready()
+
+	_load_enemies()
 
 	# Set current room and set limits
 	_current_room = _starting_room
@@ -81,6 +86,16 @@ func _process(_delta):
 	#"Right: " + var_to_str(_current_room_limits[2]) + "\n" + \
 	#"Bottom: " + var_to_str(_current_room_limits[3])
 	pass
+#endregion
+
+
+#region Local Functions
+func _load_enemies() -> void:
+	var enemy
+	for i in enemy_list.size():
+		enemy = load(enemy_list[i])
+		_loaded_enemies.append(enemy)
+	print(_loaded_enemies)
 #endregion
 
 

@@ -1,10 +1,13 @@
 class_name Spawner extends Node2D
 
-## Variable name is descriptive enough.
-@export var object_to_spawn: String
+
+@export var stage: Stage
+
+## Damn.
+@export var object_id: int = 0
 ## How many objects can be spawned. 0 means it will spit objects indefinitely.
 @export var object_limit: int = 0
-## Delay between each spawn() call in seconds. 0 means it will spawn immediately.
+## Delay between each [code]spawn()[/code] call in seconds. 0 means it will spawn immediately.
 @export var spawn_delay: float = 0.0
 
 
@@ -32,20 +35,19 @@ func set_active(active: bool) -> void:
 
 
 func spawn() -> void:
-	# Check if spawner is active and if there's an object to spawn
-	if object_to_spawn and _is_active:
-		# Instantiate object(s)
-		var obj_instance = load(object_to_spawn).instantiate()
-		if !_player: _player = get_tree().get_first_node_in_group("Player")
-		# Pass reference to Player to the object
-		obj_instance._player_reference = _player
-		obj_instance.connect("enemy_died", remove_object_from_list)
-		# Add obj_instance as child
-		Globals.main.add_child(obj_instance)
-		# Add object to _object_list array
-		_object_list.append(obj_instance)
-		# Assign it's position to spawners' position
-		obj_instance.global_position = self.global_position
+	if !stage: return
+	# Instantiate object(s)
+	var obj_instance = stage._loaded_enemies[object_id].instantiate()
+	if !_player: _player = get_tree().get_first_node_in_group("Player")
+	# Pass reference to Player to the object
+	obj_instance._player_reference = _player
+	obj_instance.connect("enemy_died", remove_object_from_list)
+	# Add obj_instance as child
+	Globals.main.add_child(obj_instance)
+	# Add object to _object_list array
+	_object_list.append(obj_instance)
+	# Assign it's position to spawners' position
+	obj_instance.global_position = self.global_position
 
 
 func despawn() -> void:

@@ -39,19 +39,23 @@ var screen_height: int = ProjectSettings.get_setting("display/window/size/viewpo
 ## Reference to the checkpoint that will be activated after finishing scrolling.
 @export var room_checkpoint: Checkpoint
 
+
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
 		$Label.text = self.name
 	else:
 		self.visible = false
 
+
 ## Returns checkpoint that's attached to this room.
 func get_checkpoint() -> Checkpoint: return room_checkpoint
+
 
 func _set_room_size() -> void:
 	if Engine.is_editor_hint():
 		size.x = screen_width * room_width_x
 		size.y = screen_height * room_width_y
+
 
 ## Activate all spawners.
 func activate_spawners() -> void:
@@ -60,12 +64,14 @@ func activate_spawners() -> void:
 		# DEBUG: display activated spawner name and related room name
 		print(spawner.name + " in " + self.name + " activated")
 
+
 ## Deactivate all spawners.
 func deactivate_spawners() -> void:
 	for spawner in spawners:
 		spawner.set_active(false)
 		# DEBUG: display deactivated spawner name and related room name
 		print(spawner.name + " in " + self.name + " deactivated")
+
 
 ## Despawn all spawned objects in the room.
 func despawn_objects() -> void: for spawner in spawners: spawner.despawn()

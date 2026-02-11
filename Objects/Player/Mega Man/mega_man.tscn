@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://vxrbq7kyw86f" path="res://Assets/SFX/MegaMan/sfx_mm_damage.wav" id="12_ivuyn"]
 [ext_resource type="AudioStream" uid="uid://bhbsk6fw4coqx" path="res://Assets/SFX/MegaMan/sfx_mm_explosion.wav" id="14_5xry6"]
 [ext_resource type="PackedScene" uid="uid://cxtcy0orx7i4q" path="res://Objects/Player/Weapons and Items/Variable Weapon System/variable_weapon_system.tscn" id="16_0h5ps"]
+[ext_resource type="AudioStream" uid="uid://cnxu3xq3d3mms" path="res://Assets/SFX/Menus/sfx_menu_open.wav" id="16_q66og"]
 [ext_resource type="Resource" uid="uid://dpc0ffw4815vi" path="res://Objects/Player/Weapons and Items/Weapons/Rock Buster/item_rock_buster.tres" id="17_5ls8o"]
 [ext_resource type="PackedScene" uid="uid://b3syn4jy34f3v" path="res://Objects/Player/UI/ui.tscn" id="17_08btc"]
 [ext_resource type="AudioStream" uid="uid://drmdx6slnlar8" path="res://Assets/SFX/MegaMan/sfx_mm_land.wav" id="18_2laaq"]
@@ -60,7 +61,7 @@ func _process(_delta: float) -> void:
 		+ \"ScrY: \" +var_to_str(mega_man.get_global_transform_with_canvas().get_origin().y)
 "
 
-[node name="MegaMan" type="CharacterBody2D" unique_id=2022871797 node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "weapon_ui", "snd_jump", "snd_land", "snd_slide", "snd_damage", "snd_teleport_in", "snd_teleport_out", "snd_death") groups=["Player"]]
+[node name="MegaMan" type="CharacterBody2D" unique_id=2022871797 node_paths=PackedStringArray("sprite_controller", "step_timer", "slide_timer", "collision_normal", "collision_slide", "weapon_system", "weapon_ui", "snd_jump", "snd_land", "snd_slide", "snd_menu_open", "snd_teleport_in", "snd_teleport_out", "snd_damage", "snd_death") groups=["Player"]]
 collision_layer = 4
 slide_on_ceiling = false
 platform_floor_layers = 0
@@ -77,9 +78,10 @@ death_explosion_fx = ExtResource("10_mmksa")
 snd_jump = NodePath("Sounds/snd_jump")
 snd_land = NodePath("Sounds/snd_land")
 snd_slide = NodePath("Sounds/snd_slide")
-snd_damage = NodePath("Sounds/snd_damage")
+snd_menu_open = NodePath("Sounds/snd_weapon_menu")
 snd_teleport_in = NodePath("Sounds/snd_teleport_in")
 snd_teleport_out = NodePath("Sounds/snd_teleport_out")
+snd_damage = NodePath("Sounds/snd_damage")
 snd_death = NodePath("Sounds/snd_death")
 
 [node name="SpriteController" parent="." unique_id=1565569353 node_paths=PackedStringArray("sprite_normal", "sprite_shoot") instance=ExtResource("6_7i60c")]
@@ -162,6 +164,9 @@ bus = &"SFX"
 stream = ExtResource("14_5xry6")
 volume_db = -2.0
 bus = &"SFX"
+
+[node name="snd_weapon_menu" type="AudioStreamPlayer" parent="Sounds" unique_id=596018616]
+stream = ExtResource("16_q66og")
 
 [node name="UI" parent="." unique_id=336752904 instance=ExtResource("17_08btc")]
 

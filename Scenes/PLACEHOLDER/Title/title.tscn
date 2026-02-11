@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cnvt4vlwtpda3"]
+[gd_scene format=3 uid="uid://cnvt4vlwtpda3"]
 
 [ext_resource type="Script" uid="uid://cosjcealp457" path="res://Scenes/PLACEHOLDER/Title/title.gd" id="1_fqf64"]
 [ext_resource type="Texture2D" uid="uid://do6lc4k2sxk00" path="res://Assets/PLACEHOLDER/Title Screen/title.png" id="1_jyyao"]
@@ -7,17 +7,18 @@
 [ext_resource type="AudioStream" uid="uid://dyp2iwe05vvx4" path="res://Assets/SFX/Menus/sfx_menu_select.wav" id="6_fop4u"]
 [ext_resource type="PackedScene" uid="uid://dvbqo5o3b64ux" path="res://Shared/Color Label/color_label.tscn" id="7_bkpdu"]
 
-[node name="TitleScreen" type="Node2D" node_paths=PackedStringArray("scene_transitor")]
+[node name="TitleScreen" type="Node2D" unique_id=556836458 node_paths=PackedStringArray("scene_transitor")]
 script = ExtResource("1_fqf64")
 music_to_play = ExtResource("2_bkpdu")
 play_music_at_start = true
 scene_transitor = NodePath("SceneTransitor")
+metadata/_edit_lock_ = true
 
-[node name="SceneTransitor" type="Node" parent="."]
+[node name="SceneTransitor" type="Node" parent="." unique_id=351864407]
 script = ExtResource("3_we2a1")
 scenes = Array[String](["res://Scenes/Stage Select/stage_select.tscn", "res://Scenes/Settings/settings_scene.tscn"])
 
-[node name="BGColor" type="ColorRect" parent="."]
+[node name="BGColor" type="ColorRect" parent="." unique_id=1273244180]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -28,7 +29,7 @@ grow_vertical = 2
 color = Color(0.0313726, 0, 0.0941176, 1)
 metadata/_edit_lock_ = true
 
-[node name="BGLogo" type="TextureRect" parent="."]
+[node name="BGLogo" type="TextureRect" parent="." unique_id=337964514]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -40,11 +41,11 @@ grow_vertical = 2
 texture = ExtResource("1_jyyao")
 metadata/_edit_lock_ = true
 
-[node name="Music" type="AudioStreamPlayer" parent="."]
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1646678416]
 volume_db = -3.5
 bus = &"Music"
 
-[node name="MenuText" parent="." instance=ExtResource("7_bkpdu")]
+[node name="MenuText" parent="." unique_id=1590473692 instance=ExtResource("7_bkpdu")]
 unique_name_in_owner = true
 offset_left = 112.0
 offset_top = 144.0
@@ -54,7 +55,7 @@ text = "START DEMO
 
 SETTINGS"
 
-[node name="Cursor" parent="." instance=ExtResource("7_bkpdu")]
+[node name="Cursor" parent="." unique_id=590741875 instance=ExtResource("7_bkpdu")]
 unique_name_in_owner = true
 offset_left = 96.0
 offset_top = 144.0
@@ -62,7 +63,7 @@ offset_right = 105.0
 offset_bottom = 152.0
 text = ">"
 
-[node name="CursorSFX" type="AudioStreamPlayer" parent="."]
+[node name="CursorSFX" type="AudioStreamPlayer" parent="." unique_id=992127909]
 unique_name_in_owner = true
 stream = ExtResource("6_fop4u")
 bus = &"SFX"

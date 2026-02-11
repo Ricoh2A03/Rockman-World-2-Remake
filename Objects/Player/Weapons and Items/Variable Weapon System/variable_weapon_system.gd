@@ -6,6 +6,10 @@ class_name VariableWeaponSystem extends Node2D
 @onready var sfx_player: AudioStreamPlayer2D = $SFXPlayer
 @onready var animation_cooldown_timer: Timer = $AnimationCooldown
 
+
+var _can_shoot: bool = false
+var _is_shooting: bool = false
+
 var _on_screen_count: Array = []
 var _loaded_projectile: PackedScene
 
@@ -20,8 +24,7 @@ func spawn_projectile() -> void:
 	if !player: return
 	if _on_screen_count.size() == current_item.max_on_screen: return
 
-	# TODO: change to an internal var
-	player.set_shoot_state(true)
+	_is_shooting = true
 
 	# Set animation cooldown to that of a current weapon.
 	animation_cooldown_timer.wait_time = current_item.cooldown
@@ -58,6 +61,21 @@ func set_current_item(item: InventoryItem) -> void:
 	_loaded_projectile = load(item.scene_to_spawn)
 
 
+## Returns current shooting state.
+func get_shooting_state() -> bool:
+	return _is_shooting
+
+
+## Returns [param true] if can shoot.
+func get_can_shoot() -> bool:
+	return _can_shoot
+
+
+## Self explanatory.
+func set_can_shoot(can_shoot: bool) -> void:
+	_can_shoot = can_shoot
+
+
 func projectile_despawned():
 	if _on_screen_count.size() > 0:
 		_on_screen_count.erase(_on_screen_count.front())
@@ -69,7 +87,7 @@ func pause_cooldown_timer(pause: bool):
 
 # TODO: separate more from player
 func _on_animation_cooldown() -> void:
-	player.set_shoot_state(false)
+	_is_shooting = false
 	if player.get_player_state() == player.STATES.CLIMB:
 		player.sprite_controller.sprite_normal.frame = 0
 	player.sprite_controller.enable_sprite(true)

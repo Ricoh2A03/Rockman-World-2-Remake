@@ -15,6 +15,7 @@
 _starting_room = NodePath("RoomContainer/Room1")
 player_scene_path = "uid://dse2a3b8xg2pb"
 camera_scene_path = "uid://b0ssm2j4fnsaf"
+enemy_list = Array[String](["uid://mxo8b32ofnqc"])
 music_to_play = ExtResource("2_yfrxr")
 play_music_at_start = true
 
@@ -65,18 +66,17 @@ visible = false
 offset_right = 1920.0
 room_width_x = 5
 exit_bottom = NodePath("../Room2")
-spawners = [NodePath("../../SpawnerContainer/Spawner1"), NodePath("../../SpawnerContainer/Spawner2"), NodePath("../../SpawnerContainer/Spawner3"), NodePath("../../SpawnerContainer/Spawner4"), NodePath("../../SpawnerContainer/Spawner5"), NodePath("../../SpawnerContainer/Spawner6"), NodePath("../../SpawnerContainer/Spawner7"), NodePath("../../SpawnerContainer/Spawner8"), NodePath("../../SpawnerContainer/Spawner9"), NodePath("../../SpawnerContainer/Spawner10")]
+spawners = [NodePath("../../SpawnerContainer/Spawner1")]
 room_checkpoint = NodePath("../../CheckpointContainer/Checkpoint1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Room2" parent="RoomContainer" index="1" unique_id=1375131817 node_paths=PackedStringArray("exit_top", "exit_bottom", "spawners") instance=ExtResource("4_v4lof")]
+[node name="Room2" parent="RoomContainer" index="1" unique_id=1375131817 node_paths=PackedStringArray("exit_top", "exit_bottom") instance=ExtResource("4_v4lof")]
 offset_left = 1536.0
 offset_top = 224.0
 offset_right = 1920.0
 offset_bottom = 448.0
 exit_top = NodePath("../Room1")
 exit_bottom = NodePath("../Room3")
-spawners = [NodePath("../../SpawnerContainer/Spawner11"), NodePath("../../SpawnerContainer/Spawner12"), NodePath("../../SpawnerContainer/Spawner13")]
 metadata/_edit_use_anchors_ = true
 
 [node name="Room3" parent="RoomContainer" index="2" unique_id=1229652286 node_paths=PackedStringArray("exit_top", "exit_right") instance=ExtResource("4_v4lof")]
@@ -182,69 +182,14 @@ offset_right = 5760.0
 offset_bottom = 1120.0
 metadata/_edit_use_anchors_ = true
 
-[node name="Spawner1" parent="SpawnerContainer" index="0" unique_id=931596847 instance=ExtResource("5_r3x58")]
+[node name="Spawner1" parent="SpawnerContainer" index="0" unique_id=931596847 node_paths=PackedStringArray("stage") instance=ExtResource("5_r3x58")]
 position = Vector2(408, 56)
-object_to_spawn = "uid://mxo8b32ofnqc"
+stage = NodePath("../..")
 object_limit = 1
 
-[node name="Spawner2" parent="SpawnerContainer" index="1" unique_id=1142002199 instance=ExtResource("5_r3x58")]
-position = Vector2(504, 88)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner3" parent="SpawnerContainer" index="2" unique_id=585698880 instance=ExtResource("5_r3x58")]
-position = Vector2(632, 56)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner4" parent="SpawnerContainer" index="3" unique_id=569424293 instance=ExtResource("5_r3x58")]
-position = Vector2(760, 24)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner5" parent="SpawnerContainer" index="4" unique_id=1183813430 instance=ExtResource("5_r3x58")]
-position = Vector2(856, 24)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner6" parent="SpawnerContainer" index="5" unique_id=320273903 instance=ExtResource("5_r3x58")]
-position = Vector2(952, 32)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner7" parent="SpawnerContainer" index="6" unique_id=1338531265 instance=ExtResource("5_r3x58")]
-position = Vector2(1272, 88)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner8" parent="SpawnerContainer" index="7" unique_id=1687252537 instance=ExtResource("5_r3x58")]
-position = Vector2(1448, 56)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner9" parent="SpawnerContainer" index="8" unique_id=492912759 instance=ExtResource("5_r3x58")]
-position = Vector2(1560, 56)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner10" parent="SpawnerContainer" index="9" unique_id=867222209 instance=ExtResource("5_r3x58")]
-position = Vector2(1784, 56)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner11" parent="SpawnerContainer" index="10" unique_id=2091343381 instance=ExtResource("5_r3x58")]
-position = Vector2(1744, 299)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner12" parent="SpawnerContainer" index="11" unique_id=269908721 instance=ExtResource("5_r3x58")]
-position = Vector2(1688, 331)
-object_to_spawn = "uid://mxo8b32ofnqc"
-object_limit = 1
-
-[node name="Spawner13" parent="SpawnerContainer" index="12" unique_id=1194569084 instance=ExtResource("5_r3x58")]
-position = Vector2(1616, 315)
-object_to_spawn = "uid://mxo8b32ofnqc"
+[node name="Spawner2" parent="SpawnerContainer" index="1" unique_id=9381227 node_paths=PackedStringArray("stage") instance=ExtResource("5_r3x58")]
+position = Vector2(632, 72)
+stage = NodePath("../..")
 object_limit = 1
 
 [node name="Ladder1" parent="LadderContainer" index="0" unique_id=1307685817 instance=ExtResource("7_e5r6k")]
